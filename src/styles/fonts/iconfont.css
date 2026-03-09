@@ -1,26 +1,32 @@
 @font-face { 
 	font-family: "iconfont"; 
 	font-display: swap;
-	src: url("D://websites/felgilab-new/src/assets/svgicons/preview/iconfont.woff2?56b728a5b52d1f9b7de77da64408513c") format("woff2"); 
+	src: url("D://websites/felgilab-new/src/assets/svgicons/preview/iconfont.woff2?144ea2c3c5ae6050664f89b5c9b91202") format("woff2"); 
 } 
 [class*="--icon-"]::before{
 	font-family: iconfont; 
 }
-	[class*="--icon-ico-timer"]::before { 
+	[class*="--icon-ico-triangle"]::before { 
 		content: "\f101"; 
 	} 
-	[class*="--icon-ico-phone24"]::before { 
+	[class*="--icon-ico-timer"]::before { 
 		content: "\f102"; 
 	} 
-	[class*="--icon-ico-mail"]::before { 
+	[class*="--icon-ico-phone24"]::before { 
 		content: "\f103"; 
 	} 
-	[class*="--icon-ico-comment"]::before { 
+	[class*="--icon-ico-mail"]::before { 
 		content: "\f104"; 
 	} 
-	[class*="--icon-ico-callback"]::before { 
+	[class*="--icon-ico-comment"]::before { 
 		content: "\f105"; 
 	} 
-	[class*="--icon-decor-line-right-accent"]::before { 
+	[class*="--icon-ico-callback"]::before { 
 		content: "\f106"; 
+	} 
+	[class*="--icon-decor-line-right-accent"]::before { 
+		content: "\f107"; 
+	} 
+	[class*="--icon-decor-double-line-white"]::before { 
+		content: "\f108"; 
 	} 

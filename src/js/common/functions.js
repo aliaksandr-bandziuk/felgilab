@@ -270,3 +270,4 @@ export function formatDate(date, sepp) {
 import "../custom/toggleSubMenu.js";
 import "../custom/updateBusinessStatus.js";
 import "../custom/dropdownLanguage.js";
+import "../custom/loadVideoHero.js";

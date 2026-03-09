@@ -246,36 +246,7 @@ add_action('acf/init', 'felgilab_register_acf_blocks');
 function felgilab_register_acf_blocks()
 {
 	if (function_exists('register_block_type')) {
-		// register_block_type(get_template_directory() . "/template-parts/blocks/mainBlockHomepage/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/servicesBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/orderMainBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/industriesBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/benefitsBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/clientsBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/contactFormBg/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/aboutBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/workProcessBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/contactsRegionsBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/mapBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/contactFormNoBg/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/textStandardBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/serviceItemsBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/bulletsImageBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/doubleTextBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/galleryBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/videoBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/gridBulletsBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/blueprintBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/faqBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/contactFormContrast/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/coverCustomBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/carouselBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/projectsBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/lastPostsBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/contactsAllBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/counterBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/aboutBenefitsBlock/block.json");
-		// register_block_type(get_template_directory() . "/template-parts/blocks/reasonsBlock/block.json");
+		register_block_type(get_template_directory() . "/template-parts/blocks/mainHeroBlock/block.json");
 	}
 }
 // Advanced Custom Fields End

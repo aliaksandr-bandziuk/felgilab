@@ -1,0 +1,84 @@
+<?php
+$background_image = get_field('background_image');
+$video_id         = get_field('video_id');
+$pretitle         = get_field('pretitle');
+$title            = get_field('title');
+$show_decor       = get_field('show_decor');
+$whatsapp_text    = get_field('whatsapp_text');
+$whatsapp_url     = get_field('whatsapp_url');
+$popup_text       = get_field('popup_text');
+$popup_link       = get_field('popup_link');
+
+$image_url = !empty($background_image['url']) ? $background_image['url'] : '';
+$image_alt = !empty($background_image['alt']) ? $background_image['alt'] : (!empty($title) ? wp_strip_all_tags($title) : 'Hero image');
+
+$section_classes = 'main-hero';
+
+if (empty($video_id)) {
+  $section_classes .= ' is-no-video';
+}
+?>
+
+<?php $player_id = 'hero-youtube-player-' . $block['id']; ?>
+
+<section
+  class="<?php echo esc_attr($section_classes); ?>"
+  data-hero-youtube
+  data-video-id="<?php echo esc_attr($video_id); ?>">
+  <div class="main-hero__media">
+    <?php if ($image_url) : ?>
+      <div class="main-hero__image">
+        <img
+          src="<?php echo esc_url($image_url); ?>"
+          alt="<?php echo esc_attr($image_alt); ?>"
+          class="main-hero__img">
+      </div>
+    <?php endif; ?>
+
+    <div class="main-hero__video-wrap">
+      <div id="<?php echo esc_attr($player_id); ?>" class="main-hero__video"></div>
+    </div>
+  </div>
+
+  <div class="main-hero__body">
+    <div class="main-hero__container">
+      <div class="main-hero__content">
+        <?php if (!empty($pretitle)) : ?>
+          <p class="main-hero__pretitle">
+            <?php echo esc_html($pretitle); ?>
+          </p>
+        <?php endif; ?>
+
+        <?php if (!empty($title)) : ?>
+          <h1 class="main-hero__title">
+            <?php echo nl2br(esc_html($title)); ?>
+          </h1>
+        <?php endif; ?>
+
+        <?php if ($show_decor) : ?>
+          <span class="--icon-decor-double-line-white main-hero__decor" aria-hidden="true"></span>
+        <?php endif; ?>
+
+        <div class="main-hero__buttons">
+          <?php if (!empty($whatsapp_url) && !empty($whatsapp_text)) : ?>
+            <a href="<?php echo esc_url($whatsapp_url); ?>" class="whatsapp-main main-btn">
+              <div class="whatsapp-main__wrapper">
+                <span class="whatsapp-main__text"><?php echo esc_html($whatsapp_text); ?></span>
+                <span class="whatsapp-main__icon --icon-ico-triangle" aria-hidden="true"></span>
+              </div>
+            </a>
+          <?php endif; ?>
+
+          <?php if (!empty($popup_text) && !empty($popup_link)) : ?>
+            <button data-fls-popup-link="<?php echo esc_attr($popup_link); ?>" class="button-main main-btn" type="button">
+              <div class="button-main__wrapper">
+                <span class="button-main__text"><?php echo esc_html($popup_text); ?></span>
+                <span class="button-main__icon --icon-ico-triangle" aria-hidden="true"></span>
+              </div>
+            </button>
+          <?php endif; ?>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

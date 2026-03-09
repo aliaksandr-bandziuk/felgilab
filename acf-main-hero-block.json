@@ -1,0 +1,258 @@
+[
+  {
+    "key": "group_main_hero_block",
+    "title": "Main Hero Block",
+    "fields": [
+      {
+        "key": "field_main_hero_tab_media",
+        "label": "Media",
+        "name": "",
+        "aria-label": "",
+        "type": "tab",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "",
+          "class": "",
+          "id": ""
+        },
+        "placement": "top",
+        "endpoint": 0
+      },
+      {
+        "key": "field_main_hero_image",
+        "label": "Background Image",
+        "name": "background_image",
+        "aria-label": "",
+        "type": "image",
+        "instructions": "Background image for the hero block.",
+        "required": 1,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "return_format": "array",
+        "library": "all",
+        "min_width": "",
+        "min_height": "",
+        "min_size": "",
+        "max_width": "",
+        "max_height": "",
+        "max_size": "",
+        "mime_types": "jpg,jpeg,png,webp"
+      },
+      {
+        "key": "field_main_hero_video_id",
+        "label": "YouTube Video ID",
+        "name": "video_id",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "Example: Q4Q__2l5TD4. Leave empty if only image should be shown.",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "",
+        "maxlength": "",
+        "placeholder": "Q4Q__2l5TD4",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_main_hero_tab_content",
+        "label": "Content",
+        "name": "",
+        "aria-label": "",
+        "type": "tab",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "",
+          "class": "",
+          "id": ""
+        },
+        "placement": "top",
+        "endpoint": 0
+      },
+      {
+        "key": "field_main_hero_pretitle",
+        "label": "Pretitle",
+        "name": "pretitle",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "100",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "Renowacja felg aluminiowych i stalowych",
+        "maxlength": "",
+        "placeholder": "",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_main_hero_title",
+        "label": "Title",
+        "name": "title",
+        "aria-label": "",
+        "type": "textarea",
+        "instructions": "Main hero title (H1).",
+        "required": 1,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "100",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "Profesjonalna renowacja felg w Warszawie. 12-mies. gwarancji",
+        "maxlength": "",
+        "rows": 3,
+        "placeholder": "",
+        "new_lines": "br"
+      },
+      {
+        "key": "field_main_hero_show_decor",
+        "label": "Show Decor Icon",
+        "name": "show_decor",
+        "aria-label": "",
+        "type": "true_false",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "25",
+          "class": "",
+          "id": ""
+        },
+        "message": "",
+        "default_value": 1,
+        "ui": 1,
+        "ui_on_text": "Show",
+        "ui_off_text": "Hide"
+      },
+      {
+        "key": "field_main_hero_tab_buttons",
+        "label": "Buttons",
+        "name": "",
+        "aria-label": "",
+        "type": "tab",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "",
+          "class": "",
+          "id": ""
+        },
+        "placement": "top",
+        "endpoint": 0
+      },
+      {
+        "key": "field_main_hero_whatsapp_text",
+        "label": "WhatsApp Button Text",
+        "name": "whatsapp_text",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "Napisz na WhatsApp",
+        "maxlength": "",
+        "placeholder": "",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_main_hero_whatsapp_url",
+        "label": "WhatsApp Button URL",
+        "name": "whatsapp_url",
+        "aria-label": "",
+        "type": "url",
+        "instructions": "Full URL, e.g. https://wa.me/...",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "",
+        "placeholder": "https://wa.me/48500111222"
+      },
+      {
+        "key": "field_main_hero_popup_text",
+        "label": "Popup Button Text",
+        "name": "popup_text",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "Zamów bezpłatną wycenę",
+        "maxlength": "",
+        "placeholder": "",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_main_hero_popup_link",
+        "label": "Popup Link ID",
+        "name": "popup_link",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "Value for data-fls-popup-link, e.g. popup-order",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "popup-order",
+        "maxlength": "",
+        "placeholder": "popup-order",
+        "prepend": "",
+        "append": ""
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "block",
+          "operator": "==",
+          "value": "acf/mainheroblock"
+        }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0
+  }
+]

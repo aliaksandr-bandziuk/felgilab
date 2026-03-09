@@ -118,7 +118,7 @@
 	top: 22px;
 	left: -20px;
 	color: #667;
-	background-color: none;
+	background-color: #fff;
 	background: none;
   // box-shadow: 0 5px 12px rgba(0, 0, 0, .15);
 	padding-top: 20px;
@@ -174,6 +174,7 @@
   font-size: calc(14px + 4 * (100vw / 1920));
 	font-weight: 400;
   text-transform: none;
+	background-color: #fff;
 
 	&:hover {
 		color: #fff;
