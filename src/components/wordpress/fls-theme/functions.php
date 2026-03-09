@@ -1,0 +1,281 @@
+<?php
+
+/**
+ * FLS functions and definitions
+ *
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ *
+ * @package FLS
+ */
+
+//------------------------------------
+// Підключення матеріалів
+// не видаляти
+//------------------------------------
+require_once 'inc/assets-include.php';
+//------------------------------------
+
+if (! defined('_S_VERSION')) {
+	// Replace the version number of the theme on each release.
+	define('_S_VERSION', '1.0.0');
+}
+/**
+ * Sets up theme defaults and registers support for various WordPress features.
+ *
+ * Note that this function is hooked into the after_setup_theme hook, which
+ * runs before the init hook. The init hook is too late for some features, such
+ * as indicating support for post thumbnails.
+ */
+function fls_setup()
+{
+	/*
+		* Make theme available for translation.
+		* Translations can be filed in the /languages/ directory.
+		* If you're building a theme based on FLS, use a find and replace
+		* to change 'fls' to the name of your theme in all the template files.
+		*/
+	load_theme_textdomain('fls', get_template_directory() . '/languages');
+
+	// Add default posts and comments RSS feed links to head.
+	add_theme_support('automatic-feed-links');
+
+	/*
+		* Let WordPress manage the document title.
+		* By adding theme support, we declare that this theme does not use a
+		* hard-coded <title> tag in the document head, and expect WordPress to
+		* provide it for us.
+		*/
+	add_theme_support('title-tag');
+
+	/*
+		* Enable support for Post Thumbnails on posts and pages.
+		*
+		* @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+		*/
+	add_theme_support('post-thumbnails');
+
+	// This theme uses wp_nav_menu() in one location.
+	register_nav_menus(
+		array(
+			'menu-1' => esc_html__('Primary', 'fls'),
+		)
+	);
+
+	/*
+		* Switch default core markup for search form, comment form, and comments
+		* to output valid HTML5.
+		*/
+	add_theme_support(
+		'html5',
+		array(
+			'search-form',
+			'comment-form',
+			'comment-list',
+			'gallery',
+			'caption',
+			'style',
+			'script',
+		)
+	);
+
+	// Set up the WordPress core custom background feature.
+	add_theme_support(
+		'custom-background',
+		apply_filters(
+			'fls_custom_background_args',
+			array(
+				'default-color' => 'ffffff',
+				'default-image' => '',
+			)
+		)
+	);
+
+	// Add theme support for selective refresh for widgets.
+	add_theme_support('customize-selective-refresh-widgets');
+
+	/**
+	 * Add support for core custom logo.
+	 *
+	 * @link https://codex.wordpress.org/Theme_Logo
+	 */
+	add_theme_support(
+		'custom-logo',
+		array(
+			'height'      => 250,
+			'width'       => 250,
+			'flex-width'  => true,
+			'flex-height' => true,
+		)
+	);
+}
+add_action('after_setup_theme', 'fls_setup');
+
+/**
+ * Set the content width in pixels, based on the theme's design and stylesheet.
+ *
+ * Priority 0 to make it available to lower priority callbacks.
+ *
+ * @global int $content_width
+ */
+function fls_content_width()
+{
+	$GLOBALS['content_width'] = apply_filters('fls_content_width', 640);
+}
+add_action('after_setup_theme', 'fls_content_width', 0);
+
+/**
+ * Register widget area.
+ *
+ * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ */
+function fls_widgets_init()
+{
+	register_sidebar(
+		array(
+			'name'          => esc_html__('Sidebar', 'fls'),
+			'id'            => 'sidebar-1',
+			'description'   => esc_html__('Add widgets here.', 'fls'),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
+}
+add_action('widgets_init', 'fls_widgets_init');
+
+/**
+ * Implement the Custom Header feature.
+ */
+require get_template_directory() . '/inc/custom-header.php';
+
+/**
+ * Custom template tags for this theme.
+ */
+require get_template_directory() . '/inc/template-tags.php';
+
+/**
+ * Functions which enhance the theme by hooking into WordPress.
+ */
+require get_template_directory() . '/inc/template-functions.php';
+
+/**
+ * Customizer additions.
+ */
+require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Load Jetpack compatibility file.
+ */
+if (defined('JETPACK__VERSION')) {
+	require get_template_directory() . '/inc/jetpack.php';
+}
+
+/**
+ * Load WooCommerce compatibility file.
+ */
+if (class_exists('WooCommerce')) {
+	require get_template_directory() . '/inc/woocommerce.php';
+}
+
+// Можливість завантажувати SVG
+function my_own_mime_types($mimes)
+{
+	$mimes['svg'] = 'image/svg+xml';
+	return $mimes;
+}
+add_filter('upload_mimes', 'my_own_mime_types');
+
+// Перевірка на наявність плагіну
+if (!function_exists('get_fls_field')) {
+	function get_fls_field($field_name, $post_id = false, $default = null)
+	{
+		if (!function_exists('get_field')) {
+			return $default;
+		}
+		$value = get_field($field_name, $post_id);
+		return $value !== null ? $value : $default;
+	}
+}
+if (!function_exists('get_fls_fields')) {
+	function get_fls_fields($post_id = false, $default = null)
+	{
+		if (!function_exists('get_fields')) {
+			return $default;
+		}
+		$value = get_fields($post_id);
+		return $value !== null ? $value : $default;
+	}
+}
+
+// Advanced Custom Fields Start
+// Advanced Custom Fields: multilingual footer options
+add_action('acf/init', 'felgilab_register_footer_options');
+
+function felgilab_register_footer_options()
+{
+	if (!function_exists('acf_add_options_page') || !function_exists('pll_languages_list')) {
+		return;
+	}
+
+	$parent = acf_add_options_page([
+		'page_title' => 'Footer',
+		'menu_title' => 'Footer',
+		'menu_slug'  => 'footer-settings',
+		'capability' => 'manage_options',
+		'redirect'   => true,
+		'position'   => 30,
+		'icon_url'   => 'dashicons-editor-kitchensink',
+	]);
+
+	$languages = pll_languages_list();
+
+	foreach ($languages as $lang) {
+		acf_add_options_sub_page([
+			'page_title'  => sprintf('Footer (%s)', strtoupper($lang)),
+			'menu_title'  => strtoupper($lang),
+			'menu_slug'   => 'footer-' . $lang,
+			'parent_slug' => 'footer-settings',
+			'capability'  => 'manage_options',
+			'post_id'     => 'footer_' . $lang,
+		]);
+	}
+}
+
+add_action('acf/init', 'felgilab_register_acf_blocks');
+function felgilab_register_acf_blocks()
+{
+	if (function_exists('register_block_type')) {
+		// register_block_type(get_template_directory() . "/template-parts/blocks/mainBlockHomepage/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/servicesBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/orderMainBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/industriesBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/benefitsBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/clientsBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/contactFormBg/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/aboutBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/workProcessBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/contactsRegionsBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/mapBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/contactFormNoBg/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/textStandardBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/serviceItemsBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/bulletsImageBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/doubleTextBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/galleryBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/videoBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/gridBulletsBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/blueprintBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/faqBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/contactFormContrast/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/coverCustomBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/carouselBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/projectsBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/lastPostsBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/contactsAllBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/counterBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/aboutBenefitsBlock/block.json");
+		// register_block_type(get_template_directory() . "/template-parts/blocks/reasonsBlock/block.json");
+	}
+}
+// Advanced Custom Fields End

@@ -1,0 +1,295 @@
+<?php
+
+/**
+ * The header for our theme
+ *
+ * This is the template that displays all of the <head> section and everything up until <div id="content">
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ *
+ * @package FLS
+ */
+?>
+<!doctype html>
+<html <?php language_attributes(); ?>>
+
+<head>
+	<meta charset="<?php bloginfo('charset'); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<?php wp_head(); ?>
+</head>
+
+<body <?php body_class(); ?>>
+	<?php wp_body_open(); ?>
+	<div id="page" class="wrapper">
+
+
+		<header class="header">
+			<!-- продумать, где разместить preheader в админке -->
+			<div class="preheader">
+				<div class="preheader__container">
+					<div class="preheader__wrapper">
+						<div class="preheader-item preheader__address">
+							<span>
+								<svg class="svg-inline svg-inline--map" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-marker-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
+									<path fill="#fd6b1c" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path>
+								</svg>
+							</span>
+							<span>05-090, Falencka 19, Falenty Nowe</span>
+						</div>
+						<div class="preheader-item preheader__workhours">
+							<span>
+								<svg class="svg-inline svg-inline--clock" aria-hidden="true" focusable="false" data-prefix="far" data-icon="clock" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+									<path fill="#fd6b1c" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm61.8-104.4l-84.9-61.7c-3.1-2.3-4.9-5.9-4.9-9.7V116c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v141.7l66.8 48.6c5.4 3.9 6.5 11.4 2.6 16.8L334.6 349c-3.9 5.3-11.4 6.5-16.8 2.6z"></path>
+								</svg>
+							</span>
+							<span>Godziny otwarcia: Po—Pi: 8.00 - 17.00 | So: 9.00 - 13.00</span>
+						</div>
+						<div class="preheader-item preheader__status">
+							<div class="indicator-parent">
+								<div class="indicator">
+									<div class="indicator__marker"></div>
+									<div class="indicator__text">Online</div>
+								</div>
+								<div class="work-info">
+									<p class="work-info__start"></p>
+									<p class="work-info__end"></p>
+								</div>
+							</div>
+						</div>
+						<div class="preheader-item preheader__lang">
+							<div id="languageDropdown" class="language-dropdown">
+								<div class="language-dropdown__wrapper">
+									<button id="languageBtn" class="language-btn">
+										<?php echo strtoupper(pll_current_language('slug')); ?>
+									</button>
+									<span id="arrowIcon" class="arrow-icon">
+										<svg xmlns="http://www.w3.org/2000/svg" width="10" height="20" viewBox="0 0 10 20" fill="none">
+											<path d="M1 9L4.64645 12.6464C4.84171 12.8417 5.15829 12.8417 5.35355 12.6464L9 9" stroke-linecap="round" />
+										</svg>
+									</span>
+								</div>
+								<ul class="language-list" id="languageList">
+									<?php
+									function get_excluded_languages()
+									{
+										return ['it', 'fr']; // hide Italian and French languages
+									}
+									$languages = pll_the_languages(['raw' => 1]);
+									$current_language = pll_current_language('slug');
+									$excluded_languages = get_excluded_languages();
+
+									foreach ($languages as $language) {
+										if ($language['slug'] !== $current_language && !in_array($language['slug'], $excluded_languages)) {
+											echo '<li><a href="' . esc_url($language['url']) . '">' . strtoupper($language['slug']) . '</a></li>';
+										}
+									}
+									?>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="header__wrapper">
+				<div class="header__container relative">
+					<div class="header__menu menu">
+						<div class="burger-bg">
+							<button type="button" data-fls-menu class="menu__icon icon-menu"><span></span></button>
+						</div>
+						<div class="menu__wrapper">
+							<div class="header-logo">
+								<a href="<?php echo get_home_url(); ?>" class="header-logo__link">
+									<img src="<?php
+														$custom_logo__url = wp_get_attachment_image_src(get_theme_mod('custom_logo'), 'full');
+														echo $custom_logo__url[0];
+														?>" alt="Felgilab" class="logo-image">
+								</a>
+							</div>
+							<div class="header-elements">
+								<nav class="menu__body">
+									<div class="nav__wrapper">
+										<?php
+										if (function_exists('pll_current_language')) {
+											$current_language = pll_current_language();
+											$menu_slug = '';
+
+											switch ($current_language) {
+												case 'en':
+													$menu_slug = 'english-menu';
+													break;
+												case 'pl':
+													$menu_slug = 'polish-menu';
+													break;
+												case 'ru':
+													$menu_slug = 'russian-menu';
+													break;
+												case 'uk':
+													$menu_slug = 'ukranian-menu';
+													break;
+											}
+
+											$menu = wp_get_nav_menu_object($menu_slug);
+
+											if ($menu) {
+												$menu_items = wp_get_nav_menu_items($menu->term_id);
+												$menu_items_by_parent = array();
+
+												foreach ($menu_items as $menu_item) {
+													$menu_items_by_parent[$menu_item->menu_item_parent][] = $menu_item;
+												}
+
+												function display_menu_items($parent_id, $menu_items_by_parent)
+												{
+													if (! isset($menu_items_by_parent[$parent_id])) {
+														return;
+													}
+
+													$is_submenu = $parent_id !== 0;
+													$ul_class    = $is_submenu ? 'menu__sub-list' : 'menu__list';
+													$link_class  = $is_submenu ? 'menu__sub-link' : 'menu__link';
+
+													echo '<ul class="' . esc_attr($ul_class) . '">';
+													foreach ($menu_items_by_parent[$parent_id] as $menu_item) {
+														$is_anchor       = strpos($menu_item->url, '#') !== false;
+														$link_class_final = $link_class . ($is_anchor ? ' anchor-link' : '');
+														$has_submenu     = isset($menu_items_by_parent[$menu_item->ID]);
+														$item_class      = $is_submenu ? 'menu__sub-item' : 'menu__item';
+														if ($has_submenu && ! $is_submenu) {
+															$item_class .= ' menu__has-submenu';
+														}
+
+														echo '<li class="' . esc_attr($item_class) . '">';
+														echo '<a href="' . esc_url($menu_item->url) . '" class="' . esc_attr($link_class_final) . '"' . ($is_anchor ? ' data-scroll' : '') . '>';
+														echo esc_html($menu_item->title);
+														if ($has_submenu) {
+															echo '<svg class="menu__arrow" width="10" height="5" viewBox="7 10 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">';
+															echo '<path d="M17 10.5L12 14.5" stroke="#151618" stroke-width="1.25" stroke-linecap="round" />';
+															echo '<path d="M12 14.5L7 10.5" stroke="#151618" stroke-width="1.25" stroke-linecap="round" />';
+															echo '</svg>';
+														}
+														echo '</a>';
+
+														// Если есть подменю, выводим его
+														if ($has_submenu) {
+															display_menu_items($menu_item->ID, $menu_items_by_parent);
+														}
+														echo '</li>';
+													}
+													echo '</ul>';
+												}
+
+												display_menu_items(0, $menu_items_by_parent);
+											}
+										}
+										?>
+										<div class="menu__mob-btn">
+											<a href="tel:+48739103744" class="mob-menu-button">
+												<span class="--icon-ico-callback ico-callback-header"></span>
+												<div class="mob-menu-content">
+													<span class="mob-menu-content__text">
+														<?php echo pll_current_language() == 'pl' ? 'Uzyskać wycenę' : (pll_current_language() == 'ru' ? 'Получить предложение' : (pll_current_language() == 'uk' ? 'Отримати пропозицію' : 'Get quote')); ?>
+													</span>
+													<span class="mob-menu-content__phone">739 103 744</span>
+												</div>
+											</a>
+										</div>
+									</div>
+								</nav>
+								<div class="header-buttons">
+									<button data-fls-popup-link="popup-order" class="header-popup-button">
+										<span class="--icon-ico-callback ico-callback-header"></span>
+										<div class="header-button-content">
+											<span class="header-button-content__text">
+												<?php echo pll_current_language() == 'pl' ? 'Uzyskać wycenę' : (pll_current_language() == 'ru' ? 'Получить предложение' : (pll_current_language() == 'uk' ? 'Отримати пропозицію' : 'Get quote')); ?>
+											</span>
+											<a class="header-button-content__phone" href="tel:+48739103744">739 103 744</a>
+										</div>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div id="popup-order" data-fls-popup="popup-order" aria-hidden="true" class="popup popup-order">
+			<div data-fls-popup-wrapper class="popup__wrapper">
+				<div data-fls-popup-body class="popup__body popup-order__content">
+					<button data-fls-popup-close type="button" class="popup-order__close">
+						<svg class="svg-icon" aria-hidden="true" role="img" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M12.2218 13.6066L20 21.3848L21.4142 19.9706L13.636 12.1924L21.3848 4.44366L19.9706 3.02945L12.2218 10.7782L4.44365 3L3.02944 4.41421L10.8076 12.1924L3 20L4.41421 21.4142L12.2218 13.6066Z" fill="currentColor"></path>
+						</svg>
+					</button>
+
+					<div data-fls-popup-content class="popup__text">
+						<div class="order-content">
+							<p class="order-content__title">
+								<?php echo pll_current_language() == 'pl' ? 'Porozmawiajmy o Twoim projekcie' : (pll_current_language() == 'it' ? 'Parliamo del tuo progetto' : (pll_current_language() == 'de' ? 'Lassen Sie uns über Ihr Projekt sprechen' : (pll_current_language() == 'fr' ? 'Discutons de votre projet' : 'Let\'s discuss your project'))); ?>
+							</p>
+							<p class="order-content__subtitle">
+								<?php echo pll_current_language() == 'pl' ? 'Zostaw swoje dane kontaktowe i pytanie, a nasz menedżer skontaktuje się z Tobą w ciągu 30 minut na konsultację' : (pll_current_language() == 'it' ? 'Lascia i tuoi contatti e la tua domanda e il nostro manager ti contatterà entro 30 minuti per una consulenza' : (pll_current_language() == 'de' ? 'Hinterlassen Sie Ihre Kontaktdaten und Frage, und unser Manager wird Sie innerhalb von 30 Minuten für eine Beratung kontaktieren' : (pll_current_language() == 'fr' ? 'Laissez vos coordonnées et votre question et notre responsable vous contactera dans les 30 minutes pour une consultation' : 'Leave your contacts and question and our manager will contact you within 30 minutes for a consultation'))); ?>
+							</p>
+						</div>
+
+						<form action="<?php echo get_template_directory_uri(); ?>/sendmail.php" method="post" autocomplete="off" class="form-popup form-sending">
+							<input type="hidden" name="page_url" value="">
+							<div class="input-container">
+								<input id="name-input-popup" itemprop="name" type="text" name="name" class="input-contact" />
+								<label for="name-input-popup">
+									<?php echo pll_current_language() == 'pl' ? 'Imię' : (pll_current_language() == 'it' ? 'Nome' : (pll_current_language() == 'de' ? 'Name' : (pll_current_language() == 'fr' ? 'Nom' : 'Name'))); ?>
+								</label>
+								<span>
+									<?php echo pll_current_language() == 'pl' ? 'Imię' : (pll_current_language() == 'it' ? 'Nome' : (pll_current_language() == 'de' ? 'Name' : (pll_current_language() == 'fr' ? 'Nom' : 'Name'))); ?>
+								</span>
+							</div>
+
+							<div class="inputs-wrapper">
+								<div class="input-container">
+									<input id="email-input-popup" itemprop="email" type="email" name="email" class="input-contact" />
+									<label for="email-input-popup">
+										<?php echo pll_current_language() == 'pl' ? 'Email' : (pll_current_language() == 'it' ? 'E-mail' : (pll_current_language() == 'de' ? 'E-Mail' : (pll_current_language() == 'fr' ? 'E-mail' : 'Email'))); ?>
+									</label>
+									<span>
+										<?php echo pll_current_language() == 'pl' ? 'Email' : (pll_current_language() == 'it' ? 'E-mail' : (pll_current_language() == 'de' ? 'E-Mail' : (pll_current_language() == 'fr' ? 'E-mail' : 'Email'))); ?>
+									</span>
+								</div>
+
+								<div class="input-container">
+									<input id="phone-input-popup" itemprop="phone" type="tel" name="phone" class="input-contact" />
+									<label for="phone-input-popup">
+										<?php echo pll_current_language() == 'pl' ? 'Telefon' : (pll_current_language() == 'it' ? 'Telefono' : (pll_current_language() == 'de' ? 'Telefon' : (pll_current_language() == 'fr' ? 'Téléphone' : 'Phone'))); ?>
+									</label>
+									<span>
+										<?php echo pll_current_language() == 'pl' ? 'Telefon' : (pll_current_language() == 'it' ? 'Telefono' : (pll_current_language() == 'de' ? 'Telefon' : (pll_current_language() == 'fr' ? 'Téléphone' : 'Phone'))); ?>
+									</span>
+								</div>
+							</div>
+
+							<div class="input-container textarea">
+								<textarea id="message-input-popup" itemprop="message" name="message" class="input-contact"></textarea>
+								<label for="message-input-popup">
+									<?php echo pll_current_language() == 'pl' ? 'Wiadomość' : (pll_current_language() == 'it' ? 'Messaggio' : (pll_current_language() == 'de' ? 'Nachricht' : (pll_current_language() == 'fr' ? 'Message' : 'Message'))); ?>
+								</label>
+								<span>
+									<?php echo pll_current_language() == 'pl' ? 'Wiadomość' : (pll_current_language() == 'it' ? 'Messaggio' : (pll_current_language() == 'de' ? 'Nachricht' : (pll_current_language() == 'fr' ? 'Message' : 'Message'))); ?>
+								</span>
+							</div>
+
+							<button type="submit" class="button-primary btn">
+								<span>
+									<?php echo pll_current_language() == 'pl' ? 'Uzyskać wycenę' : (pll_current_language() == 'it' ? 'Ottenere un preventivo' : (pll_current_language() == 'de' ? 'Angebot einholen' : (pll_current_language() == 'fr' ? 'Obtenir un devis' : 'Get quote'))); ?>
+								</span>
+								<div class="button-primary__arrow">
+									<svg width="26" height="27.3" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+										<path d="M19.3536 12.8536C19.5488 12.6583 19.5488 12.3417 19.3536 12.1464L16.1716 8.96447C15.9763 8.7692 15.6597 8.7692 15.4645 8.96447C15.2692 9.15973 15.2692 9.47631 15.4645 9.67157L18.2929 12.5L15.4645 15.3284C15.2692 15.5237 15.2692 15.8403 15.4645 16.0355C15.6597 16.2308 15.9763 16.2308 16.1716 16.0355L19.3536 12.8536ZM0 13H19V12H0V13Z" fill="white" />
+									</svg>
+								</div>
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
