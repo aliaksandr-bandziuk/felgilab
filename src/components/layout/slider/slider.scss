@@ -36,3 +36,25 @@
 .swiper-button-lock {
 	display: none !important;
 }
+
+.slider-block__button {
+	padding: 15px;
+	border-radius: 50%;
+	border: 1px solid #888888;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: all 0.3s ease;
+
+	@media screen and (min-width: 768px) {
+		&:hover {
+			background-color: var(--brand-color);
+			color: #ffffff;
+			svg {
+				polyline, line {
+					stroke: #ffffff;
+				}
+			}
+		}
+	}
+}

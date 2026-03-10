@@ -1,0 +1,353 @@
+.main-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 85dvh;
+  background-color: #000;
+
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 88%,
+    50% 96%,
+    0 88%
+  );
+
+  @media screen and (min-width: 768px) {
+    min-height: unset;
+    aspect-ratio: 10 / 6;
+
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 90%,
+      50% 98%,
+      0 90%
+    );
+  }
+
+  @media screen and (min-width: 1100px) {
+    aspect-ratio: 16/9;
+  }
+
+  &__media {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.62) 0%,
+          rgba(0, 0, 0, 0.48) 32%,
+          rgba(0, 0, 0, 0.28) 55%,
+          rgba(0, 0, 0, 0.18) 100%
+        );
+      background:
+        radial-gradient(
+          circle at 30% 50%,
+          rgba(0,0,0,0.35) 0%,
+          rgba(0,0,0,0.55) 70%
+        ),
+        linear-gradient(
+          90deg,
+          rgba(0,0,0,0.65) 0%,
+          rgba(0,0,0,0.25) 60%
+        );
+      pointer-events: none;
+    }
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+
+  &__video-wrap {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    overflow: hidden;
+
+    @media screen and (min-width: 768px) {
+      display: block;
+      aspect-ratio: 20 / 12;
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  &__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    @media screen and (min-width: 768px) {
+      top: -35px;
+    }
+  }
+
+  &__video iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 100vw;
+    height: 56.25vw;
+
+    min-width: 177.78vh;
+    min-height: 100vh;
+
+    transform: translate(-50%, -50%);
+
+    border: 0;
+    pointer-events: none;
+  }
+
+  &__body {
+    position: relative;
+    z-index: 4;
+    min-height: 85dvh;
+    display: flex;
+    align-items: center;
+    padding-block: 80px 120px;
+
+    @media screen and (min-width: 768px) {
+      min-height: 100%;
+      padding-block: 80px 110px;
+    }
+  }
+
+  &__container {
+    width: 100%;
+    margin: 0 auto;
+    padding-inline: 15px;
+
+    @media screen and (min-width: 768px) {
+      padding-inline: 30px;
+    }
+
+    @media screen and (min-width: 1200px) {
+      max-width: 1230px;
+    }
+  }
+
+  &__content {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__pretitle {
+    font-size: calc(16px + 6 * (100vw / 1920));
+    color: #ffffff;
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  &__title {
+    font-size: calc(30px + 36 * (100vw / 1920));
+    font-weight: 600;
+    line-height: 1.06;
+    color: #ffffff;
+    max-width: 850px;
+  }
+
+  &__decor {
+    font-size: 50px;
+    color: #ffffff;
+    line-height: 1;
+    display: block;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    @media screen and (min-width: 768px) {
+      flex-direction: row;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+  }
+
+  &.is-video-loaded {
+    .main-hero__image {
+      opacity: 0;
+    }
+
+    .main-hero__video-wrap {
+      opacity: 1;
+    }
+  }
+
+  &.is-no-video {
+    .main-hero__video-wrap {
+      display: none;
+    }
+  }
+}
+
+.main-btn {
+  padding: 20px;
+  border-radius: 4px;
+  font-size: clamp(1.125rem, 1.063rem + 0.25vw, 1.25rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  display: inline-flex;
+  width: fit-content;
+
+  @media screen and (min-width: 768px) {
+    &:hover {
+      .--icon-ico-triangle {
+        transform: translateX(3px);
+      }
+    }
+  }
+}
+
+.whatsapp-main {
+  color: #ffffff;
+  background: #075e54;
+  transition: all 0.3s ease-in-out;
+
+  @media screen and (min-width: 768px) {
+    &:hover {
+      background: rgb(23, 104, 94);
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.button-main {
+  color: #ffffff;
+  background: var(--brand-color);
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.--icon-ico-triangle {
+  font-size: 10px;
+  transition: all 0.3s ease-in-out;
+  line-height: 1;
+}
+
+/* services */
+.services {
+  padding-top: clamp(3.125rem, 1.875rem + 5vw, 5.625rem);
+  padding-bottom: clamp(3.125rem, 1.875rem + 5vw, 5.625rem);
+
+}
+.block-precontent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+		&__descr {
+      color: #888888;
+      font-size: clamp(1rem, 0.938rem + 0.25vw, 1.125rem);
+      font-weight: 400;
+      text-transform: uppercase;
+		}
+}
+.--icon-decor-double-line-white {
+  color: var(--brand-subcolor);
+}
+.slider-block {
+
+		&__controls {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+		}
+}
+
+.service-item {
+  background-color: #eff4f7;
+  position: relative;
+
+  @media screen and (min-width: 768px) {
+    &:hover {
+      .service-item__content {
+        width: 100%;
+      }
+      .service-item__image {
+        img {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+		&__image {
+      aspect-ratio: 51/40;
+		}
+
+		&__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.3s ease;
+		}
+
+		&__content {
+      background-color: rgba(37, 37, 37, 0.9);
+      width: 100%;
+      padding: 20px;
+      position: relative;
+      bottom: 0;
+      transition: width 0.3s ease;
+      transition: 0.5s all ease;
+
+      @media screen and (min-width: 768px) {
+        width: 80%;
+      }
+		}
+
+		&__title {
+      font-weight: 600;
+      font-size: 20px;
+      color: #ffffff;
+      margin-bottom: 12px;
+		}
+
+		&__descr {
+      margin-bottom: 0;
+      color: #ffffff;
+      font-size: clamp(0.875rem, 0.813rem + 0.25vw, 1rem);
+      line-height: 1.4;
+		}
+}
+.service {
+		&__button {
+      display: flex;
+      justify-content: center;
+		}
+}

@@ -208,6 +208,15 @@ if (!function_exists('get_fls_fields')) {
 	}
 }
 
+/**
+ * Enqueue scripts and styles for admin.
+ */
+function fls_admin_scripts()
+{
+	wp_enqueue_style('fls-admin-styles', get_template_directory_uri() . '/style-admin.css', array(), _S_VERSION);
+}
+add_action('admin_enqueue_scripts', 'fls_admin_scripts');
+
 // Advanced Custom Fields Start
 // Advanced Custom Fields: multilingual footer options
 add_action('acf/init', 'felgilab_register_footer_options');
@@ -247,6 +256,7 @@ function felgilab_register_acf_blocks()
 {
 	if (function_exists('register_block_type')) {
 		register_block_type(get_template_directory() . "/template-parts/blocks/mainHeroBlock/block.json");
+		register_block_type(get_template_directory() . "/template-parts/blocks/sliderStandardBlock/block.json");
 	}
 }
 // Advanced Custom Fields End

@@ -1,0 +1,17 @@
+{
+  "name": "acf/sliderstandardblock",
+  "title": "Slider Standard Block",
+  "description": "A block for the homepage to display a standard slider block with images and content.",
+  "category": "design",
+  "keywords": [
+    "slider block",
+    "standard block",
+    "carousel"
+  ],
+  "icon": "images-alt",
+  "apiVersion": 2,
+  "acf": {
+    "renderTemplate": "./sliderStandardBlock.php",
+    "mode": "preview"
+  }
+}

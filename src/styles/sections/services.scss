@@ -1,0 +1,110 @@
+.services {
+  padding-top: clamp(3.125rem, 1.875rem + 5vw, 5.625rem);
+  padding-bottom: clamp(3.125rem, 1.875rem + 5vw, 5.625rem);
+
+}
+.block-precontent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+		// .block-precontent__descr
+		&__descr {
+      color: #888888;
+      font-size: clamp(1rem, 0.938rem + 0.25vw, 1.125rem);
+      font-weight: 400;
+      text-transform: uppercase;
+		}
+
+		// .block-precontent__title
+
+		// &__title {
+    //   font-size: calc(26px + 12 * (100vw / 1920));
+    //   font-weight: 600;
+		// }
+}
+.--icon-decor-double-line-white {
+  color: var(--brand-subcolor);
+}
+.slider-block {
+
+		// .slider-block__controls
+		&__controls {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+		}
+}
+
+.service-item {
+  // background-color: #eff4f7;
+  position: relative;
+
+  @media screen and (min-width: 768px) {
+    &:hover {
+      .service-item__content {
+        width: 100%;
+      }
+      .service-item__image {
+        img {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+		// .service-item__image
+		&__image {
+      aspect-ratio: 51/40;
+      overflow: hidden;
+		}
+
+		// .service-item__img
+		&__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.3s ease;
+		}
+
+		// .service-item__content
+		&__content {
+      background-color: rgba(37, 37, 37, 0.9);
+      width: 100%;
+      padding: 20px;
+      position: relative;
+      bottom: 0;
+      transition: width 0.3s ease;
+      transition: 0.5s all ease;
+
+      @media screen and (min-width: 768px) {
+        width: 85%;
+        bottom: 40px;
+      }
+		}
+
+		// .service-item__title
+
+		&__title {
+      font-weight: 600;
+      font-size: 20px;
+      color: #ffffff;
+      margin-bottom: 12px;
+		}
+
+		// .service-item__descr
+		&__descr {
+      margin-bottom: 0;
+      color: #ffffff;
+      font-size: clamp(0.875rem, 0.813rem + 0.25vw, 1rem);
+      line-height: 1.4;
+		}
+}
+.service {
+
+		// .service__button
+		&__button {
+      display: flex;
+      justify-content: center;
+		}
+}

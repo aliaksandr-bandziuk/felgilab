@@ -78,3 +78,8 @@
 		display: none;
 	}
 }
+
+%h2 {
+	font-size: calc(26px + 12 * (100vw / 1920));
+  font-weight: 600;
+}
