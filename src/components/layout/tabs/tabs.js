@@ -83,12 +83,12 @@ export function tabs() {
 		let tabsTitles = tabsBlock.querySelectorAll('[data-fls-tabs-title]');
 		let tabsContent = tabsBlock.querySelectorAll('[data-fls-tabs-item]');
 		const tabsBlockIndex = tabsBlock.dataset.flsTabsIndex;
-		function isTabsAnamate(tabsBlock) {
+		function isTabsAnimate(tabsBlock) {
 			if (tabsBlock.hasAttribute('data-fls-tabs-animate')) {
 				return tabsBlock.dataset.flsTabsAnimate > 0 ? Number(tabsBlock.dataset.flsTabsAnimate) : 500;
 			}
 		}
-		const tabsBlockAnimate = isTabsAnamate(tabsBlock);
+		const tabsBlockAnimate = isTabsAnimate(tabsBlock);
 		if (tabsContent.length > 0) {
 			const isHash = tabsBlock.hasAttribute('data-fls-tabs-hash');
 			tabsContent = Array.from(tabsContent).filter(item => item.closest('[data-fls-tabs]') === tabsBlock);

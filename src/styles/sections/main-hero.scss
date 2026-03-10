@@ -3,6 +3,7 @@
   overflow: hidden;
   min-height: 85dvh;
   background-color: #000;
+  margin-bottom: clamp(3.125rem, 1.875rem + 5vw, 5.625rem);
 
   clip-path: polygon(
     0 0,

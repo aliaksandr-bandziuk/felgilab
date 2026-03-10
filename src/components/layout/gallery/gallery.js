@@ -37,28 +37,36 @@ import './assets/lightgallery.css';
 // Усі стилі
 // import './assets/lightgallery-bundle.css';
 
-/*
-const galleries = document.querySelectorAll('[data-fls-gallery]');
-if (galleries.length) {
-	galleries.forEach(gallery => {
+
+
+
+// Запуск
+function initGallery() {
+	// if (document.querySelector('[data-fls-gallery]')) {
+	// 	const gallery = new lightGallery(document.querySelector('[data-fls-gallery]'), {
+	// 		//plugins: [lgZoom, lgThumbnail],
+	// 		licenseKey: KEY,
+	// 		selector: 'a',
+	// 		speed: 500,
+	// 	})
+	// }
+
+	const galleries = document.querySelectorAll('[data-fls-gallery]');
+
+	if (!galleries.length) return;
+
+	galleries.forEach((gallery) => {
+		if (gallery.dataset.galleryInitialized === 'true') return;
+
 		lightGallery(gallery, {
 			// plugins: [lgZoom, lgThumbnail],
 			licenseKey: KEY,
-			speed: 500,
-		})
-	});
-}
-*/
-// Запуск
-function initGallery() {
-	if (document.querySelector('[data-fls-gallery]')) {
-		const gallery = new lightGallery(document.querySelector('[data-fls-gallery]'), {
-			//plugins: [lgZoom, lgThumbnail],
-			licenseKey: KEY,
 			selector: 'a',
 			speed: 500,
-		})
-	}
+		});
+
+		gallery.dataset.galleryInitialized = 'true';
+	});
 }
-window.addEventListener('load', initGallery())
+window.addEventListener('load', initGallery);
 
