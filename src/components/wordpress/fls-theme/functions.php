@@ -258,6 +258,7 @@ function felgilab_register_acf_blocks()
 		register_block_type(get_template_directory() . "/template-parts/blocks/mainHeroBlock/block.json");
 		register_block_type(get_template_directory() . "/template-parts/blocks/sliderStandardBlock/block.json");
 		register_block_type(get_template_directory() . "/template-parts/blocks/galleryCustomBlock/block.json");
+		register_block_type(get_template_directory() . "/template-parts/blocks/ctaLiteBlock/block.json");
 	}
 }
 // Advanced Custom Fields End

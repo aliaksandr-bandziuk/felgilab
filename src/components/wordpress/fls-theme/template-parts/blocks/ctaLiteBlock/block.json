@@ -1,0 +1,21 @@
+{
+  "name": "acf/cta-lite",
+  "title": "CTA Lite",
+  "description": "Light CTA block with static multilingual labels, phone and email.",
+  "category": "theme",
+  "icon": "phone",
+  "keywords": ["cta", "contact", "phone", "email", "felgilab"],
+  "style": [],
+  "script": [],
+  "editorStyle": [],
+  "editorScript": [],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "ctaLiteBlock.php"
+  },
+  "supports": {
+    "anchor": true,
+    "align": false,
+    "jsx": false
+  }
+}
