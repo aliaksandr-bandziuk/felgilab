@@ -1,0 +1,17 @@
+{
+  "name": "acf/about-company-block",
+  "title": "About Company Block",
+  "description": "Sekcja o firmie z listą zalet.",
+  "category": "layout",
+  "icon": "businessperson",
+  "keywords": ["about", "company", "felgilab", "advantages"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "aboutCompanyBlock.php"
+  },
+  "supports": {
+    "anchor": true,
+    "align": false,
+    "jsx": false
+  }
+}

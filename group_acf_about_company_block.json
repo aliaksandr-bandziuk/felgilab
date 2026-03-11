@@ -1,0 +1,175 @@
+[
+  {
+    "key": "group_about_company_block",
+    "title": "About Company Block",
+    "fields": [
+      {
+        "key": "field_about_company_media_title",
+        "label": "Media Title",
+        "name": "media_title",
+        "aria-label": "",
+        "type": "textarea",
+        "instructions": "Tekst po lewej stronie na zdjęciu.",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "",
+        "maxlength": "",
+        "rows": 3,
+        "placeholder": "",
+        "new_lines": ""
+      },
+      {
+        "key": "field_about_company_pretitle",
+        "label": "Pretitle",
+        "name": "pretitle",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "Mały tekst nad nagłówkiem.",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "",
+        "maxlength": "",
+        "placeholder": "",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_about_company_title",
+        "label": "Title",
+        "name": "title",
+        "aria-label": "",
+        "type": "textarea",
+        "instructions": "Główny nagłówek sekcji.",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "",
+        "maxlength": "",
+        "rows": 3,
+        "placeholder": "",
+        "new_lines": ""
+      },
+      {
+        "key": "field_about_company_items",
+        "label": "Items",
+        "name": "items",
+        "aria-label": "",
+        "type": "repeater",
+        "instructions": "Elementy listy po prawej stronie.",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "",
+          "class": "",
+          "id": ""
+        },
+        "layout": "block",
+        "pagination": 0,
+        "min": 0,
+        "max": 0,
+        "collapsed": "field_about_company_item_title",
+        "button_label": "Add Item",
+        "rows_per_page": 20,
+        "sub_fields": [
+          {
+            "key": "field_about_company_item_image",
+            "label": "Image",
+            "name": "image",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "Ikona lub zdjęcie elementu.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+              "width": "30",
+              "class": "",
+              "id": ""
+            },
+            "return_format": "array",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "preview_size": "medium"
+          },
+          {
+            "key": "field_about_company_item_title",
+            "label": "Title",
+            "name": "title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Tytuł elementu.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+              "width": "70",
+              "class": "",
+              "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+          },
+          {
+            "key": "field_about_company_item_text",
+            "label": "Text",
+            "name": "text",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Opis elementu.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+              "width": "100",
+              "class": "",
+              "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "rows": 3,
+            "placeholder": "",
+            "new_lines": ""
+          }
+        ]
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "block",
+          "operator": "==",
+          "value": "acf/about-company-block"
+        }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0
+  }
+]

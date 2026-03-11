@@ -1,5 +1,5 @@
 .price-list {
-	padding: 56px 0;
+	// padding: 56px 0;
 	margin-bottom: clamp(3.125rem, 1.875rem + 5vw, 5.625rem);
 
 	&__wrapper {
@@ -156,7 +156,7 @@
 @media (min-width: 768px) {
 
 	.price-list {
-		padding: 70px 0;
+		// padding: 70px 0;
 
 		&__wrapper {
 			gap: 32px;
@@ -207,9 +207,9 @@
 
 @media (min-width: 980px) {
 
-	.price-list {
-		padding: 80px 0;
-	}
+	// .price-list {
+	// 	padding: 80px 0;
+	// }
 
 	.price-list-tabs {
 

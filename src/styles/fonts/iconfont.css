@@ -1,7 +1,7 @@
 @font-face { 
 	font-family: "iconfont"; 
 	font-display: swap;
-	src: url("D://websites/felgilab-new/src/assets/svgicons/preview/iconfont.woff2?144ea2c3c5ae6050664f89b5c9b91202") format("woff2"); 
+	src: url("D://websites/felgilab-new/src/assets/svgicons/preview/iconfont.woff2?22cb34356b968cc3769877c44c0af69c") format("woff2"); 
 } 
 [class*="--icon-"]::before{
 	font-family: iconfont; 
@@ -29,4 +29,7 @@
 	} 
 	[class*="--icon-decor-double-line-white"]::before { 
 		content: "\f108"; 
+	} 
+	[class*="--icon-decor-double-line-accent"]::before { 
+		content: "\f109"; 
 	} 
