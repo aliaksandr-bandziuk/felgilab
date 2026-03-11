@@ -257,6 +257,182 @@ function felgilab_register_acf_blocks()
 	if (function_exists('register_block_type')) {
 		register_block_type(get_template_directory() . "/template-parts/blocks/mainHeroBlock/block.json");
 		register_block_type(get_template_directory() . "/template-parts/blocks/sliderStandardBlock/block.json");
+		register_block_type(get_template_directory() . "/template-parts/blocks/galleryCustomBlock/block.json");
 	}
 }
 // Advanced Custom Fields End
+
+// meta box for gallery_item cpt
+add_action('add_meta_boxes', function () {
+
+	global $post;
+
+	if (!$post) return;
+
+	$template = get_page_template_slug($post->ID);
+
+	if ($template !== 'page-gallery.php') {
+		return;
+	}
+
+	add_meta_box(
+		'felgilab_pretitle',
+		'Pretitle',
+		'felgilab_pretitle_metabox_callback',
+		'page',
+		'normal',
+		'high'
+	);
+});
+// meta box for gallery_item cpt end
+
+// field inside meta box for gallery_item cpt
+function felgilab_pretitle_metabox_callback($post)
+{
+
+	$value = get_post_meta($post->ID, '_felgilab_pretitle', true);
+
+	wp_nonce_field('felgilab_pretitle_nonce', 'felgilab_pretitle_nonce');
+
+	echo '<input type="text" style="width:100%;" name="felgilab_pretitle" value="' . esc_attr($value) . '" placeholder="Galeria realizacji">';
+}
+// field inside meta box for gallery_item cpt end
+
+// save meta box field for gallery_item cpt
+add_action('save_post', function ($post_id) {
+
+	if (!isset($_POST['felgilab_pretitle_nonce'])) {
+		return;
+	}
+
+	if (!wp_verify_nonce($_POST['felgilab_pretitle_nonce'], 'felgilab_pretitle_nonce')) {
+		return;
+	}
+
+	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+		return;
+	}
+
+	if (!current_user_can('edit_post', $post_id)) {
+		return;
+	}
+
+	if (isset($_POST['felgilab_pretitle'])) {
+
+		update_post_meta(
+			$post_id,
+			'_felgilab_pretitle',
+			sanitize_text_field($_POST['felgilab_pretitle'])
+		);
+	}
+});
+// save meta box field for gallery_item cpt end
+
+// cpt gallery_item
+add_action('init', function () {
+	register_post_type('gallery_item', [
+		'labels' => [
+			'name'          => 'Gallery Items',
+			'singular_name' => 'Gallery Item',
+		],
+		'public'       => true,
+		'show_in_rest' => true,
+		'menu_icon'    => 'dashicons-format-gallery',
+		'supports' 		 => ['title', 'thumbnail', 'excerpt'],
+		'has_archive'  => false,
+		'rewrite'      => ['slug' => 'gallery-item'],
+	]);
+});
+// cpt gallery_item end
+
+// car_brand taxonomy
+add_action('init', function () {
+	register_taxonomy('car_brand', ['gallery_item'], [
+		'labels' => [
+			'name'          => 'Car Brands',
+			'singular_name' => 'Car Brand',
+		],
+		'public'       => true,
+		'hierarchical' => true,
+		'show_in_rest' => true,
+		'rewrite'      => ['slug' => 'car-brand'],
+		'meta_box_cb'  => 'felgilab_car_brand_radio_metabox',
+	]);
+});
+// car_brand taxonomy end
+
+// custom meta box for car_brand taxonomy
+function felgilab_car_brand_radio_metabox($post, $box)
+{
+	$taxonomy = $box['args']['taxonomy'];
+	$tax      = get_taxonomy($taxonomy);
+	$terms    = get_terms([
+		'taxonomy'   => $taxonomy,
+		'hide_empty' => false,
+	]);
+
+	if (is_wp_error($terms) || empty($terms)) {
+		echo '<p>No brands found.</p>';
+		return;
+	}
+
+	$current_terms = wp_get_object_terms($post->ID, $taxonomy, ['fields' => 'ids']);
+	$current_term  = !empty($current_terms) ? (int) $current_terms[0] : 0;
+
+	wp_nonce_field('felgilab_save_single_term_' . $taxonomy, 'felgilab_single_term_nonce_' . $taxonomy);
+
+	echo '<div class="categorydiv">';
+	echo '<ul style="margin:0;">';
+
+	foreach ($terms as $term) {
+		echo '<li style="margin-bottom:8px;">';
+		echo '<label>';
+		echo '<input type="radio" name="felgilab_single_term_' . esc_attr($taxonomy) . '" value="' . esc_attr($term->term_id) . '" ' . checked($current_term, $term->term_id, false) . '> ';
+		echo esc_html($term->name);
+		echo '</label>';
+		echo '</li>';
+	}
+
+	echo '<li style="margin-top:10px;">';
+	echo '<label>';
+	echo '<input type="radio" name="felgilab_single_term_' . esc_attr($taxonomy) . '" value="0" ' . checked($current_term, 0, false) . '> ';
+	echo esc_html__('No brand', 'felgilab');
+	echo '</label>';
+	echo '</li>';
+
+	echo '</ul>';
+	echo '</div>';
+}
+// custom meta box for car_brand taxonomy end
+
+// save single term for car_brand taxonomy
+add_action('save_post_gallery_item', function ($post_id) {
+	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+		return;
+	}
+
+	if (!current_user_can('edit_post', $post_id)) {
+		return;
+	}
+
+	$taxonomy = 'car_brand';
+	$nonce_key = 'felgilab_single_term_nonce_' . $taxonomy;
+
+	if (!isset($_POST[$nonce_key])) {
+		return;
+	}
+
+	if (!wp_verify_nonce($_POST[$nonce_key], 'felgilab_save_single_term_' . $taxonomy)) {
+		return;
+	}
+
+	$field_name = 'felgilab_single_term_' . $taxonomy;
+	$term_id    = isset($_POST[$field_name]) ? (int) $_POST[$field_name] : 0;
+
+	if ($term_id > 0) {
+		wp_set_object_terms($post_id, [$term_id], $taxonomy, false);
+	} else {
+		wp_set_object_terms($post_id, [], $taxonomy, false);
+	}
+});
+// save single term for car_brand taxonomy end

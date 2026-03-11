@@ -1,0 +1,17 @@
+{
+  "name": "acf/gallerycustomblock",
+  "title": "Gallery Custom Block",
+  "description": "A block for the homepage to display a custom gallery block with images and content.",
+  "category": "design",
+  "keywords": [
+    "gallery block",
+    "images",
+    "brands"
+  ],
+  "icon": "images-alt2",
+  "apiVersion": 2,
+  "acf": {
+    "renderTemplate": "./galleryCustomBlock.php",
+    "mode": "preview"
+  }
+}
