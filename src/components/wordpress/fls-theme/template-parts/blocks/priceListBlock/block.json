@@ -1,0 +1,17 @@
+{
+  "name": "acf/price-list-block",
+  "title": "Price List Block",
+  "description": "Price list with tabs for alloy and steel wheels.",
+  "category": "formatting",
+  "icon": "table-col-after",
+  "keywords": ["price", "cennik", "felgi", "wheels"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "priceListBlock.php"
+  },
+  "supports": {
+    "anchor": true,
+    "align": false,
+    "jsx": false
+  }
+}
