@@ -1,0 +1,17 @@
+{
+  "name": "acf/working-process",
+  "title": "Working Process",
+  "description": "Sekcja procesu pracy",
+  "category": "formatting",
+  "icon": "update",
+  "keywords": ["process", "working process", "felgilab"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "workingProcess.php"
+  },
+  "supports": {
+    "anchor": true,
+    "align": false,
+    "jsx": false
+  }
+}

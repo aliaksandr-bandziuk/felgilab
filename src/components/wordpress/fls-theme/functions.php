@@ -261,6 +261,8 @@ function felgilab_register_acf_blocks()
 		register_block_type(get_template_directory() . "/template-parts/blocks/ctaLiteBlock/block.json");
 		register_block_type(get_template_directory() . "/template-parts/blocks/priceListBlock/block.json");
 		register_block_type(get_template_directory() . "/template-parts/blocks/aboutCompanyBlock/block.json");
+		register_block_type(get_template_directory() . "/template-parts/blocks/workingProcess/block.json");
+		register_block_type(get_template_directory() . "/template-parts/blocks/reviewsBlock/block.json");
 	}
 }
 // Advanced Custom Fields End

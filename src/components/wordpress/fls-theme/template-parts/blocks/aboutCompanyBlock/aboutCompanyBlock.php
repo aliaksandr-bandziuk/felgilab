@@ -121,7 +121,7 @@ $static_icon_image  = '/wp-content/uploads/2026/03/rim-service-icon.svg';
 
   <div class="about-company__shape">
     <svg viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0 40L500 70L1000 100L1440 40V120H0Z" fill="#f3f3f3" />
+      <path d="M0 40L500 70L1000 100L1440 40V120H0Z" fill="#fff" />
     </svg>
   </div>
 </section>
