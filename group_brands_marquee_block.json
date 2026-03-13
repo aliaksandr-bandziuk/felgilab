@@ -1,0 +1,148 @@
+{
+  "key": "group_brands_marquee_block",
+  "title": "Brands Marquee Block",
+  "fields": [
+    {
+      "key": "field_brands_marquee_pretitle",
+      "label": "Pretitle",
+      "name": "pretitle",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "allow_in_bindings": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_brands_marquee_title",
+      "label": "Title",
+      "name": "title",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "allow_in_bindings": 0,
+      "placeholder": ""
+    },
+    {
+      "key": "field_brands_marquee_logos",
+      "label": "Logos",
+      "name": "logos",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "layout": "row",
+      "pagination": 0,
+      "min": 1,
+      "max": 0,
+      "collapsed": "field_brands_marquee_logo_alt",
+      "button_label": "Add logo",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_brands_marquee_logo_image",
+          "label": "Logo Image",
+          "name": "logo_image",
+          "aria-label": "",
+          "type": "image",
+          "instructions": "",
+          "required": 1,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "40",
+            "class": "",
+            "id": ""
+          },
+          "return_format": "array",
+          "library": "all",
+          "min_width": "",
+          "min_height": "",
+          "min_size": "",
+          "max_width": "",
+          "max_height": "",
+          "max_size": "",
+          "mime_types": "svg,png,jpg,jpeg,webp",
+          "allow_in_bindings": 0,
+          "preview_size": "medium"
+        },
+        {
+          "key": "field_brands_marquee_logo_alt",
+          "label": "Logo Alt",
+          "name": "logo_alt",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "To będzie jednocześnie alt obrazka i aria-label linku.",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "30",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "allow_in_bindings": 0,
+          "placeholder": "Np. BMW"
+        },
+        {
+          "key": "field_brands_marquee_logo_link",
+          "label": "Logo Link",
+          "name": "logo_link",
+          "aria-label": "",
+          "type": "link",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "30",
+            "class": "",
+            "id": ""
+          },
+          "return_format": "array",
+          "allow_in_bindings": 0
+        }
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/brands-marquee-block"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "",
+  "show_in_rest": 0
+}

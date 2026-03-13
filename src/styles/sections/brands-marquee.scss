@@ -1,0 +1,103 @@
+.brands-marquee {
+  padding-top: clamp(4rem, 3rem + 4vw, 6rem);
+  padding-bottom: clamp(4rem, 3rem + 4vw, 6rem);
+  overflow: hidden;
+  background-color: #f7f7f7;
+
+  &__track {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    height: 90px;
+    padding: 14px 22px;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid rgba(1, 62, 100, 0.08);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease,
+      background-color 0.3s ease;
+    text-decoration: none;
+
+    &:hover {
+      // transform: translateY(-2px);
+      background-color: #fcfcfc;
+      border-color: rgba(1, 62, 100, 0.16);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--brand-color);
+      outline-offset: 2px;
+    }
+
+    img {
+      display: block;
+      max-width: 120px;
+      max-height: 42px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      opacity: 0.55;
+      transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        filter 0.3s ease;
+
+      filter: grayscale(1) contrast(0.9);
+    }
+
+    &:hover img,
+    &:focus-visible img {
+      opacity: 0.85;
+      // transform: scale(1.03);
+      filter: unset;
+    }
+  }
+
+  // Внутренние элементы, которые генерирует marquee-скрипт
+  [data-fls-marquee-inner] {
+    align-items: center;
+  }
+
+  [data-fls-marquee-item] {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+.brands-marquee__item:not(a) {
+  cursor: default;
+}
+
+.brands-marquee__item:not(a) {
+  cursor: default;
+}
+
+.brands-marquee__track {
+  overflow: hidden;
+  width: 100%;
+
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}

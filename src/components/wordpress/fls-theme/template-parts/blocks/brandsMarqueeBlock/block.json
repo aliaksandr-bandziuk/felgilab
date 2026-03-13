@@ -1,0 +1,17 @@
+{
+  "name": "acf/brands-marquee-block",
+  "title": "Brands Marquee Block",
+  "description": "Sekcja z przewijającymi się logotypami marek samochodowych.",
+  "category": "formatting",
+  "icon": "images-alt2",
+  "keywords": ["brands", "marquee", "logos", "cars", "felgilab"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "brandsMarqueeBlock.php"
+  },
+  "supports": {
+    "anchor": true,
+    "align": false,
+    "jsx": false
+  }
+}
