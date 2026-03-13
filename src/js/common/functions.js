@@ -271,3 +271,4 @@ import "../custom/toggleSubMenu.js";
 import "../custom/updateBusinessStatus.js";
 import "../custom/dropdownLanguage.js";
 import "../custom/loadVideoHero.js";
+import "../custom/uploadPhotos.js";

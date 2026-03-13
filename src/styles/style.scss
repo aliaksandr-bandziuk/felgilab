@@ -13,6 +13,7 @@
 @use "./sections/main-about.scss";
 @use "./sections/working-process.scss";
 @use "./sections/reviews.scss";
+@use "./sections/final-contact.scss";
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Підключення загальних віддалених шрифтів (Google Fonts)
@@ -175,6 +176,11 @@ body {
 	@extend %h2;
 }
 
+.h2-white {
+	@extend %h2;
+	color: #fff;
+}
+
 .decor-line-subcolor {
 	font-size: 30px;
 	font-weight: 600;
@@ -196,3 +202,20 @@ body {
     justify-content: center;
     margin-top: 30px;
   }
+
+.button-primary {
+	display: inline-block;
+	padding: 0.8rem 1.5rem;
+	background-color: var(--brand-subcolor);
+	color: #fff;
+	font-weight: 500;
+	font-size: 1.2rem;
+	border-radius: 4px;
+	transition: 0.3s ease-in-out;
+
+	@media screen and (min-width: 768px) {
+		&:hover {
+			background-color: #f78a50;
+		}
+	}
+}

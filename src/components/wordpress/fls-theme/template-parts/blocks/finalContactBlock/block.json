@@ -1,0 +1,17 @@
+{
+  "name": "acf/final-contact-block",
+  "title": "Final Contact Block",
+  "description": "Sekcja kontaktowa z formularzem i mapą.",
+  "category": "theme",
+  "icon": "email",
+  "keywords": ["contact", "map", "form", "felgilab"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "finalContactBlock.php"
+  },
+  "supports": {
+    "anchor": true,
+    "align": false,
+    "jsx": false
+  }
+}
