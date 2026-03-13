@@ -45,7 +45,11 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
     <a href="<?php echo esc_url($image_full); ?>" class="gallery__item">
       <span class="button-main main-btn gallery-zoom-btn" aria-hidden="true">
         <span class="whatsapp-main__wrapper">
-          <span class="whatsapp-main__text"><?php echo esc_html($zoom_text); ?></span>
+          <span class="whatsapp-main__text">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" id="Search" height="24" width="24">
+              <path stroke="#ffffff" d="M18.425 18.425 23.5 23.5m-12.5 -2C5.201 21.5 0.5 16.799 0.5 11S5.201 0.5 11 0.5 21.5 5.201 21.5 11 16.799 21.5 11 21.5Z" stroke-width="1"></path>
+            </svg>
+          </span>
         </span>
       </span>
       <img
