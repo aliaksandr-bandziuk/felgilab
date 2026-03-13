@@ -25,9 +25,9 @@
 	<div id="page" class="wrapper">
 
 
-		<header class="header">
+		<header class="header" id="siteHeader">
 			<!-- продумать, где разместить preheader в админке -->
-			<div class="preheader">
+			<div class="preheader" id="sitePreheader">
 				<div class="preheader__container">
 					<div class="preheader__wrapper">
 						<div class="preheader-item preheader__address">
@@ -92,7 +92,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="header__wrapper">
+			<div class="header__placeholder" id="headerPlaceholder"></div>
+			<div class="header__wrapper" id="headerWrapper">
 				<div class="header__container relative">
 					<div class="header__menu menu">
 						<div class="burger-bg">

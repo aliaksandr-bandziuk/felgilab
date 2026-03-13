@@ -267,6 +267,7 @@ export function formatDate(date, sepp) {
 	return `${day}${sepp}${month}${sepp}${year}`;
 }
 
+import "../custom/headerScroll.js";
 import "../custom/toggleSubMenu.js";
 import "../custom/updateBusinessStatus.js";
 import "../custom/dropdownLanguage.js";
