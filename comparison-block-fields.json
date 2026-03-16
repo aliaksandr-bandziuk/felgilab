@@ -1,0 +1,129 @@
+[
+{
+"key": "group_comparison_block",
+"title": "Comparison Block",
+"fields": [
+
+{
+"key": "field_comp_tab_header",
+"label": "Header",
+"type": "tab",
+"placement": "top"
+},
+
+{
+"key": "field_comp_pretitle",
+"label": "Pretitle",
+"name": "pretitle",
+"type": "text"
+},
+
+{
+"key": "field_comp_title",
+"label": "Title",
+"name": "title",
+"type": "text"
+},
+
+{
+"key": "field_comp_description",
+"label": "Description",
+"name": "description",
+"type": "textarea",
+"rows": 3,
+"new_lines": "br"
+},
+
+{
+"key": "field_comp_tab_columns",
+"label": "Columns",
+"type": "tab",
+"placement": "top"
+},
+
+{
+"key": "field_comp_left_title",
+"label": "Left Column Title",
+"name": "left_column_title",
+"type": "text",
+"default_value": "ZA"
+},
+
+{
+"key": "field_comp_right_title",
+"label": "Right Column Title",
+"name": "right_column_title",
+"type": "text",
+"default_value": "PRZECIW"
+},
+
+{
+"key": "field_comp_tab_left",
+"label": "Left Column Items",
+"type": "tab",
+"placement": "top"
+},
+
+{
+"key": "field_comp_left_items",
+"label": "Left Items",
+"name": "left_items",
+"type": "repeater",
+"layout": "block",
+"button_label": "Add Item",
+"sub_fields": [
+{
+"key": "field_comp_left_item_text",
+"label": "Text",
+"name": "text",
+"type": "textarea",
+"rows": 2
+}
+]
+},
+
+{
+"key": "field_comp_tab_right",
+"label": "Right Column Items",
+"type": "tab",
+"placement": "top"
+},
+
+{
+"key": "field_comp_right_items",
+"label": "Right Items",
+"name": "right_items",
+"type": "repeater",
+"layout": "block",
+"button_label": "Add Item",
+"sub_fields": [
+{
+"key": "field_comp_right_item_text",
+"label": "Text",
+"name": "text",
+"type": "textarea",
+"rows": 2
+}
+]
+}
+
+],
+
+"location": [
+[
+{
+"param": "block",
+"operator": "==",
+"value": "acf/comparison-block"
+}
+]
+],
+
+"menu_order": 0,
+"position": "normal",
+"style": "default",
+"label_placement": "top",
+"instruction_placement": "label",
+"active": true
+}
+]

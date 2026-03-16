@@ -1,0 +1,17 @@
+{
+  "name": "acf/comparison-block",
+  "title": "Comparison Block",
+  "description": "Universal comparison block with two columns and repeater rows.",
+  "category": "formatting",
+  "icon": "table-col-after",
+  "keywords": ["comparison", "table", "felgi"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "comparisonBlock.php"
+  },
+  "supports": {
+    "anchor": true,
+    "align": ["wide", "full"],
+    "jsx": false
+  }
+}
