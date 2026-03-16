@@ -445,3 +445,54 @@ add_action('save_post_gallery_item', function ($post_id) {
 	}
 });
 // save single term for car_brand taxonomy end
+
+// output FAQ schema in JSON-LD format in the footer
+add_action('wp_footer', 'felgilab_output_faq_schema', 100);
+
+function felgilab_output_faq_schema()
+{
+	if (is_admin()) {
+		return;
+	}
+
+	global $felgilab_faq_schema_items;
+
+	if (empty($felgilab_faq_schema_items) || !is_array($felgilab_faq_schema_items)) {
+		return;
+	}
+
+	$unique_items = [];
+	$seen_items = [];
+
+	foreach ($felgilab_faq_schema_items as $item) {
+		$question = $item['name'] ?? '';
+		$answer   = $item['acceptedAnswer']['text'] ?? '';
+
+		if (!$question || !$answer) {
+			continue;
+		}
+
+		$hash = md5($question . '|' . $answer);
+
+		if (isset($seen_items[$hash])) {
+			continue;
+		}
+
+		$seen_items[$hash] = true;
+		$unique_items[] = $item;
+	}
+
+	if (empty($unique_items)) {
+		return;
+	}
+
+	$schema = [
+		'@context'   => 'https://schema.org',
+		'@type'      => 'FAQPage',
+		'mainEntity' => array_values($unique_items),
+	];
+
+	echo '<script type="application/ld+json">' .
+		wp_json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) .
+		'</script>';
+}
