@@ -235,6 +235,13 @@ function felgilab_render_gallery_items($query, $zoom_text, $items_per_page = 20)
         <?php endif; ?>
       </div>
     </section>
+
+    <?php while (have_posts()) : the_post(); ?>
+      <div class="entry-content">
+        <?php the_content(); ?>
+      </div>
+    <?php endwhile; ?>
+
   </div>
 </main>
 

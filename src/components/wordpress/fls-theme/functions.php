@@ -818,3 +818,12 @@ if (!function_exists('felgilab_menu_item_has_active_child')) {
 	}
 }
 // functions for menu item active state end
+
+// add noindex for gallery_item cpt
+add_filter('wpseo_robots', function ($robots) {
+	if (is_singular('gallery_item')) {
+		return 'noindex, follow';
+	}
+	return $robots;
+});
+// add noindex for gallery_item cpt end

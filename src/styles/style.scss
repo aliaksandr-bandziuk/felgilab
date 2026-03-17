@@ -325,50 +325,66 @@ body {
 
 .entry-content {
 
-  // Базовый текст
-  p, .wp-block-paragraph {
-    font-size: 18px;
+  > p,
+  > .wp-block-paragraph {
+    font-size: 1.1rem;
     line-height: 1.7;
     color: #444;
     font-weight: 400;
-		max-width: 750px;
+    max-width: 750px;
   }
 
-  // Заголовки
-  .wp-block-heading {
+  > .wp-block-heading {
     font-weight: 600;
     line-height: 1.25;
     color: #111;
   }
 
-  h2.wp-block-heading {
+  > h2.wp-block-heading,
+  > h2 {
     @extend %h2;
     margin-top: 40px;
   }
 
-  h3.wp-block-heading {
+  > h3.wp-block-heading,
+  > h3 {
     @extend %h3;
     margin-top: 30px;
   }
 
-  h4.wp-block-heading {
+  > h4.wp-block-heading,
+  > h4 {
     @extend %h4;
     margin-top: 25px;
   }
 
-  // Списки
-  .wp-block-list {
-    padding-left: 20px;
+  > .wp-block-list,
+  > ul,
+  > ol {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
 
     li {
-      margin-bottom: 8px;
+      // margin-bottom: 8px;
+			font-size: 1.1rem;
       line-height: 1.6;
+			color: #444;
+			margin-left: 25px;
+			position: relative;
+
+			&::before {
+				content: "✓";
+				position: absolute;
+				left: -18px;
+				top: 2px;
+				color: var(--brand-subcolor);
+				font-size: 16px;
+			}
     }
   }
 
-  // Отступы между блоками
   > * + * {
     margin-top: 20px;
   }
-
 }
