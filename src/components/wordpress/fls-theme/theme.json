@@ -1,0 +1,41 @@
+{
+  "version": 3,
+  "settings": {
+    "layout": {
+      "contentSize": "1330px",
+      "wideSize": "1600px"
+    },
+    "spacing": {
+      "margin": true,
+      "padding": true,
+      "units": ["px", "rem", "%"],
+      "spacingSizes": [
+        {
+          "slug": "xs",
+          "name": "XS",
+          "size": "clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem)"
+        },
+        {
+          "slug": "sm",
+          "name": "S",
+          "size": "clamp(1rem, 0.8rem + 1vw, 1.5rem)"
+        },
+        {
+          "slug": "md",
+          "name": "M",
+          "size": "clamp(2rem, 1.5rem + 2vw, 3rem)"
+        },
+        {
+          "slug": "lg",
+          "name": "L (Section)",
+          "size": "clamp(5rem, 3.75rem + 5vw, 7.5rem)"
+        },
+        {
+          "slug": "xl",
+          "name": "XL",
+          "size": "clamp(7rem, 5rem + 6vw, 10rem)"
+        }
+      ]
+    }
+  }
+}

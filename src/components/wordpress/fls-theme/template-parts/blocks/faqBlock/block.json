@@ -12,6 +12,10 @@
   "supports": {
     "anchor": true,
     "align": false,
-    "jsx": false
+    "jsx": false,
+    "spacing": {
+      "margin": ["top", "bottom"],
+      "padding": ["top", "bottom"]
+    }
   }
 }

@@ -79,7 +79,22 @@
 	}
 }
 
+%h1 {
+	font-size: calc(32px + 16 * (100vw / 1920));
+	font-weight: 600;
+}
+
 %h2 {
 	font-size: calc(26px + 12 * (100vw / 1920));
   font-weight: 600;
+}
+
+%h3 {
+	font-size: calc(20px + 8 * (100vw / 1920));
+	font-weight: 600;
+}
+
+%h4 {
+	font-size: calc(16px + 4 * (100vw / 1920));
+	font-weight: 600;
 }

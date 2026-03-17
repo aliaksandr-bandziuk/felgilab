@@ -107,6 +107,11 @@ function fls_setup()
 			'flex-height' => true,
 		)
 	);
+
+	add_theme_support('wp-block-styles'); // Поддержка стилей блоков
+	add_theme_support('align-wide'); // Поддержка широкого выравнивания блоков
+	add_theme_support('editor-styles'); // Подключение стилей редактора блоков
+	add_editor_style(); // Подключение стилей для редактора
 }
 add_action('after_setup_theme', 'fls_setup');
 
@@ -449,6 +454,39 @@ add_action('save_post_gallery_item', function ($post_id) {
 // output FAQ schema in JSON-LD format in the footer
 add_action('wp_footer', 'felgilab_output_faq_schema', 100);
 
+function felgilab_add_faq_schema_item($question, $answer)
+{
+	global $felgilab_faq_schema_items;
+
+	if (!is_array($felgilab_faq_schema_items)) {
+		$felgilab_faq_schema_items = [];
+	}
+
+	$question = trim((string) $question);
+	$answer   = trim((string) $answer);
+
+	if ($question === '' || $answer === '') {
+		return;
+	}
+
+	$answer_text = wp_strip_all_tags($answer, true);
+	$answer_text = preg_replace('/\s+/', ' ', $answer_text);
+	$answer_text = trim($answer_text);
+
+	if ($answer_text === '') {
+		return;
+	}
+
+	$felgilab_faq_schema_items[] = [
+		'@type' => 'Question',
+		'name'  => $question,
+		'acceptedAnswer' => [
+			'@type' => 'Answer',
+			'text'  => $answer_text,
+		],
+	];
+}
+
 function felgilab_output_faq_schema()
 {
 	if (is_admin()) {
@@ -468,7 +506,7 @@ function felgilab_output_faq_schema()
 		$question = $item['name'] ?? '';
 		$answer   = $item['acceptedAnswer']['text'] ?? '';
 
-		if (!$question || !$answer) {
+		if ($question === '' || $answer === '') {
 			continue;
 		}
 
@@ -496,3 +534,225 @@ function felgilab_output_faq_schema()
 		wp_json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) .
 		'</script>';
 }
+
+// custom breadcrumbs
+function custom_breadcrumbs()
+{
+	$separator = ' / '; // не используется, если разделители не нужны
+	$list_class = 'breadcrumbs__list';
+	$current_lang = pll_current_language();
+	$default_lang = pll_default_language(); // основной язык
+
+	$home_titles = array(
+		'en' => 'Homepage',
+		'pl' => 'Strona główna',
+		'ru' => 'Главная',
+		'uk' => 'Головна',
+	);
+	$home_title = isset($home_titles[$current_lang]) ? $home_titles[$current_lang] : $home_titles['en'];
+
+	$services_slugs = array(
+		'en' => 'services',
+		'pl' => 'uslugi',
+		'ru' => 'uslugi',
+		'uk' => 'uslugi'
+	);
+
+	$posts_slugs = array(
+		'en' => 'posts',
+		'pl' => 'posty-pl',
+		'ru' => 'posty-ru',
+		'uk' => 'posty-uk'
+
+	);
+	$posts_titles = array(
+		'en' => 'Posts',
+		'pl' => 'Posty',
+		'ru' => 'Посты',
+		'uk' => 'Пости'
+	);
+
+	$portfolio_slugs = array(
+		'en' => 'portfolio',
+		'pl' => 'portfolio',
+		'ru' => 'portfolio',
+		'uk' => 'portfolio'
+	);
+	$landings_slugs = array(
+		'en' => 'landings',
+		'pl' => 'landings',
+		'ru' => 'landings',
+		'uk' => 'landings'
+	);
+	$portfolio_title = 'Portfolio';
+	$landings_title = 'Landings';
+
+	global $post;
+	$home_url = get_home_url();
+
+	// Начало JSON‑LD разметки
+	$breadcrumbs_data = array(
+		"@context" => "https://schema.org",
+		"@type"    => "BreadcrumbList",
+		"itemListElement" => array()
+	);
+
+	if (!is_front_page()) {
+		echo '<ul class="' . $list_class . '" itemscope itemtype="https://schema.org/BreadcrumbList">';
+		$position = 1;
+
+		// Главная страница
+		echo '<li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+		echo '<a href="' . $home_url . '" class="breadcrumbs__link" itemprop="item">';
+		echo '<span itemprop="name">' . $home_title . '</span>';
+		echo '</a>';
+		echo '<meta itemprop="position" content="' . $position . '" />';
+		echo '</li>';
+		$breadcrumbs_data["itemListElement"][] = array(
+			"@type"    => "ListItem",
+			"position" => $position,
+			"name"     => $home_title,
+			"item"     => $home_url
+		);
+		$position++;
+
+		// Для записей типа "services"
+		if (is_singular('services')) {
+			$services_slug = isset($services_slugs[$current_lang]) ? $services_slugs[$current_lang] : 'services';
+			$services_page_url = ($current_lang == $default_lang) ? home_url('/' . $services_slug . '/') : home_url('/' . $current_lang . '/' . $services_slug . '/');
+
+			echo '<li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+			echo '<a href="' . $services_page_url . '" class="breadcrumbs__link" itemprop="item">';
+			echo '<span itemprop="name">' . ucfirst($services_slug) . '</span>';
+			echo '</a>';
+			echo '<meta itemprop="position" content="' . $position . '" />';
+			echo '</li>';
+			$breadcrumbs_data["itemListElement"][] = array(
+				"@type"    => "ListItem",
+				"position" => $position,
+				"name"     => ucfirst($services_slug),
+				"item"     => $services_page_url
+			);
+			$position++;
+
+			echo '<li class="breadcrumbs__item breadcrumbs__item--active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+			echo '<span itemprop="name">' . get_the_title() . '</span>';
+			echo '<meta itemprop="position" content="' . $position . '" />';
+			echo '</li>';
+			$breadcrumbs_data["itemListElement"][] = array(
+				"@type"    => "ListItem",
+				"position" => $position,
+				"name"     => get_the_title(),
+				"item"     => get_permalink()
+			);
+
+			// Для записей типа "post"
+		} elseif (is_singular('post')) {
+			$posts_slug = isset($posts_slugs[$current_lang]) ? $posts_slugs[$current_lang] : 'posts';
+			$posts_title = isset($posts_titles[$current_lang]) ? $posts_titles[$current_lang] : 'Posts';
+			$posts_page_url = ($current_lang == $default_lang) ? home_url('/' . $posts_slug . '/') : home_url('/' . $current_lang . '/' . $posts_slug . '/');
+
+			echo '<li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+			echo '<a href="' . $posts_page_url . '" class="breadcrumbs__link" itemprop="item">';
+			echo '<span itemprop="name">' . ucfirst($posts_title) . '</span>';
+			echo '</a>';
+			echo '<meta itemprop="position" content="' . $position . '" />';
+			echo '</li>';
+			$breadcrumbs_data["itemListElement"][] = array(
+				"@type"    => "ListItem",
+				"position" => $position,
+				"name"     => ucfirst($posts_title),
+				"item"     => $posts_page_url
+			);
+			$position++;
+
+			echo '<li class="breadcrumbs__item breadcrumbs__item--active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+			echo '<span itemprop="name">' . get_the_title() . '</span>';
+			echo '<meta itemprop="position" content="' . $position . '" />';
+			echo '</li>';
+			$breadcrumbs_data["itemListElement"][] = array(
+				"@type"    => "ListItem",
+				"position" => $position,
+				"name"     => get_the_title(),
+				"item"     => get_permalink()
+			);
+
+			// Для записей типа "portfolio"
+		} elseif (is_singular('portfolio')) {
+			$portfolio_slug = 'portfolio';
+			$portfolio_page_url = ($current_lang == $default_lang) ? home_url('/' . $portfolio_slug . '/') : home_url('/' . $current_lang . '/' . $portfolio_slug . '/');
+
+			echo '<li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+			echo '<a href="' . $portfolio_page_url . '" class="breadcrumbs__link" itemprop="item">';
+			echo '<span itemprop="name">' . $portfolio_title . '</span>';
+			echo '</a>';
+			echo '<meta itemprop="position" content="' . $position . '" />';
+			echo '</li>';
+			$breadcrumbs_data["itemListElement"][] = array(
+				"@type"    => "ListItem",
+				"position" => $position,
+				"name"     => $portfolio_title,
+				"item"     => $portfolio_page_url
+			);
+			$position++;
+
+			echo '<li class="breadcrumbs__item breadcrumbs__item--active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+			echo '<span itemprop="name">' . get_the_title() . '</span>';
+			echo '<meta itemprop="position" content="' . $position . '" />';
+			echo '</li>';
+			$breadcrumbs_data["itemListElement"][] = array(
+				"@type"    => "ListItem",
+				"position" => $position,
+				"name"     => get_the_title(),
+				"item"     => get_permalink()
+			);
+
+			// Для записей типа "landings"
+		} elseif (is_singular('landings')) {
+			$landings_slug = isset($landings_slugs[$current_lang]) ? $landings_slugs[$current_lang] : 'landings';
+			$landings_page_url = ($current_lang == $default_lang) ? home_url('/' . $landings_slug . '/') : home_url('/' . $current_lang . '/' . $landings_slug . '/');
+
+			echo '<li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+			echo '<a href="' . $landings_page_url . '" class="breadcrumbs__link" itemprop="item">';
+			echo '<span itemprop="name">' . $landings_title . '</span>';
+			echo '</a>';
+			echo '<meta itemprop="position" content="' . $position . '" />';
+			echo '</li>';
+			$breadcrumbs_data["itemListElement"][] = array(
+				"@type"    => "ListItem",
+				"position" => $position,
+				"name"     => $landings_title,
+				"item"     => $landings_page_url
+			);
+			$position++;
+
+			echo '<li class="breadcrumbs__item breadcrumbs__item--active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+			echo '<span itemprop="name">' . get_the_title() . '</span>';
+			echo '<meta itemprop="position" content="' . $position . '" />';
+			echo '</li>';
+			$breadcrumbs_data["itemListElement"][] = array(
+				"@type"    => "ListItem",
+				"position" => $position,
+				"name"     => get_the_title(),
+				"item"     => get_permalink()
+			);
+
+			// Если это обычная страница
+		} elseif (is_page()) {
+			echo '<li class="breadcrumbs__item breadcrumbs__item--active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+			echo '<span itemprop="name">' . get_the_title() . '</span>';
+			echo '<meta itemprop="position" content="' . $position . '" />';
+			echo '</li>';
+			$breadcrumbs_data["itemListElement"][] = array(
+				"@type"    => "ListItem",
+				"position" => $position,
+				"name"     => get_the_title(),
+				"item"     => get_permalink()
+			);
+		}
+
+		echo '</ul>';
+		echo '<script type="application/ld+json">' . json_encode($breadcrumbs_data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . '</script>';
+	}
+}
+// custom breadcrumbs

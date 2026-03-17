@@ -222,3 +222,153 @@ body {
 		}
 	}
 }
+
+.breadcrumbs {
+  margin-bottom: clamp(1.875rem, 1.25rem + 2.5vw, 3.125rem);
+}
+
+.breadcrumbs__list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumbs__item {
+  color: #B3B3B3;
+  font-size: clamp(0.875rem, 0.813rem + 0.25vw, 1rem);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+}
+
+.breadcrumbs__item:not(:last-child)::after {
+  content: "/";
+  margin: 0 8px;
+  color: #fff;
+}
+
+.breadcrumbs__link {
+  color: #fff;
+}
+
+.standard-hero {
+	position: relative;
+  overflow: hidden;
+  // min-height: 85dvh;
+	height: 65dvh;
+  background-color: #000;
+  margin-bottom: clamp(3.125rem, 1.875rem + 5vw, 5.625rem);
+
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 88%,
+    50% 96%,
+    0 88%
+  );
+
+  @media screen and (min-width: 768px) {
+    // min-height: unset;
+		height: unset;
+    aspect-ratio: 10 / 4;
+
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 90%,
+      50% 98%,
+      0 90%
+    );
+  }
+
+  @media screen and (min-width: 1100px) {
+    aspect-ratio: 11 / 3;
+  }
+}
+
+.entry-content {
+  > *:not(.acf-block-preview):not(section):not(div.wp-block-acf-*) {
+    max-width: 1330px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+// .entry-content > *:not(.alignwide):not(.alignfull) {
+//   max-width: 1330px;
+//   margin-left: auto;
+//   margin-right: auto;
+//   padding-left: 15px;
+//   padding-right: 15px;
+// }
+
+.entry-content > *:not(section):not(.alignwide):not(.alignfull) {
+  max-width: 1330px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.entry-content {
+  > * {
+    margin-top: 0;
+  }
+
+  > * + * {
+    margin-top: 20px;
+  }
+}
+
+.entry-content {
+
+  // Базовый текст
+  p, .wp-block-paragraph {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #444;
+    font-weight: 400;
+		max-width: 750px;
+  }
+
+  // Заголовки
+  .wp-block-heading {
+    font-weight: 600;
+    line-height: 1.25;
+    color: #111;
+  }
+
+  h2.wp-block-heading {
+    @extend %h2;
+    margin-top: 40px;
+  }
+
+  h3.wp-block-heading {
+    @extend %h3;
+    margin-top: 30px;
+  }
+
+  h4.wp-block-heading {
+    @extend %h4;
+    margin-top: 25px;
+  }
+
+  // Списки
+  .wp-block-list {
+    padding-left: 20px;
+
+    li {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+  }
+
+  // Отступы между блоками
+  > * + * {
+    margin-top: 20px;
+  }
+
+}

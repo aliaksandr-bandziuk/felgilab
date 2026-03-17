@@ -22,15 +22,25 @@ $pretitle = get_field('pretitle') ?: '';
 $title = get_field('title') ?: '';
 $items = get_field('faq_items');
 
-// Глобальный массив для сбора FAQ schema со всех блоков страницы
-global $felgilab_faq_schema_items;
+// Для ACF block supports
+$wrapper_attributes = '';
 
-if (!is_array($felgilab_faq_schema_items)) {
-  $felgilab_faq_schema_items = [];
+if (function_exists('get_block_wrapper_attributes')) {
+  $wrapper_attributes = get_block_wrapper_attributes([
+    'id'    => $block_id,
+    'class' => $classes,
+  ]);
+} else {
+  $wrapper_attributes = sprintf(
+    'id="%s" class="%s"',
+    esc_attr($block_id),
+    esc_attr($classes)
+  );
 }
+
 ?>
 
-<section id="<?php echo esc_attr($block_id); ?>" class="<?php echo esc_attr($classes); ?>">
+<section <?php echo $wrapper_attributes; ?>>
   <div class="faq__container">
 
     <?php if ($pretitle || $title) : ?>
@@ -66,24 +76,14 @@ if (!is_array($felgilab_faq_schema_items)) {
             $question = trim($item['question'] ?? '');
             $answer   = trim($item['answer'] ?? '');
 
-            if (!$question || !$answer) {
+            if ($question === '' || $answer === '') {
               continue;
             }
 
-            // Для schema нужен чистый текст без HTML
-            $answer_text = wp_strip_all_tags($answer, true);
-            $answer_text = preg_replace('/\s+/', ' ', $answer_text);
-            $answer_text = trim($answer_text);
+            if (function_exists('felgilab_add_faq_schema_item')) {
+              felgilab_add_faq_schema_item($question, $answer);
+            }
 
-            // Собираем вопрос/ответ в общий массив для JSON-LD
-            $felgilab_faq_schema_items[] = [
-              '@type' => 'Question',
-              'name'  => $question,
-              'acceptedAnswer' => [
-                '@type' => 'Answer',
-                'text'  => $answer_text,
-              ],
-            ];
           ?>
 
             <details class="faq-spollers__item">
