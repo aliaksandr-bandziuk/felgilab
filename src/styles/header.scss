@@ -392,3 +392,18 @@
     color: var(--brand-subcolor);
   }
 }
+
+.menu__link.is-active,
+.menu__sub-link.is-active {
+  color: var(--brand-subcolor);
+}
+
+.menu__item.is-active > .menu__link,
+.menu__sub-item.is-active > .menu__sub-link {
+  color: var(--brand-subcolor);
+  font-weight: 600;
+}
+
+.menu__item.is-active-parent > .menu__link {
+  color: var(--brand-subcolor);
+}

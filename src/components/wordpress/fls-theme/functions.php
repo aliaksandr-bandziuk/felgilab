@@ -756,3 +756,65 @@ function custom_breadcrumbs()
 	}
 }
 // custom breadcrumbs
+
+// functions for menu item active state
+if (!function_exists('felgilab_normalize_url_path')) {
+	function felgilab_normalize_url_path($url)
+	{
+		if (empty($url)) {
+			return '/';
+		}
+
+		$path = wp_parse_url($url, PHP_URL_PATH);
+
+		if (!$path) {
+			$path = '/';
+		}
+
+		$path = trailingslashit($path);
+
+		return $path;
+	}
+}
+
+if (!function_exists('felgilab_is_menu_item_active')) {
+	function felgilab_is_menu_item_active($menu_item_url)
+	{
+		if (empty($menu_item_url)) {
+			return false;
+		}
+
+		// Для якорей не считаем активность по URL
+		if (strpos($menu_item_url, '#') !== false) {
+			return false;
+		}
+
+		$current_url = home_url(add_query_arg([], $GLOBALS['wp']->request));
+		$current_path = felgilab_normalize_url_path($current_url);
+		$item_path    = felgilab_normalize_url_path($menu_item_url);
+
+		return $current_path === $item_path;
+	}
+}
+
+if (!function_exists('felgilab_menu_item_has_active_child')) {
+	function felgilab_menu_item_has_active_child($item_id, $menu_items_by_parent)
+	{
+		if (empty($menu_items_by_parent[$item_id])) {
+			return false;
+		}
+
+		foreach ($menu_items_by_parent[$item_id] as $child_item) {
+			if (felgilab_is_menu_item_active($child_item->url)) {
+				return true;
+			}
+
+			if (felgilab_menu_item_has_active_child($child_item->ID, $menu_items_by_parent)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+}
+// functions for menu item active state end

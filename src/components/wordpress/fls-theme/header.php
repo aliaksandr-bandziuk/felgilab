@@ -143,41 +143,62 @@
 
 												function display_menu_items($parent_id, $menu_items_by_parent)
 												{
-													if (! isset($menu_items_by_parent[$parent_id])) {
+													if (!isset($menu_items_by_parent[$parent_id])) {
 														return;
 													}
 
 													$is_submenu = $parent_id !== 0;
-													$ul_class    = $is_submenu ? 'menu__sub-list' : 'menu__list';
-													$link_class  = $is_submenu ? 'menu__sub-link' : 'menu__link';
+													$ul_class   = $is_submenu ? 'menu__sub-list' : 'menu__list';
+													$link_class = $is_submenu ? 'menu__sub-link' : 'menu__link';
 
 													echo '<ul class="' . esc_attr($ul_class) . '">';
+
 													foreach ($menu_items_by_parent[$parent_id] as $menu_item) {
-														$is_anchor       = strpos($menu_item->url, '#') !== false;
+														$is_anchor         = strpos($menu_item->url, '#') !== false;
+														$has_submenu       = isset($menu_items_by_parent[$menu_item->ID]);
+														$is_active         = felgilab_is_menu_item_active($menu_item->url);
+														$has_active_child  = $has_submenu ? felgilab_menu_item_has_active_child($menu_item->ID, $menu_items_by_parent) : false;
+
 														$link_class_final = $link_class . ($is_anchor ? ' anchor-link' : '');
-														$has_submenu     = isset($menu_items_by_parent[$menu_item->ID]);
-														$item_class      = $is_submenu ? 'menu__sub-item' : 'menu__item';
-														if ($has_submenu && ! $is_submenu) {
+														if ($is_active) {
+															$link_class_final .= ' is-active';
+														}
+
+														$item_class = $is_submenu ? 'menu__sub-item' : 'menu__item';
+
+														if ($has_submenu && !$is_submenu) {
 															$item_class .= ' menu__has-submenu';
 														}
 
+														if ($is_active) {
+															$item_class .= ' is-active';
+														}
+
+														if ($has_active_child) {
+															$item_class .= ' is-active-parent';
+														}
+
 														echo '<li class="' . esc_attr($item_class) . '">';
-														echo '<a href="' . esc_url($menu_item->url) . '" class="' . esc_attr($link_class_final) . '"' . ($is_anchor ? ' data-scroll' : '') . '>';
+
+														echo '<a href="' . esc_url($menu_item->url) . '" class="' . esc_attr($link_class_final) . '"' . ($is_anchor ? ' data-scroll' : '') . ($is_active ? ' aria-current="page"' : '') . '>';
 														echo esc_html($menu_item->title);
+
 														if ($has_submenu) {
 															echo '<svg class="menu__arrow" width="10" height="5" viewBox="7 10 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">';
 															echo '<path d="M17 10.5L12 14.5" stroke="#151618" stroke-width="1.25" stroke-linecap="round" />';
 															echo '<path d="M12 14.5L7 10.5" stroke="#151618" stroke-width="1.25" stroke-linecap="round" />';
 															echo '</svg>';
 														}
+
 														echo '</a>';
 
-														// Если есть подменю, выводим его
 														if ($has_submenu) {
 															display_menu_items($menu_item->ID, $menu_items_by_parent);
 														}
+
 														echo '</li>';
 													}
+
 													echo '</ul>';
 												}
 
