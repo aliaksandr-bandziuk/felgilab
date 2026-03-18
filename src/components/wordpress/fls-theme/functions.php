@@ -276,6 +276,240 @@ function felgilab_register_acf_blocks()
 }
 // Advanced Custom Fields End
 
+// cpt portfolio
+add_action('init', 'felgilab_register_portfolio_cpt', 0);
+
+function felgilab_register_portfolio_cpt()
+{
+	$labels = array(
+		'name'                  => __('Portfolio', 'fls'),
+		'singular_name'         => __('Portfolio Item', 'fls'),
+		'menu_name'             => __('Portfolio', 'fls'),
+		'name_admin_bar'        => __('Portfolio Item', 'fls'),
+		'archives'              => __('Portfolio Archives', 'fls'),
+		'attributes'            => __('Portfolio Attributes', 'fls'),
+		'all_items'             => __('All Portfolio Items', 'fls'),
+		'add_new_item'          => __('Add New Portfolio Item', 'fls'),
+		'add_new'               => __('Add New', 'fls'),
+		'new_item'              => __('New Portfolio Item', 'fls'),
+		'edit_item'             => __('Edit Portfolio Item', 'fls'),
+		'update_item'           => __('Update Portfolio Item', 'fls'),
+		'view_item'             => __('View Portfolio Item', 'fls'),
+		'view_items'            => __('View Portfolio Items', 'fls'),
+		'search_items'          => __('Search Portfolio Items', 'fls'),
+		'not_found'             => __('Not found', 'fls'),
+		'not_found_in_trash'    => __('Not found in Trash', 'fls'),
+		'featured_image'        => __('Featured Image', 'fls'),
+		'set_featured_image'    => __('Set featured image', 'fls'),
+		'remove_featured_image' => __('Remove featured image', 'fls'),
+		'use_featured_image'    => __('Use as featured image', 'fls'),
+		'items_list'            => __('Portfolio list', 'fls'),
+		'items_list_navigation' => __('Portfolio list navigation', 'fls'),
+		'filter_items_list'     => __('Filter portfolio list', 'fls'),
+	);
+
+	$args = array(
+		'label'               => __('Portfolio', 'fls'),
+		'description'         => __('Custom post type for portfolio items', 'fls'),
+		'labels'              => $labels,
+		'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'revisions'),
+		'taxonomies'          => array('category'),
+		'hierarchical'        => false,
+		'public'              => true,
+		'publicly_queryable'  => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_admin_bar'   => true,
+		'show_in_nav_menus'   => true,
+		'can_export'          => true,
+		'has_archive'         => 'portfolio',
+		'exclude_from_search' => false,
+		'capability_type'     => 'post',
+		'show_in_rest'        => true,
+		'menu_icon'           => 'dashicons-portfolio',
+		'menu_position'       => 22,
+		'rewrite'             => array(
+			'slug'       => 'portfolio',
+			'with_front' => false,
+		),
+	);
+
+	register_post_type('portfolio', $args);
+}
+// cpt portfolio end
+
+// add portfolio to polylang
+function felgilab_add_portfolio_to_polylang($types)
+{
+	$types[] = 'portfolio';
+	return $types;
+}
+add_filter('pll_get_post_types', 'felgilab_add_portfolio_to_polylang');
+// add portfolio to polylang end
+
+// portfolio metabox
+add_action('add_meta_boxes', 'felgilab_add_portfolio_metabox');
+
+function felgilab_add_portfolio_metabox()
+{
+	add_meta_box(
+		'felgilab_portfolio_data_metabox',
+		'Portfolio Data',
+		'felgilab_render_portfolio_data_metabox',
+		'portfolio',
+		'side',
+		'default'
+	);
+}
+
+function felgilab_render_portfolio_data_metabox($post)
+{
+	wp_nonce_field('felgilab_save_portfolio_data', 'felgilab_portfolio_nonce');
+
+	$car_name      = get_post_meta($post->ID, '_portfolio_car_name', true);
+	$rim_diameter  = get_post_meta($post->ID, '_portfolio_rim_diameter', true);
+	$rim_color     = get_post_meta($post->ID, '_portfolio_rim_color', true);
+	$service_name  = get_post_meta($post->ID, '_portfolio_service_name', true);
+?>
+	<p>
+		<label for="portfolio_car_name"><strong>Samochód:</strong></label><br>
+		<input type="text" name="portfolio_car_name" id="portfolio_car_name" value="<?php echo esc_attr($car_name); ?>" style="width:100%;" placeholder="np. Bentley Continental GT">
+	</p>
+
+	<p>
+		<label for="portfolio_rim_diameter"><strong>Średnica felgi:</strong></label><br>
+		<input type="text" name="portfolio_rim_diameter" id="portfolio_rim_diameter" value="<?php echo esc_attr($rim_diameter); ?>" style="width:100%;" placeholder='np. 22"'>
+	</p>
+
+	<p>
+		<label for="portfolio_rim_color"><strong>Kolor:</strong></label><br>
+		<input type="text" name="portfolio_rim_color" id="portfolio_rim_color" value="<?php echo esc_attr($rim_color); ?>" style="width:100%;" placeholder="np. Srebrny">
+	</p>
+
+	<p>
+		<label for="portfolio_service_name"><strong>Usługa:</strong></label><br>
+		<input type="text" name="portfolio_service_name" id="portfolio_service_name" value="<?php echo esc_attr($service_name); ?>" style="width:100%;" placeholder="np. Renowacja">
+	</p>
+	<?php
+}
+
+add_action('save_post_portfolio', 'felgilab_save_portfolio_metabox');
+
+function felgilab_save_portfolio_metabox($post_id)
+{
+	if (!isset($_POST['felgilab_portfolio_nonce'])) {
+		return;
+	}
+
+	if (!wp_verify_nonce($_POST['felgilab_portfolio_nonce'], 'felgilab_save_portfolio_data')) {
+		return;
+	}
+
+	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+		return;
+	}
+
+	if (!current_user_can('edit_post', $post_id)) {
+		return;
+	}
+
+	if (isset($_POST['portfolio_car_name'])) {
+		update_post_meta($post_id, '_portfolio_car_name', sanitize_text_field($_POST['portfolio_car_name']));
+	}
+
+	if (isset($_POST['portfolio_rim_diameter'])) {
+		update_post_meta($post_id, '_portfolio_rim_diameter', sanitize_text_field($_POST['portfolio_rim_diameter']));
+	}
+
+	if (isset($_POST['portfolio_rim_color'])) {
+		update_post_meta($post_id, '_portfolio_rim_color', sanitize_text_field($_POST['portfolio_rim_color']));
+	}
+
+	if (isset($_POST['portfolio_service_name'])) {
+		update_post_meta($post_id, '_portfolio_service_name', sanitize_text_field($_POST['portfolio_service_name']));
+	}
+}
+// portfolio metabox end
+
+// ajax portfolio filter/load more
+function felgilab_filter_portfolio_callback()
+{
+	$portfolio_cat = isset($_POST['portfolio_cat']) ? sanitize_text_field($_POST['portfolio_cat']) : 'all';
+	$paged         = isset($_POST['paged']) ? absint($_POST['paged']) : 1;
+	$lang          = isset($_POST['lang']) ? sanitize_text_field($_POST['lang']) : '';
+
+	$args = array(
+		'post_type'         => 'portfolio',
+		'posts_per_page'    => 8,
+		'paged'             => $paged,
+		'post_status'       => 'publish',
+		'suppress_filters'  => false,
+	);
+
+	if (!empty($lang)) {
+		$args['lang'] = $lang;
+	}
+
+	if ('all' !== $portfolio_cat) {
+		$args['tax_query'] = array(
+			array(
+				'taxonomy' => 'category',
+				'field'    => 'slug',
+				'terms'    => $portfolio_cat,
+			),
+		);
+	}
+
+	$query = new WP_Query($args);
+
+	if ($query->have_posts()) {
+		ob_start();
+
+		while ($query->have_posts()) {
+			$query->the_post();
+
+			$deadline = get_post_meta(get_the_ID(), '_portfolio_deadline', true);
+	?>
+			<a href="<?php the_permalink(); ?>" class="portfolio-card">
+				<div class="portfolio-card__wrapper">
+					<div class="portfolio-card__image">
+						<?php
+						if (has_post_thumbnail()) {
+							the_post_thumbnail('large');
+						}
+						?>
+					</div>
+
+					<div class="portfolio-card__content">
+						<h3 class="portfolio-card__title"><?php the_title(); ?></h3>
+
+						<?php if ($deadline) : ?>
+							<div class="portfolio-card__deadline">
+								<?php echo esc_html($deadline); ?>
+							</div>
+						<?php endif; ?>
+
+						<div class="portfolio-card__excerpt">
+							<?php echo esc_html(wp_trim_words(get_the_excerpt(), 20, '...')); ?>
+						</div>
+					</div>
+				</div>
+			</a>
+<?php
+		}
+
+		wp_reset_postdata();
+		echo ob_get_clean();
+	} else {
+		echo '<p>No portfolio items found.</p>';
+	}
+
+	wp_die();
+}
+add_action('wp_ajax_filter_portfolio', 'felgilab_filter_portfolio_callback');
+add_action('wp_ajax_nopriv_filter_portfolio', 'felgilab_filter_portfolio_callback');
+// ajax portfolio filter/load more end
+
 // meta box for gallery_item cpt
 add_action('add_meta_boxes', function () {
 
