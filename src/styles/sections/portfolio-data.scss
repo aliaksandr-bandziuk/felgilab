@@ -1,0 +1,47 @@
+.portfolio-data {
+  margin-bottom: clamp(5rem, 3.75rem + 5vw, 7.5rem);
+
+		// .portfolio-data__wrapper
+    &__wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      @media (min-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (min-width: 980px) {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+}
+
+.portfolio-bullet {
+  display: grid;
+  grid-template-columns: subgrid;
+  gap: 10px;
+  text-align: center;
+
+		// .portfolio-bullet__top
+		&__top {
+      color: #12151A;
+      font-size: clamp(1rem, 0.938rem + 0.25vw, 1.125rem);
+      font-style: normal;
+      font-weight: 400;
+      line-height: 120%;
+		}
+
+		// .portfolio-bullet__bottom
+		&__bottom {
+      
+      p {
+        color: var(--brand-color);
+        font-size: clamp(1rem, .938rem + .25vw, 1.125rem);
+        font-style: normal;
+        font-weight: 500;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
+		}
+}

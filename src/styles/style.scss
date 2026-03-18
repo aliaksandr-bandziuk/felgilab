@@ -17,6 +17,7 @@
 @use "./sections/faq.scss";
 @use "./sections/brands-marquee.scss";
 @use "./sections/comparison.scss";
+@use "./sections/portfolio-data.scss";
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Підключення загальних віддалених шрифтів (Google Fonts)
@@ -442,5 +443,14 @@ body {
   50% {
     transform: scale(1.06);
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.26);
+  }
+}
+
+.wide-excerpt {
+  p {
+    color: #444;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    font-weight: 400;
   }
 }

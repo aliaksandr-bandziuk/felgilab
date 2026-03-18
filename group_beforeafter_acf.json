@@ -1,0 +1,74 @@
+{
+  "key": "group_before_after_block",
+  "title": "Block: Before / After",
+  "fields": [
+    {
+      "key": "field_ba_pretitle",
+      "label": "Pretitle",
+      "name": "pretitle",
+      "type": "text",
+      "instructions": "",
+      "required": 0
+    },
+    {
+      "key": "field_ba_title",
+      "label": "Title",
+      "name": "title",
+      "type": "text",
+      "required": 0
+    },
+    {
+      "key": "field_ba_before_image",
+      "label": "Before Image",
+      "name": "before_image",
+      "type": "image",
+      "required": 1,
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all"
+    },
+    {
+      "key": "field_ba_after_image",
+      "label": "After Image",
+      "name": "after_image",
+      "type": "image",
+      "required": 1,
+      "return_format": "array",
+      "preview_size": "medium",
+      "library": "all"
+    },
+    {
+      "key": "field_ba_before_label",
+      "label": "Before Label",
+      "name": "before_label",
+      "type": "text",
+      "required": 0,
+      "default_value": "Przed"
+    },
+    {
+      "key": "field_ba_after_label",
+      "label": "After Label",
+      "name": "after_label",
+      "type": "text",
+      "required": 0,
+      "default_value": "Po"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/before-after"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "seamless",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}
