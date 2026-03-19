@@ -1,0 +1,73 @@
+{
+  "key": "group_slider_full_block",
+  "title": "Slider Full Block",
+  "fields": [
+    {
+      "key": "field_slider_full_pretitle",
+      "label": "Pretitle",
+      "name": "pretitle",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": ""
+    },
+    {
+      "key": "field_slider_full_title",
+      "label": "Title",
+      "name": "title",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": ""
+    },
+    {
+      "key": "field_slider_full_images",
+      "label": "Images",
+      "name": "gallery_images",
+      "type": "gallery",
+      "instructions": "Upload images for slider",
+      "required": 1,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "min": 1,
+      "max": 0,
+      "insert": "append",
+      "library": "all",
+      "preview_size": "medium",
+      "return_format": "array"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/slider-full-block"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "",
+  "show_in_rest": 0
+}

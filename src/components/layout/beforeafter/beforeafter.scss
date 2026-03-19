@@ -4,6 +4,7 @@
 	aspect-ratio: 1 / 1;
 	max-width: 800px;
 	margin: 0 auto;
+	container-type: inline-size;
 }
 
 [data-fls-beforeafter-before],
@@ -38,9 +39,9 @@
 		position: absolute;
 		top: 0;
 		right: 0;
-		width: 100%;
+		width: 100cqw;
 		height: 100%;
-		min-width: 100vw; // не нужно
+		max-width: none;
 		object-fit: cover;
 		user-select: none;
 		pointer-events: none;

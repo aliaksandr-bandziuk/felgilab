@@ -1,4 +1,3 @@
-
 /*
 Документація по роботі у шаблоні: 
 Документація слайдера: https://swiperjs.com/
@@ -9,7 +8,7 @@
 // При необхідності підключаємо додаткові модулі слайдера, вказуючи їх у {} через кому
 // Приклад: { Navigation, Autoplay }
 import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation, Pagination, Thumbs } from 'swiper/modules';
 /*
 Основні модулі слайдера:
 Navigation, Pagination, Autoplay, 
@@ -103,6 +102,123 @@ function initReviewMedia(sliderBlock, swiperInstance) {
 	});
 }
 
+function initSliderFullBlock() {
+	const blocks = document.querySelectorAll('[data-slider-full-block]');
+
+	if (!blocks.length) return;
+
+	const syncSliderFullBlockHeight = (block) => {
+		const mainEl = block.querySelector('.slider-full-block__main');
+		const thumbsWrap = block.querySelector('.slider-full-block__thumbs-wrap');
+		const prevBtn = block.querySelector('.slider-full-block__nav--prev');
+		const nextBtn = block.querySelector('.slider-full-block__nav--next');
+
+		if (!mainEl || !thumbsWrap) return;
+
+		if (window.innerWidth < 768) {
+			block.style.removeProperty('--slider-full-thumbs-height');
+			return;
+		}
+
+		const mainHeight = mainEl.offsetHeight;
+		const prevHeight = prevBtn ? prevBtn.offsetHeight : 0;
+		const nextHeight = nextBtn ? nextBtn.offsetHeight : 0;
+
+		const thumbsHeight = mainHeight - prevHeight - nextHeight;
+
+		if (thumbsHeight > 0) {
+			block.style.setProperty('--slider-full-thumbs-height', `${thumbsHeight}px`);
+		}
+	};
+
+	blocks.forEach((block) => {
+		const mainEl = block.querySelector('.slider-full-block__main');
+		const thumbsEl = block.querySelector('.slider-full-block__thumbs');
+		const prevBtn = block.querySelector('.slider-full-block__nav--prev');
+		const nextBtn = block.querySelector('.slider-full-block__nav--next');
+
+		if (!mainEl || !thumbsEl) return;
+		if (mainEl.classList.contains('swiper-initialized')) return;
+
+		const thumbsSwiper = new Swiper(thumbsEl, {
+			modules: [Thumbs, Navigation],
+			observer: true,
+			observeParents: true,
+			watchOverflow: true,
+			freeMode: true,
+			watchSlidesProgress: true,
+			spaceBetween: 10,
+			slidesPerView: 3.3,
+			direction: 'horizontal',
+			navigation: {
+				prevEl: prevBtn,
+				nextEl: nextBtn,
+			},
+			breakpoints: {
+				768: {
+					direction: 'vertical',
+					slidesPerView: 3.4,
+					spaceBetween: 10,
+				},
+				900: {
+					direction: 'vertical',
+					slidesPerView: 4.4,
+					spaceBetween: 10,
+				},
+				980: {
+					direction: 'vertical',
+					slidesPerView: 5.4,
+					spaceBetween: 20,
+				},
+				1200: {
+					direction: 'vertical',
+					slidesPerView: 6.4,
+					spaceBetween: 20,
+				},
+			},
+		});
+
+		const mainSwiper = new Swiper(mainEl, {
+			modules: [Thumbs, Navigation],
+			observer: true,
+			observeParents: true,
+			watchOverflow: true,
+			slidesPerView: 1,
+			spaceBetween: 20,
+			direction: 'horizontal',
+			grabCursor: true,
+			navigation: {
+				prevEl: prevBtn,
+				nextEl: nextBtn,
+			},
+			thumbs: {
+				swiper: thumbsSwiper,
+			},
+			breakpoints: {
+				768: {
+					direction: 'vertical',
+				},
+			},
+			on: {
+				init: () => {
+					syncSliderFullBlockHeight(block);
+				},
+				resize: () => {
+					syncSliderFullBlockHeight(block);
+				},
+			},
+		});
+
+		syncSliderFullBlockHeight(block);
+
+		window.addEventListener('resize', () => {
+			syncSliderFullBlockHeight(block);
+			mainSwiper.update();
+			thumbsSwiper.update();
+		});
+	});
+}
+
 function initSliders() {
 	const sliders = document.querySelectorAll('[data-fls-slider]');
 
@@ -162,8 +278,8 @@ function initSliders() {
 						spaceBetween: 24,
 					},
 					// 1268: {
-					// 	slidesPerView: 3.5,
-					// 	spaceBetween: 24,
+					//  slidesPerView: 3.5,
+					//  spaceBetween: 24,
 					// },
 				},
 			};
@@ -192,4 +308,7 @@ function initSliders() {
 	});
 }
 
-window.addEventListener('load', initSliders);
+window.addEventListener('load', () => {
+	initSliders();
+	initSliderFullBlock();
+});
