@@ -72,24 +72,7 @@ if (function_exists('get_block_wrapper_attributes')) {
 
     <div class="slider-full-block__wrap">
 
-      <div class="slider-full-block__images">
-        <div class="swiper slider-full-block__main">
-          <div class="swiper-wrapper">
-            <?php foreach ($images as $image) : ?>
-              <div class="swiper-slide">
-                <div class="slider-full-block__image">
-                  <img
-                    src="<?php echo esc_url($image['sizes']['large'] ?? $image['url']); ?>"
-                    alt="<?php echo esc_attr($image['alt'] ?: $image['title']); ?>" />
-                </div>
-              </div>
-            <?php endforeach; ?>
-          </div>
-        </div>
-      </div>
-
       <div class="slider-full-block__col">
-
         <div class="slider-full-block__thumbs-wrap">
           <div class="swiper slider-full-block__thumbs">
             <div class="swiper-wrapper">
@@ -106,6 +89,24 @@ if (function_exists('get_block_wrapper_attributes')) {
           </div>
         </div>
       </div>
+
+      <div class="slider-full-block__images">
+        <div class="swiper slider-full-block__main">
+          <div class="swiper-wrapper">
+            <?php foreach ($images as $image) : ?>
+              <div class="swiper-slide">
+                <div class="slider-full-block__image">
+                  <img
+                    src="<?php echo esc_url($image['sizes']['large'] ?? $image['url']); ?>"
+                    alt="<?php echo esc_attr($image['alt'] ?: $image['title']); ?>" />
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+      </div>
+
+
 
     </div>
   </div>

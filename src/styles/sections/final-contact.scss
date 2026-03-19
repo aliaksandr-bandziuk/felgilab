@@ -224,3 +224,40 @@ textarea.input-contact {
   color: #fff;
   opacity: 0.9;
 }
+
+.short-form__wrapper {
+  background: var(--brand-color);
+  padding: 30px 22px;
+  border-radius: 4px;
+  max-width: 700px;
+  margin: 0 auto;
+  
+  p {
+    color: #fff;
+  }
+
+  input {
+    background: #fff;
+    padding: 0.6rem 1.2rem;
+    color: #000;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border-radius: 50px;
+    transition: 0.3s;
+  }
+
+  label {
+    color: #000;
+  }
+
+  .small-form button {
+    margin-top: 20px;
+  }
+
+  .button-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+}
