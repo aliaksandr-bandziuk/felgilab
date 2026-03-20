@@ -52,7 +52,7 @@ $i18n = [
 $phone_label = $i18n['phone'][$lang];
 ?>
 
-<section <?php echo $wrapper_attributes; ?>>
+<section <?php echo $wrapper_attributes; ?> aria-label="<?php echo esc_attr($title); ?>" class="short-form">
   <div class="short-form__container">
     <div class="short-form__wrapper">
       <p class="title-lite text-center mb20">

@@ -536,9 +536,9 @@ body {
 
 .wide-excerpt {
   p {
-    color: #444;
-    font-size: 1.2rem;
+    color: var(--brand-color);
+    font-size: 1.8rem;
     line-height: 1.2;
-    font-weight: 400;
+    font-weight: 500;
   }
 }

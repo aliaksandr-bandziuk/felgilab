@@ -61,6 +61,7 @@ $current_lang = pll_current_language();
           $similar_title      = 'Similar topics';
           $read_more_text     = 'Read more';
           $no_image_alt       = 'Preview image';
+          $effekt_label       = 'Effect';
           break;
 
         case 'ru':
@@ -71,6 +72,7 @@ $current_lang = pll_current_language();
           $similar_title      = 'Похожие материалы';
           $read_more_text     = 'Читать далее';
           $no_image_alt       = 'Изображение превью';
+          $effekt_label       = 'Эффект';
           break;
 
         case 'uk':
@@ -81,6 +83,7 @@ $current_lang = pll_current_language();
           $similar_title      = 'Схожі матеріали';
           $read_more_text     = 'Читати далі';
           $no_image_alt       = 'Зображення прев’ю';
+          $effekt_label       = 'Ефект';
           break;
 
         case 'pl':
@@ -92,6 +95,7 @@ $current_lang = pll_current_language();
           $similar_title      = 'Podobne tematy';
           $read_more_text     = 'Czytaj więcej';
           $no_image_alt       = 'Miniatura';
+          $effekt_label       = 'Efekt';
           break;
       }
 
@@ -103,13 +107,9 @@ $current_lang = pll_current_language();
 
       if ($car_name || $rim_diameter || $rim_color || $service_name) :
       ?>
-        <?php if (has_excerpt()) : ?>
-          <div class="wide-excerpt mb60">
-            <p><?php echo get_the_excerpt(); ?></p>
-          </div>
-        <?php endif; ?>
 
-        <div class="portfolio-data__wrapper">
+
+        <div class="portfolio-data__wrapper mb60">
           <?php if ($car_name) : ?>
             <div class="portfolio-bullet">
               <div class="portfolio-bullet__top">
@@ -153,6 +153,12 @@ $current_lang = pll_current_language();
               </div>
             </div>
           <?php endif; ?>
+        </div>
+      <?php endif; ?>
+
+      <?php if (has_excerpt()) : ?>
+        <div class="wide-excerpt mb60">
+          <p><b><?php echo esc_html($effekt_label); ?>:</b> <?php echo get_the_excerpt(); ?></p>
         </div>
       <?php endif; ?>
 
