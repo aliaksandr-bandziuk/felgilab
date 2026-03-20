@@ -299,6 +299,7 @@ body {
   }
 }
 
+// wordpress content styles
 .entry-content {
   > *:not(.acf-block-preview):not(section):not(div.wp-block-acf-*) {
     max-width: 1330px;
@@ -308,14 +309,6 @@ body {
     padding-right: 15px;
   }
 }
-
-// .entry-content > *:not(.alignwide):not(.alignfull) {
-//   max-width: 1330px;
-//   margin-left: auto;
-//   margin-right: auto;
-//   padding-left: 15px;
-//   padding-right: 15px;
-// }
 
 .entry-content > *:not(section):not(.alignwide):not(.alignfull) {
   max-width: 1330px;
@@ -400,6 +393,90 @@ body {
     margin-top: 20px;
   }
 }
+
+.entry-content {
+  > .wp-block-image,
+  > .wp-block-video,
+  > .wp-block-embed,
+  > .wp-block-cover {
+    box-sizing: border-box;
+  }
+
+  > .wp-block-image img,
+  > .wp-block-video video,
+  > .wp-block-cover img,
+  > .wp-block-cover video {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  > .wp-block-image:not(.alignwide):not(.alignfull),
+  > .wp-block-video:not(.alignwide):not(.alignfull),
+  > .wp-block-embed:not(.alignwide):not(.alignfull),
+  > .wp-block-cover:not(.alignwide):not(.alignfull) {
+    width: 100%;
+    max-width: 1330px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box;
+  }
+
+  > .wp-block-image:not(.alignwide):not(.alignfull) figure,
+  > .wp-block-video:not(.alignwide):not(.alignfull) figure,
+  > .wp-block-embed:not(.alignwide):not(.alignfull) figure {
+    margin: 0;
+  }
+
+  > .wp-block-image:not(.alignwide):not(.alignfull) img,
+  > .wp-block-video:not(.alignwide):not(.alignfull) video,
+  > .wp-block-cover:not(.alignwide):not(.alignfull) img,
+  > .wp-block-cover:not(.alignwide):not(.alignfull) video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  > .alignwide {
+    width: 100%;
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box;
+  }
+
+  > .alignfull {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
+  }
+
+  // embed / youtube
+  > .wp-block-embed .wp-block-embed__wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  > .wp-block-embed .wp-block-embed__wrapper iframe {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+// wordpress content styles end
 
 .whatsapp-button {
   position: fixed;

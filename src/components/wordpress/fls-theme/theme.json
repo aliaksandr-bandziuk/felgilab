@@ -36,6 +36,7 @@
           "size": "clamp(7rem, 5rem + 6vw, 10rem)"
         }
       ]
-    }
+    },
+    "useRootPaddingAwareAlignments": true
   }
 }
