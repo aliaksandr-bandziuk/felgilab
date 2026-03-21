@@ -1,3 +1,7 @@
+* {
+  font-family: 'Inter', sans-serif;
+}
+
 .main-hero {
   position: relative;
   overflow: hidden;

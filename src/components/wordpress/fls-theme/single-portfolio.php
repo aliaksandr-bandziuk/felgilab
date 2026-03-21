@@ -166,10 +166,157 @@ $current_lang = pll_current_language();
   </section>
 
   <?php while (have_posts()) : the_post(); ?>
-    <div class="entry-content mb60">
+    <div class="entry-content">
       <?php the_content(); ?>
     </div>
   <?php endwhile; ?>
+
+  <!-- Похожие работы -->
+  <section class="blog-section mb50">
+    <div class="blog-section__container">
+      <div class="block-intro">
+        <div class="block-intro__wrapper">
+          <div class="block-intro__title">
+            <h2 class="h2 mb50">
+              <?php
+              switch ($current_lang) {
+                case 'ru':
+                  echo 'Похожие работы';
+                  break;
+                case 'en':
+                  echo 'Similar works';
+                  break;
+                case 'uk':
+                  echo 'Схожі роботи';
+                  break;
+                default:
+                  echo 'Podobne realizacje';
+                  break;
+              }
+              ?>
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-1-2">
+        <?php
+        $current_post_id = get_the_ID();
+        $current_date    = get_the_date('Y-m-d H:i:s');
+
+        // 1. Сначала берём 2 предыдущих проекта
+        $args = array(
+          'post_type'      => 'portfolio',
+          'posts_per_page' => 2,
+          'orderby'        => 'date',
+          'order'          => 'DESC',
+          'post__not_in'   => array($current_post_id),
+          'lang'           => $current_lang,
+          'date_query'     => array(
+            array(
+              'before'    => $current_date,
+              'inclusive' => false,
+            ),
+          ),
+        );
+
+        $similar_posts = new WP_Query($args);
+
+        // 2. Если нашли меньше 2 — добираем недостающие
+        $similar_ids = array();
+
+        if ($similar_posts->have_posts()) {
+          foreach ($similar_posts->posts as $post_item) {
+            $similar_ids[] = $post_item->ID;
+          }
+        }
+
+        $found_posts = count($similar_ids);
+        $needed_posts = 2 - $found_posts;
+
+        if ($needed_posts > 0) {
+          $fallback_args = array(
+            'post_type'      => 'portfolio',
+            'posts_per_page' => $needed_posts,
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+            'post__not_in'   => array_merge(array($current_post_id), $similar_ids),
+            'lang'           => $current_lang,
+          );
+
+          $fallback_posts = new WP_Query($fallback_args);
+
+          if ($fallback_posts->have_posts()) {
+            $similar_posts->posts = array_merge($similar_posts->posts, $fallback_posts->posts);
+            $similar_posts->post_count = count($similar_posts->posts);
+          }
+
+          wp_reset_postdata();
+        }
+
+        // 3. Выводим итоговые 2 карточки
+        if (!empty($similar_posts->posts)) :
+          foreach ($similar_posts->posts as $post) :
+            setup_postdata($post);
+        ?>
+
+            <a href="<?php the_permalink(); ?>" class="portfolio-card">
+              <div class="portfolio-card__wrapper">
+                <div class="portfolio-inner">
+                  <div class="portfolio-inner__item">
+                    <p class="portfolio-card__title"><?php the_title(); ?></p>
+
+                    <?php
+                    $car_name     = get_post_meta(get_the_ID(), '_portfolio_car_name', true);
+                    $rim_diameter = get_post_meta(get_the_ID(), '_portfolio_rim_diameter', true);
+                    $rim_color    = get_post_meta(get_the_ID(), '_portfolio_rim_color', true);
+                    $service_name = get_post_meta(get_the_ID(), '_portfolio_service_name', true);
+                    ?>
+
+                    <div class="portfolio-card__metas">
+                      <?php if ($car_name) : ?>
+                        <div class="portfolio-card__meta"><?php echo esc_html($car_name); ?></div>
+                      <?php endif; ?>
+
+                      <?php if ($service_name) : ?>
+                        <div class="portfolio-card__meta"><?php echo esc_html($service_name); ?></div>
+                      <?php endif; ?>
+
+                      <?php if ($rim_diameter || $rim_color) : ?>
+                        <div class="portfolio-card__meta">
+                          <?php echo esc_html(trim($rim_diameter . '", ' . $rim_color)); ?>
+                        </div>
+                      <?php endif; ?>
+                    </div>
+                  </div>
+
+                  <div class="portfolio-inner__item">
+                    <p class="portfolio-card__excerpt">
+                      <?php echo esc_html(wp_trim_words(get_the_excerpt(), 20, '...')); ?>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="portfolio-card__image">
+                  <?php
+                  if (has_post_thumbnail()) {
+                    the_post_thumbnail('full');
+                  } else {
+                    echo '<img src="' . esc_url(get_template_directory_uri() . '/img/no-image.webp') . '" alt="No image">';
+                  }
+                  ?>
+                </div>
+              </div>
+            </a>
+
+        <?php
+          endforeach;
+          wp_reset_postdata();
+        endif;
+        ?>
+      </div>
+    </div>
+  </section>
 
 </main>
 

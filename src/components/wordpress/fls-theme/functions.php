@@ -316,7 +316,6 @@ function felgilab_register_portfolio_cpt()
 		'description'         => __('Custom post type for portfolio items', 'fls'),
 		'labels'              => $labels,
 		'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'revisions'),
-		'taxonomies'          => array('category'),
 		'hierarchical'        => false,
 		'public'              => true,
 		'publicly_queryable'  => true,
@@ -325,7 +324,7 @@ function felgilab_register_portfolio_cpt()
 		'show_in_admin_bar'   => true,
 		'show_in_nav_menus'   => true,
 		'can_export'          => true,
-		'has_archive'         => 'portfolio',
+		'has_archive'         => false,
 		'exclude_from_search' => false,
 		'capability_type'     => 'post',
 		'show_in_rest'        => true,
@@ -437,28 +436,28 @@ function felgilab_save_portfolio_metabox($post_id)
 // ajax portfolio filter/load more
 function felgilab_filter_portfolio_callback()
 {
-	$portfolio_cat = isset($_POST['portfolio_cat']) ? sanitize_text_field($_POST['portfolio_cat']) : 'all';
-	$paged         = isset($_POST['paged']) ? absint($_POST['paged']) : 1;
-	$lang          = isset($_POST['lang']) ? sanitize_text_field($_POST['lang']) : '';
+	$portfolio_brand = isset($_POST['portfolio_brand']) ? sanitize_text_field($_POST['portfolio_brand']) : 'all';
+	$paged           = isset($_POST['paged']) ? absint($_POST['paged']) : 1;
+	$lang            = isset($_POST['lang']) ? sanitize_text_field($_POST['lang']) : '';
 
 	$args = array(
-		'post_type'         => 'portfolio',
-		'posts_per_page'    => 8,
-		'paged'             => $paged,
-		'post_status'       => 'publish',
-		'suppress_filters'  => false,
+		'post_type'        => 'portfolio',
+		'posts_per_page'   => 8,
+		'paged'            => $paged,
+		'post_status'      => 'publish',
+		'suppress_filters' => false,
 	);
 
 	if (!empty($lang)) {
 		$args['lang'] = $lang;
 	}
 
-	if ('all' !== $portfolio_cat) {
+	if ('all' !== $portfolio_brand) {
 		$args['tax_query'] = array(
 			array(
-				'taxonomy' => 'category',
+				'taxonomy' => 'car_brand',
 				'field'    => 'slug',
-				'terms'    => $portfolio_cat,
+				'terms'    => $portfolio_brand,
 			),
 		);
 	}
@@ -471,30 +470,47 @@ function felgilab_filter_portfolio_callback()
 		while ($query->have_posts()) {
 			$query->the_post();
 
-			$deadline = get_post_meta(get_the_ID(), '_portfolio_deadline', true);
+			$car_name     = get_post_meta(get_the_ID(), '_portfolio_car_name', true);
+			$rim_diameter = get_post_meta(get_the_ID(), '_portfolio_rim_diameter', true);
+			$rim_color    = get_post_meta(get_the_ID(), '_portfolio_rim_color', true);
+			$service_name = get_post_meta(get_the_ID(), '_portfolio_service_name', true);
 	?>
 			<a href="<?php the_permalink(); ?>" class="portfolio-card">
 				<div class="portfolio-card__wrapper">
+					<div class="portfolio-inner">
+						<div class="portfolio-inner__item">
+							<p class="portfolio-card__title"><?php the_title(); ?></p>
+
+							<?php if ($car_name) : ?>
+								<div class="portfolio-card__meta"><?php echo esc_html($car_name); ?></div>
+							<?php endif; ?>
+
+							<?php if ($service_name) : ?>
+								<div class="portfolio-card__meta"><?php echo esc_html($service_name); ?></div>
+							<?php endif; ?>
+
+							<?php if ($rim_diameter || $rim_color) : ?>
+								<div class="portfolio-card__meta">
+									<?php echo esc_html(trim($rim_diameter . ' ' . $rim_color)); ?>
+								</div>
+							<?php endif; ?>
+						</div>
+
+						<div class="portfolio-inner__item">
+							<p class="portfolio-card__excerpt">
+								<?php echo esc_html(wp_trim_words(get_the_excerpt(), 20, '...')); ?>
+							</p>
+						</div>
+					</div>
+
 					<div class="portfolio-card__image">
 						<?php
 						if (has_post_thumbnail()) {
-							the_post_thumbnail('large');
+							the_post_thumbnail('full');
+						} else {
+							echo '<img src="' . esc_url(get_template_directory_uri() . '/wp-content/uploads/2026/03/no-image.webp') . '" alt="No image">';
 						}
 						?>
-					</div>
-
-					<div class="portfolio-card__content">
-						<h3 class="portfolio-card__title"><?php the_title(); ?></h3>
-
-						<?php if ($deadline) : ?>
-							<div class="portfolio-card__deadline">
-								<?php echo esc_html($deadline); ?>
-							</div>
-						<?php endif; ?>
-
-						<div class="portfolio-card__excerpt">
-							<?php echo esc_html(wp_trim_words(get_the_excerpt(), 20, '...')); ?>
-						</div>
 					</div>
 				</div>
 			</a>
@@ -504,7 +520,7 @@ function felgilab_filter_portfolio_callback()
 		wp_reset_postdata();
 		echo ob_get_clean();
 	} else {
-		echo '<p>No portfolio items found.</p>';
+		echo '';
 	}
 
 	wp_die();
@@ -598,7 +614,7 @@ add_action('init', function () {
 
 // car_brand taxonomy
 add_action('init', function () {
-	register_taxonomy('car_brand', ['gallery_item'], [
+	register_taxonomy('car_brand', ['gallery_item', 'portfolio'], [
 		'labels' => [
 			'name'          => 'Car Brands',
 			'singular_name' => 'Car Brand',
@@ -616,7 +632,6 @@ add_action('init', function () {
 function felgilab_car_brand_radio_metabox($post, $box)
 {
 	$taxonomy = $box['args']['taxonomy'];
-	$tax      = get_taxonomy($taxonomy);
 	$terms    = get_terms([
 		'taxonomy'   => $taxonomy,
 		'hide_empty' => false,
@@ -657,7 +672,8 @@ function felgilab_car_brand_radio_metabox($post, $box)
 // custom meta box for car_brand taxonomy end
 
 // save single term for car_brand taxonomy
-add_action('save_post_gallery_item', function ($post_id) {
+function felgilab_save_single_car_brand_term($post_id)
+{
 	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 		return;
 	}
@@ -666,7 +682,7 @@ add_action('save_post_gallery_item', function ($post_id) {
 		return;
 	}
 
-	$taxonomy = 'car_brand';
+	$taxonomy  = 'car_brand';
 	$nonce_key = 'felgilab_single_term_nonce_' . $taxonomy;
 
 	if (!isset($_POST[$nonce_key])) {
@@ -685,7 +701,10 @@ add_action('save_post_gallery_item', function ($post_id) {
 	} else {
 		wp_set_object_terms($post_id, [], $taxonomy, false);
 	}
-});
+}
+
+add_action('save_post_gallery_item', 'felgilab_save_single_car_brand_term');
+add_action('save_post_portfolio', 'felgilab_save_single_car_brand_term');
 // save single term for car_brand taxonomy end
 
 // output FAQ schema in JSON-LD format in the footer
