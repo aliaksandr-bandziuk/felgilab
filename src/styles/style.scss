@@ -378,6 +378,22 @@ body {
 			margin-left: 25px;
 			position: relative;
 
+			// &::before {
+			// 	content: "✓";
+			// 	position: absolute;
+			// 	left: -18px;
+			// 	top: 2px;
+			// 	color: var(--brand-subcolor);
+			// 	font-size: 16px;
+			// }
+    }
+  }
+
+  // > .wp-block-list,
+  > ul {
+
+    li {
+
 			&::before {
 				content: "✓";
 				position: absolute;

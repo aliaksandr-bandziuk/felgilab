@@ -481,19 +481,21 @@ function felgilab_filter_portfolio_callback()
 						<div class="portfolio-inner__item">
 							<p class="portfolio-card__title"><?php the_title(); ?></p>
 
-							<?php if ($car_name) : ?>
-								<div class="portfolio-card__meta"><?php echo esc_html($car_name); ?></div>
-							<?php endif; ?>
+							<div class="portfolio-card__metas">
+								<?php if ($car_name) : ?>
+									<div class="portfolio-card__meta"><?php echo esc_html($car_name); ?></div>
+								<?php endif; ?>
 
-							<?php if ($service_name) : ?>
-								<div class="portfolio-card__meta"><?php echo esc_html($service_name); ?></div>
-							<?php endif; ?>
+								<?php if ($service_name) : ?>
+									<div class="portfolio-card__meta"><?php echo esc_html($service_name); ?></div>
+								<?php endif; ?>
 
-							<?php if ($rim_diameter || $rim_color) : ?>
-								<div class="portfolio-card__meta">
-									<?php echo esc_html(trim($rim_diameter . ' ' . $rim_color)); ?>
-								</div>
-							<?php endif; ?>
+								<?php if ($rim_diameter || $rim_color) : ?>
+									<div class="portfolio-card__meta">
+										<?php echo esc_html(trim($rim_diameter . ' ' . $rim_color)); ?>
+									</div>
+								<?php endif; ?>
+							</div>
 						</div>
 
 						<div class="portfolio-inner__item">
@@ -707,6 +709,268 @@ add_action('save_post_gallery_item', 'felgilab_save_single_car_brand_term');
 add_action('save_post_portfolio', 'felgilab_save_single_car_brand_term');
 // save single term for car_brand taxonomy end
 
+
+// services helpers
+if (!function_exists('felgilab_get_services_base_slug')) {
+	function felgilab_get_services_base_slug($lang = '')
+	{
+		if (empty($lang) && function_exists('pll_current_language')) {
+			$lang = pll_current_language();
+		}
+
+		$slugs = array(
+			'en' => 'services',
+			'pl' => 'uslugi',
+			'ru' => 'uslugi',
+			'uk' => 'uslugi',
+		);
+
+		return isset($slugs[$lang]) ? $slugs[$lang] : 'services';
+	}
+}
+
+if (!function_exists('felgilab_get_services_archive_url')) {
+	function felgilab_get_services_archive_url($lang = '')
+	{
+		if (empty($lang) && function_exists('pll_current_language')) {
+			$lang = pll_current_language();
+		}
+
+		$default_lang = function_exists('pll_default_language') ? pll_default_language() : '';
+		$base_slug    = felgilab_get_services_base_slug($lang);
+
+		if (!empty($lang) && $lang !== $default_lang) {
+			return home_url('/' . $lang . '/' . $base_slug . '/');
+		}
+
+		return home_url('/' . $base_slug . '/');
+	}
+}
+
+if (!function_exists('felgilab_get_services_breadcrumb_title')) {
+	function felgilab_get_services_breadcrumb_title($lang = '')
+	{
+		if (empty($lang) && function_exists('pll_current_language')) {
+			$lang = pll_current_language();
+		}
+
+		$titles = array(
+			'en' => 'Services',
+			'pl' => 'Usługi',
+			'ru' => 'Услуги',
+			'uk' => 'Послуги',
+		);
+
+		return isset($titles[$lang]) ? $titles[$lang] : 'Services';
+	}
+}
+// services helpers end
+
+// cpt services
+add_action('init', 'felgilab_register_services_cpt', 0);
+
+function felgilab_register_services_cpt()
+{
+	$labels = array(
+		'name'                  => __('Services', 'fls'),
+		'singular_name'         => __('Service', 'fls'),
+		'menu_name'             => __('Services', 'fls'),
+		'name_admin_bar'        => __('Service', 'fls'),
+		'archives'              => __('Service Archives', 'fls'),
+		'attributes'            => __('Service Attributes', 'fls'),
+		'parent_item_colon'     => __('Parent Service:', 'fls'),
+		'all_items'             => __('All Services', 'fls'),
+		'add_new_item'          => __('Add New Service', 'fls'),
+		'add_new'               => __('Add New', 'fls'),
+		'new_item'              => __('New Service', 'fls'),
+		'edit_item'             => __('Edit Service', 'fls'),
+		'update_item'           => __('Update Service', 'fls'),
+		'view_item'             => __('View Service', 'fls'),
+		'view_items'            => __('View Services', 'fls'),
+		'search_items'          => __('Search Service', 'fls'),
+		'not_found'             => __('Not found', 'fls'),
+		'not_found_in_trash'    => __('Not found in Trash', 'fls'),
+		'featured_image'        => __('Featured Image', 'fls'),
+		'set_featured_image'    => __('Set featured image', 'fls'),
+		'remove_featured_image' => __('Remove featured image', 'fls'),
+		'use_featured_image'    => __('Use as featured image', 'fls'),
+		'insert_into_item'      => __('Insert into service', 'fls'),
+		'uploaded_to_this_item' => __('Uploaded to this service', 'fls'),
+		'items_list'            => __('Services list', 'fls'),
+		'items_list_navigation' => __('Services list navigation', 'fls'),
+		'filter_items_list'     => __('Filter services list', 'fls'),
+	);
+
+	$args = array(
+		'label'               => __('Services', 'fls'),
+		'description'         => __('Custom post type for services', 'fls'),
+		'labels'              => $labels,
+		'supports'            => array('title', 'editor', 'thumbnail', 'excerpt', 'revisions', 'page-attributes'),
+		'taxonomies'          => array('services_category'),
+		'hierarchical'        => true,
+		'public'              => true,
+		'publicly_queryable'  => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_admin_bar'   => true,
+		'show_in_nav_menus'   => true,
+		'can_export'          => true,
+		'has_archive'         => false,
+		'exclude_from_search' => false,
+		'capability_type'     => 'page',
+		'map_meta_cap'        => true,
+		'show_in_rest'        => true,
+		'menu_icon'           => 'dashicons-admin-tools',
+		'menu_position'       => 23,
+		'rewrite'             => false,
+	);
+
+	register_post_type('services', $args);
+}
+// cpt services end
+
+// services taxonomy
+add_action('init', 'felgilab_register_services_taxonomy', 0);
+
+function felgilab_register_services_taxonomy()
+{
+	$labels = array(
+		'name'              => __('Service Categories', 'fls'),
+		'singular_name'     => __('Service Category', 'fls'),
+		'search_items'      => __('Search Service Categories', 'fls'),
+		'all_items'         => __('All Service Categories', 'fls'),
+		'parent_item'       => __('Parent Service Category', 'fls'),
+		'parent_item_colon' => __('Parent Service Category:', 'fls'),
+		'edit_item'         => __('Edit Service Category', 'fls'),
+		'update_item'       => __('Update Service Category', 'fls'),
+		'add_new_item'      => __('Add New Service Category', 'fls'),
+		'new_item_name'     => __('New Service Category Name', 'fls'),
+		'menu_name'         => __('Service Categories', 'fls'),
+	);
+
+	$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array(
+			'slug'       => 'services-category',
+			'with_front' => false,
+		),
+		'show_in_rest'      => true,
+	);
+
+	register_taxonomy('services_category', array('services'), $args);
+}
+// services taxonomy end
+
+// add services to polylang
+function felgilab_add_services_to_polylang($types)
+{
+	$types[] = 'services';
+	return $types;
+}
+add_filter('pll_get_post_types', 'felgilab_add_services_to_polylang');
+
+function felgilab_add_services_taxonomy_to_polylang($taxonomies)
+{
+	$taxonomies[] = 'services_category';
+	return $taxonomies;
+}
+add_filter('pll_get_taxonomies', 'felgilab_add_services_taxonomy_to_polylang');
+// add services to polylang end
+
+// services permalink with parents + language
+function felgilab_services_post_type_link($post_link, $post, $leavename, $sample)
+{
+	if ($post->post_type !== 'services') {
+		return $post_link;
+	}
+
+	$lang         = function_exists('pll_get_post_language') ? pll_get_post_language($post->ID) : '';
+	$default_lang = function_exists('pll_default_language') ? pll_default_language() : '';
+	$base_slug    = felgilab_get_services_base_slug($lang);
+
+	$ancestors = get_post_ancestors($post->ID);
+	$slug_path = '';
+
+	if (!empty($ancestors)) {
+		$ancestors = array_reverse($ancestors);
+
+		foreach ($ancestors as $ancestor_id) {
+			$ancestor = get_post($ancestor_id);
+
+			if ($ancestor && $ancestor->post_type === 'services') {
+				$slug_path .= $ancestor->post_name . '/';
+			}
+		}
+	}
+
+	if (!empty($lang) && $lang !== $default_lang) {
+		return home_url('/' . $lang . '/' . $base_slug . '/' . $slug_path . $post->post_name . '/');
+	}
+
+	return home_url('/' . $base_slug . '/' . $slug_path . $post->post_name . '/');
+}
+add_filter('post_type_link', 'felgilab_services_post_type_link', 10, 4);
+// services permalink with parents + language end
+
+// services rewrite rules
+function felgilab_services_rewrite_rules()
+{
+	if (function_exists('pll_languages_list') && function_exists('pll_default_language')) {
+		$langs        = pll_languages_list();
+		$default_lang = pll_default_language();
+
+		foreach ($langs as $lang) {
+			$base_slug = felgilab_get_services_base_slug($lang);
+
+			if ($lang === $default_lang) {
+				add_rewrite_rule(
+					'^' . $base_slug . '/(.+?)/?$',
+					'index.php?services=$matches[1]',
+					'top'
+				);
+			} else {
+				add_rewrite_rule(
+					'^' . $lang . '/' . $base_slug . '/(.+?)/?$',
+					'index.php?lang=' . $lang . '&services=$matches[1]',
+					'top'
+				);
+			}
+		}
+	} else {
+		add_rewrite_rule(
+			'^services/(.+?)/?$',
+			'index.php?services=$matches[1]',
+			'top'
+		);
+	}
+}
+add_action('init', 'felgilab_services_rewrite_rules', 20);
+// services rewrite rules end
+
+// services canonical redirect
+function felgilab_services_template_redirect_canonical()
+{
+	if (!is_singular('services')) {
+		return;
+	}
+
+	global $post, $wp;
+
+	$canonical   = get_permalink($post);
+	$current_url = home_url(add_query_arg(array(), $wp->request)) . '/';
+
+	if (trailingslashit($current_url) !== trailingslashit($canonical)) {
+		wp_redirect($canonical, 301);
+		exit;
+	}
+}
+add_action('template_redirect', 'felgilab_services_template_redirect_canonical');
+// services canonical redirect end
+
 // output FAQ schema in JSON-LD format in the footer
 add_action('wp_footer', 'felgilab_output_faq_schema', 100);
 
@@ -807,13 +1071,6 @@ function custom_breadcrumbs()
 	);
 	$home_title = isset($home_titles[$current_lang]) ? $home_titles[$current_lang] : $home_titles['en'];
 
-	$services_slugs = array(
-		'en' => 'services',
-		'pl' => 'uslugi',
-		'ru' => 'uslugi',
-		'uk' => 'uslugi'
-	);
-
 	$posts_slugs = array(
 		'en' => 'posts',
 		'pl' => 'posty-pl',
@@ -874,27 +1131,60 @@ function custom_breadcrumbs()
 
 		// Для записей типа "services"
 		if (is_singular('services')) {
-			$services_slug = isset($services_slugs[$current_lang]) ? $services_slugs[$current_lang] : 'services';
-			$services_page_url = ($current_lang == $default_lang) ? home_url('/' . $services_slug . '/') : home_url('/' . $current_lang . '/' . $services_slug . '/');
+			$services_title    = felgilab_get_services_breadcrumb_title($current_lang);
+			$services_page_url = felgilab_get_services_archive_url($current_lang);
 
 			echo '<li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
-			echo '<a href="' . $services_page_url . '" class="breadcrumbs__link" itemprop="item">';
-			echo '<span itemprop="name">' . ucfirst($services_slug) . '</span>';
+			echo '<a href="' . esc_url($services_page_url) . '" class="breadcrumbs__link" itemprop="item">';
+			echo '<span itemprop="name">' . esc_html($services_title) . '</span>';
 			echo '</a>';
 			echo '<meta itemprop="position" content="' . $position . '" />';
 			echo '</li>';
+
 			$breadcrumbs_data["itemListElement"][] = array(
 				"@type"    => "ListItem",
 				"position" => $position,
-				"name"     => ucfirst($services_slug),
+				"name"     => $services_title,
 				"item"     => $services_page_url
 			);
+
 			$position++;
 
+			$ancestors = get_post_ancestors(get_the_ID());
+
+			if (!empty($ancestors)) {
+				$ancestors = array_reverse($ancestors);
+
+				foreach ($ancestors as $ancestor_id) {
+					$ancestor = get_post($ancestor_id);
+
+					if (!$ancestor || $ancestor->post_type !== 'services') {
+						continue;
+					}
+
+					echo '<li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+					echo '<a href="' . esc_url(get_permalink($ancestor_id)) . '" class="breadcrumbs__link" itemprop="item">';
+					echo '<span itemprop="name">' . esc_html(get_the_title($ancestor_id)) . '</span>';
+					echo '</a>';
+					echo '<meta itemprop="position" content="' . $position . '" />';
+					echo '</li>';
+
+					$breadcrumbs_data["itemListElement"][] = array(
+						"@type"    => "ListItem",
+						"position" => $position,
+						"name"     => get_the_title($ancestor_id),
+						"item"     => get_permalink($ancestor_id)
+					);
+
+					$position++;
+				}
+			}
+
 			echo '<li class="breadcrumbs__item breadcrumbs__item--active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
-			echo '<span itemprop="name">' . get_the_title() . '</span>';
+			echo '<span itemprop="name">' . esc_html(get_the_title()) . '</span>';
 			echo '<meta itemprop="position" content="' . $position . '" />';
 			echo '</li>';
+
 			$breadcrumbs_data["itemListElement"][] = array(
 				"@type"    => "ListItem",
 				"position" => $position,
