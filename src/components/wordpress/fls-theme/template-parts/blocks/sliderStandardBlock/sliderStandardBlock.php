@@ -66,8 +66,11 @@ if (!empty($block['align'])) {
 
               if (empty($excerpt)) {
                 $content = get_post_field('post_content', $service_id);
-                $excerpt = wp_trim_words(wp_strip_all_tags(strip_shortcodes($content)), 18, '...');
+                $excerpt = wp_strip_all_tags(strip_shortcodes($content));
               }
+
+              $excerpt = trim(preg_replace('/\s+/u', ' ', $excerpt));
+              $excerpt = mb_strimwidth($excerpt, 0, 120, '...');
               ?>
               <a href="<?php echo esc_url($service_url); ?>" class="service-item swiper-slide">
                 <?php if ($image_html) : ?>
