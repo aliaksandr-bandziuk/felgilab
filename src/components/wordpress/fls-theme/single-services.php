@@ -108,7 +108,7 @@ $current_lang = pll_current_language();
         </div>
       </div>
 
-      <div class="grid-1-2">
+      <div class="services-grid">
         <?php
         $current_post_id = get_the_ID();
         $current_date    = get_the_date('Y-m-d H:i:s');
