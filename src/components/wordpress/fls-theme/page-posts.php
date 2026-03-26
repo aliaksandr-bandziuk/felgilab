@@ -98,7 +98,7 @@ get_header();
                       alt="preview image">
                     <div class="post-data">
                       <div class="post-data__item"><?php the_time('d.m.Y'); ?></div>
-                      <div class="post-data__item">5 min read</div>
+                      <!-- <div class="post-data__item">5 min read</div> -->
                     </div>
                   </div>
                   <div class="blog-card__content">

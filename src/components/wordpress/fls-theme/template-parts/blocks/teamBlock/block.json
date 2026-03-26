@@ -1,0 +1,21 @@
+{
+  "name": "acf/team-block",
+  "title": "Team Block",
+  "description": "Block with team members",
+  "category": "layout",
+  "icon": "groups",
+  "keywords": ["team", "members", "about"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "teamBlock.php"
+  },
+  "supports": {
+    "anchor": true,
+    "align": ["wide", "full"],
+    "jsx": true,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  }
+}
