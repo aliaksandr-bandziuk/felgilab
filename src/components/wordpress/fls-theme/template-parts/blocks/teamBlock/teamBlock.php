@@ -4,25 +4,22 @@
  * Team Block
  */
 
-$block_id = 'team-block-' . $block['id'];
-
-if (!empty($block['anchor'])) {
-  $block_id = $block['anchor'];
-}
+$pretitle = get_field('pretitle') ?: '';
+$title = get_field('title') ?: '';
+$team_members = get_field('team_members');
 
 $classes = 'team-block';
 if (!empty($block['className'])) {
   $classes .= ' ' . $block['className'];
 }
-if (!empty($block['align'])) {
-  $classes .= ' align' . $block['align'];
-}
 
-$team_members = get_field('team_members');
+$wrapper_attributes = get_block_wrapper_attributes([
+  'class' => $classes,
+]);
 ?>
 
 <?php if (!empty($team_members)) : ?>
-  <section id="<?php echo esc_attr($block_id); ?>" class="<?php echo esc_attr($classes); ?>">
+  <section <?php echo $wrapper_attributes; ?>>
     <div class="team-block__container">
       <?php if ($pretitle || $title) : ?>
         <div class="block-precontent mb50">
@@ -47,6 +44,7 @@ $team_members = get_field('team_members');
 
         </div>
       <?php endif; ?>
+
       <div class="team-members">
         <?php foreach ($team_members as $member) :
           $photo    = $member['photo'] ?? null;

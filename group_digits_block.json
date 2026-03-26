@@ -1,0 +1,70 @@
+{
+  "key": "group_digits_block",
+  "title": "Block: Digits",
+  "fields": [
+    {
+      "key": "field_digits_pretitle",
+      "label": "Pretitle",
+      "name": "pretitle",
+      "type": "text"
+    },
+    {
+      "key": "field_digits_title",
+      "label": "Title",
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "key": "field_digits_items",
+      "label": "Digits Items",
+      "name": "digit_items",
+      "type": "repeater",
+      "layout": "block",
+      "button_label": "Dodaj element",
+      "sub_fields": [
+        {
+          "key": "field_digit_value",
+          "label": "Counter Value",
+          "name": "counter_value",
+          "type": "text",
+          "instructions": "Podaj tylko liczbę (np. 13, 1000, 4.9)"
+        },
+        {
+          "key": "field_digit_symbol",
+          "label": "Counter Symbol",
+          "name": "counter_symbol",
+          "type": "text",
+          "instructions": "Np. +, %, ★"
+        },
+        {
+          "key": "field_digit_title",
+          "label": "Title",
+          "name": "digit_title",
+          "type": "text"
+        },
+        {
+          "key": "field_digit_text",
+          "label": "Text",
+          "name": "digit_text",
+          "type": "textarea",
+          "rows": 3
+        }
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/digits-block"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "active": true
+}

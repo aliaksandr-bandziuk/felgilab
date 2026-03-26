@@ -1,0 +1,67 @@
+.digits {
+
+		// .digits__items
+		&__items {
+		}
+
+		// .digits__wrapper
+		&__wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+
+        @media screen and (min-width: 980px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media screen and (min-width: 1280px) {
+          grid-template-columns: repeat(4, 1fr);
+        }
+		}
+}
+.digit-item {
+
+		// .digits-item__wrapper
+		&__wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(1.25rem, 1.094rem + 0.63vw, 1.563rem);
+		}
+
+    // .digit-item__content
+    &__content {
+      text-align: center;
+      // display: flex;
+      // flex-direction: column;
+      // gap: 10px;
+    }
+
+		// .digit-item__title
+		&__title {
+      color: #000000;
+      font-size: 1.4rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 120%;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+		}
+
+		// .digit-item__text
+		&__text {
+      color: #555555;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 120%;
+		}
+}
+.counter {
+  color: var(--brand-color);
+  font-size: 2.4rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  text-transform: uppercase;
+}
