@@ -237,80 +237,149 @@
 			</div>
 		</header>
 
+		<?php
+		$current_lang = function_exists('pll_current_language') ? pll_current_language() : 'pl';
+		$lang = in_array($current_lang, ['pl', 'en', 'ru', 'uk'], true) ? $current_lang : 'pl';
+
+		$popup_title = [
+			'pl' => 'Skontaktuj się z nami',
+			'en' => 'Contact us',
+			'ru' => 'Свяжитесь с нами',
+			'uk' => 'Зв’яжіться з нами',
+		];
+
+		$popup_description = [
+			'pl' => 'Masz pytanie lub chcesz otrzymać wycenę? Wypełnij formularz, a odpowiemy tak szybko, jak to możliwe.',
+			'en' => 'Have a question or want to get a quote? Fill out the form and we will get back to you as soon as possible.',
+			'ru' => 'Есть вопрос или хотите получить оценку? Заполните форму, и мы ответим вам как можно скорее.',
+			'uk' => 'Маєте запитання або хочете отримати оцінку? Заповніть форму, і ми відповімо вам якомога швидше.',
+		];
+
+		$popup_button_text = [
+			'pl' => 'Wyślij formularz',
+			'en' => 'Send form',
+			'ru' => 'Отправить форму',
+			'uk' => 'Надіслати форму',
+		];
+
+		$popup_i18n = [
+			'name' => [
+				'pl' => 'Imię',
+				'en' => 'Name',
+				'ru' => 'Имя',
+				'uk' => 'Ім’я',
+			],
+			'phone' => [
+				'pl' => 'Telefon',
+				'en' => 'Phone',
+				'ru' => 'Телефон',
+				'uk' => 'Телефон',
+			],
+			'message' => [
+				'pl' => 'Opisz problem z felgami (nieobowiązkowo)',
+				'en' => 'Describe the problem with the wheels (optional)',
+				'ru' => 'Опишите проблему с дисками (необязательно)',
+				'uk' => 'Опишіть проблему з дисками (необов’язково)',
+			],
+			'message_placeholder' => [
+				'pl' => 'np. rysa na rancie, skrzywienie, odpryski lakieru',
+				'en' => 'e.g. curb rash, bent wheel, paint damage',
+				'ru' => 'например: царапина на ободе, искривление, повреждение краски',
+				'uk' => 'наприклад: подряпина на ободі, викривлення, пошкодження фарби',
+			],
+			'upload' => [
+				'pl' => 'Dodaj zdjęcia uszkodzonych felg',
+				'en' => 'Add photos of damaged wheels',
+				'ru' => 'Добавьте фото повреждённых дисков',
+				'uk' => 'Додайте фото пошкоджених дисків',
+			],
+			'upload_note' => [
+				'pl' => 'Możesz dodać kilka zdjęć (JPG, PNG, WebP).',
+				'en' => 'You can add several photos (JPG, PNG, WebP).',
+				'ru' => 'Можно добавить несколько фото (JPG, PNG, WebP).',
+				'uk' => 'Можна додати кілька фото (JPG, PNG, WebP).',
+			],
+		];
+		?>
+
 		<div id="popup-order" data-fls-popup="popup-order" aria-hidden="true" class="popup popup-order">
 			<div data-fls-popup-wrapper class="popup__wrapper">
 				<div data-fls-popup-body class="popup__body popup-order__content">
 					<button data-fls-popup-close type="button" class="popup-order__close">
-						<svg class="svg-icon" aria-hidden="true" role="img" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M12.2218 13.6066L20 21.3848L21.4142 19.9706L13.636 12.1924L21.3848 4.44366L19.9706 3.02945L12.2218 10.7782L4.44365 3L3.02944 4.41421L10.8076 12.1924L3 20L4.41421 21.4142L12.2218 13.6066Z" fill="currentColor"></path>
+						<svg class="svg-icon" aria-hidden="true" role="img" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+							<path d="M12.2218 13.6066L20 21.3848L21.4142 19.9706L13.636 12.1924L21.3848 4.44366L19.9706 3.02945L12.2218 10.7782L4.44365 3L3.02944 4.41421L10.8076 12.1924L3 20L4.41421 21.4142L12.2218 13.6066Z" fill="#fff"></path>
 						</svg>
 					</button>
 
 					<div data-fls-popup-content class="popup__text">
-						<div class="order-content">
-							<p class="order-content__title">
-								<?php echo pll_current_language() == 'pl' ? 'Porozmawiajmy o Twoim projekcie' : (pll_current_language() == 'it' ? 'Parliamo del tuo progetto' : (pll_current_language() == 'de' ? 'Lassen Sie uns über Ihr Projekt sprechen' : (pll_current_language() == 'fr' ? 'Discutons de votre projet' : 'Let\'s discuss your project'))); ?>
-							</p>
-							<p class="order-content__subtitle">
-								<?php echo pll_current_language() == 'pl' ? 'Zostaw swoje dane kontaktowe i pytanie, a nasz menedżer skontaktuje się z Tobą w ciągu 30 minut na konsultację' : (pll_current_language() == 'it' ? 'Lascia i tuoi contatti e la tua domanda e il nostro manager ti contatterà entro 30 minuti per una consulenza' : (pll_current_language() == 'de' ? 'Hinterlassen Sie Ihre Kontaktdaten und Frage, und unser Manager wird Sie innerhalb von 30 Minuten für eine Beratung kontaktieren' : (pll_current_language() == 'fr' ? 'Laissez vos coordonnées et votre question et notre responsable vous contactera dans les 30 minutes pour une consultation' : 'Leave your contacts and question and our manager will contact you within 30 minutes for a consultation'))); ?>
-							</p>
+						<div class="final-contact__inner popup-order__inner">
+							<h2 class="h2-white mb20">
+								<?php echo esc_html($popup_title[$lang]); ?>
+							</h2>
+
+							<div class="about-company__divider mb30">
+								<svg xmlns="http://www.w3.org/2000/svg" width="64" height="8" aria-hidden="true">
+									<path fill="#fd6b1c" d="M34 0h30v2H34zm0 6h15v2H34zM0 0h30v2H0zm15 6h15v2H15z" />
+								</svg>
+							</div>
+
+							<form
+								action="<?php echo esc_url(get_template_directory_uri() . '/sendmail.php'); ?>"
+								method="post"
+								autocomplete="off"
+								class="small-form form-sending"
+								enctype="multipart/form-data">
+
+								<input type="hidden" name="page_url" value="">
+								<input type="hidden" name="form_name" value="Popup order">
+
+								<div class="input-container">
+									<input id="popup-name" type="text" name="name" class="input-contact" />
+									<label for="popup-name"><?php echo esc_html($popup_i18n['name'][$lang]); ?></label>
+									<span><?php echo esc_html($popup_i18n['name'][$lang]); ?></span>
+								</div>
+
+								<div class="input-container">
+									<input id="popup-phone" type="tel" name="phone" class="input-contact" />
+									<label for="popup-phone"><?php echo esc_html($popup_i18n['phone'][$lang]); ?></label>
+									<span><?php echo esc_html($popup_i18n['phone'][$lang]); ?></span>
+								</div>
+
+								<div class="input-container textarea">
+									<textarea
+										id="popup-message"
+										name="message"
+										class="input-contact"
+										placeholder="<?php echo esc_attr($popup_i18n['message_placeholder'][$lang]); ?>"></textarea>
+									<label for="popup-message"><?php echo esc_html($popup_i18n['message'][$lang]); ?></label>
+									<span><?php echo esc_html($popup_i18n['message'][$lang]); ?></span>
+								</div>
+
+								<div class="file-upload">
+									<input
+										type="file"
+										name="wheel_photos[]"
+										id="wheel_photos_popup"
+										class="input-file"
+										accept="image/*"
+										multiple />
+
+									<label for="wheel_photos_popup" class="file-label">
+										<?php echo esc_html($popup_i18n['upload'][$lang]); ?>
+									</label>
+
+									<div class="file-note">
+										<?php echo esc_html($popup_i18n['upload_note'][$lang]); ?>
+									</div>
+
+									<div class="file-list" id="fileList_popup"></div>
+								</div>
+
+								<button type="submit" class="button-primary btn" aria-label="<?php echo esc_attr($popup_button_text[$lang]); ?>">
+									<?php echo esc_html($popup_button_text[$lang]); ?>
+								</button>
+							</form>
 						</div>
-
-						<form action="<?php echo get_template_directory_uri(); ?>/sendmail.php" method="post" autocomplete="off" class="form-popup form-sending">
-							<input type="hidden" name="page_url" value="">
-							<div class="input-container">
-								<input id="name-input-popup" itemprop="name" type="text" name="name" class="input-contact" />
-								<label for="name-input-popup">
-									<?php echo pll_current_language() == 'pl' ? 'Imię' : (pll_current_language() == 'it' ? 'Nome' : (pll_current_language() == 'de' ? 'Name' : (pll_current_language() == 'fr' ? 'Nom' : 'Name'))); ?>
-								</label>
-								<span>
-									<?php echo pll_current_language() == 'pl' ? 'Imię' : (pll_current_language() == 'it' ? 'Nome' : (pll_current_language() == 'de' ? 'Name' : (pll_current_language() == 'fr' ? 'Nom' : 'Name'))); ?>
-								</span>
-							</div>
-
-							<div class="inputs-wrapper">
-								<div class="input-container">
-									<input id="email-input-popup" itemprop="email" type="email" name="email" class="input-contact" />
-									<label for="email-input-popup">
-										<?php echo pll_current_language() == 'pl' ? 'Email' : (pll_current_language() == 'it' ? 'E-mail' : (pll_current_language() == 'de' ? 'E-Mail' : (pll_current_language() == 'fr' ? 'E-mail' : 'Email'))); ?>
-									</label>
-									<span>
-										<?php echo pll_current_language() == 'pl' ? 'Email' : (pll_current_language() == 'it' ? 'E-mail' : (pll_current_language() == 'de' ? 'E-Mail' : (pll_current_language() == 'fr' ? 'E-mail' : 'Email'))); ?>
-									</span>
-								</div>
-
-								<div class="input-container">
-									<input id="phone-input-popup" itemprop="phone" type="tel" name="phone" class="input-contact" />
-									<label for="phone-input-popup">
-										<?php echo pll_current_language() == 'pl' ? 'Telefon' : (pll_current_language() == 'it' ? 'Telefono' : (pll_current_language() == 'de' ? 'Telefon' : (pll_current_language() == 'fr' ? 'Téléphone' : 'Phone'))); ?>
-									</label>
-									<span>
-										<?php echo pll_current_language() == 'pl' ? 'Telefon' : (pll_current_language() == 'it' ? 'Telefono' : (pll_current_language() == 'de' ? 'Telefon' : (pll_current_language() == 'fr' ? 'Téléphone' : 'Phone'))); ?>
-									</span>
-								</div>
-							</div>
-
-							<div class="input-container textarea">
-								<textarea id="message-input-popup" itemprop="message" name="message" class="input-contact"></textarea>
-								<label for="message-input-popup">
-									<?php echo pll_current_language() == 'pl' ? 'Wiadomość' : (pll_current_language() == 'it' ? 'Messaggio' : (pll_current_language() == 'de' ? 'Nachricht' : (pll_current_language() == 'fr' ? 'Message' : 'Message'))); ?>
-								</label>
-								<span>
-									<?php echo pll_current_language() == 'pl' ? 'Wiadomość' : (pll_current_language() == 'it' ? 'Messaggio' : (pll_current_language() == 'de' ? 'Nachricht' : (pll_current_language() == 'fr' ? 'Message' : 'Message'))); ?>
-								</span>
-							</div>
-
-							<button type="submit" class="button-primary btn">
-								<span>
-									<?php echo pll_current_language() == 'pl' ? 'Uzyskać wycenę' : (pll_current_language() == 'it' ? 'Ottenere un preventivo' : (pll_current_language() == 'de' ? 'Angebot einholen' : (pll_current_language() == 'fr' ? 'Obtenir un devis' : 'Get quote'))); ?>
-								</span>
-								<div class="button-primary__arrow">
-									<svg width="26" height="27.3" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-										<path d="M19.3536 12.8536C19.5488 12.6583 19.5488 12.3417 19.3536 12.1464L16.1716 8.96447C15.9763 8.7692 15.6597 8.7692 15.4645 8.96447C15.2692 9.15973 15.2692 9.47631 15.4645 9.67157L18.2929 12.5L15.4645 15.3284C15.2692 15.5237 15.2692 15.8403 15.4645 16.0355C15.6597 16.2308 15.9763 16.2308 16.1716 16.0355L19.3536 12.8536ZM0 13H19V12H0V13Z" fill="white" />
-									</svg>
-								</div>
-							</button>
-						</form>
 					</div>
 				</div>
 			</div>

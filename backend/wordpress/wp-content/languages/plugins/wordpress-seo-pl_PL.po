@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-03-10 10:36:22+0000\n"
+"PO-Revision-Date: 2026-03-21 09:19:01+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,50 +19,29 @@ msgstr "Nie udało się włączyć opcji llms.txt."
 msgid "Failed to delete the Hello World post."
 msgstr "Nie udało się usunąć wpisu „Witaj świecie”."
 
-#: src/task-list/application/tasks/set-search-appearance-templates.php:135
-msgid "Go to Search appearance, choose your post type, and set default title and meta description patterns."
-msgstr "Przejdź do sekcji Wygląd wyszukiwania, wybierz typ wpisu i ustaw domyślne wzorce tytułu i opisu meta."
-
-#. translators: %1$s expands to the post type name this task is about
-#: src/task-list/application/tasks/set-search-appearance-templates.php:134
-msgid "Generic titles and descriptions make your results unclear in search. Templates ensure every %1$s has a clear, click-worthy snippet automatically."
-msgstr "Ogólne tytuły i opisy sprawiają, że wyniki wyszukiwania są niejasne. Szablony zapewniają, że każdy %1$s ma automatycznie jasny fragment tekstu, który zachęca do kliknięcia."
-
 #: src/task-list/application/tasks/set-search-appearance-templates.php:116
 msgid "Set search templates"
 msgstr "Ustaw szablony wyszukiwania"
 
 #: src/task-list/application/tasks/enable-llms-txt.php:108
-msgid "Without llms.txt, AI crawlers may not know how to treat your content. Publishing it helps communicate your preferences in a clearer way to AI tools."
-msgstr "Bez pliku llms.txt roboty indeksujące AI mogą nie wiedzieć, jak traktować treści. Opublikowanie tego pliku pomaga w bardziej przejrzysty sposób przekazać preferencje narzędziom AI."
-
-#: src/task-list/application/tasks/enable-llms-txt.php:107
 msgid "Create an llms.txt file"
 msgstr "Utwórz plik llms.txt"
 
-#: src/task-list/application/tasks/enable-llms-txt.php:94
+#: src/task-list/application/tasks/enable-llms-txt.php:95
 msgid "Enable llms.txt"
 msgstr "Włącz llms.txt"
 
-#: src/task-list/application/tasks/delete-hello-world.php:116
+#: src/task-list/application/tasks/delete-hello-world.php:117
 msgid "Leaving placeholder content makes your site look unfinished and untrustworthy. Removing it keeps your site clean and professional for visitors and search engines."
 msgstr "Pozostawienie treści zastępczej sprawia, że strona wygląda na niedokończoną i budzi nieufność. Usunięcie jej sprawia, że strona wygląda na uporządkowaną i profesjonalną dla odwiedzających oraz wyszukiwarek."
 
-#: src/task-list/application/tasks/delete-hello-world.php:115
+#: src/task-list/application/tasks/delete-hello-world.php:116
 msgid "Remove the “Hello World” post"
 msgstr "Usuń wpis „Witaj świecie”"
 
-#: src/task-list/application/tasks/delete-hello-world.php:102
+#: src/task-list/application/tasks/delete-hello-world.php:103
 msgid "Delete for me"
 msgstr "Usuń za mnie"
-
-#: src/task-list/application/tasks/create-new-content.php:110
-msgid "Plan a topic, write your post, and use the SEO and Readability Analyses to refine it before publishing."
-msgstr "Zaplanuj temat, napisz post i przed publikacją udoskonal go, korzystając z analiz SEO i czytelności."
-
-#: src/task-list/application/tasks/create-new-content.php:109
-msgid "Long gaps without new content slow down your traffic growth. Publishing regularly gives search engines and visitors a reason to return."
-msgstr "Długie przerwy bez nowych treści spowalniają wzrost ruchu na stronie. Regularne publikowanie treści daje wyszukiwarkom i odwiedzającym powód do powrotu."
 
 #: src/task-list/application/tasks/create-new-content.php:108
 msgid "Create new content"
@@ -71,15 +50,6 @@ msgstr "Utwórz nową treść"
 #: src/task-list/application/tasks/create-new-content.php:95
 msgid "Create new post"
 msgstr "Utwórz nowy wpis"
-
-#. translators: %1$s expands to Yoast SEO
-#: src/task-list/application/tasks/complete-ftc.php:93
-msgid "Skipping setup limits how much %1$s can help you. Completing it makes sure the core settings are working in your favor."
-msgstr "Pominięcie konfiguracji ogranicza zakres pomocy, jaką może Ci zapewnić %1$s. Wykonanie tej czynności gwarantuje, że podstawowe ustawienia będą działać na Twoją korzyść."
-
-#: src/task-list/application/tasks/complete-ftc.php:91
-msgid "Complete the First-time configuration"
-msgstr "Zakończ konfigurację przy pierwszym uruchomieniu"
 
 #: src/presenters/admin/sidebar-presenter.php:115 js/dist/general-page.js:5
 #: js/dist/new-settings.js:5 js/dist/support.js:4
@@ -2666,6 +2636,7 @@ msgid "The SEO analysis offers suggestions to improve the SEO of your text."
 msgstr "Analiza SEO podpowiada, jak poprawić SEO twojego tekstu."
 
 #: admin/views/class-yoast-feature-toggles.php:71
+#: src/task-list/application/tasks/child-tasks/improve-content-seo-child.php:59
 #: js/dist/externals-components.js:402 js/dist/new-settings.js:28
 #: js/dist/new-settings.js:342
 msgid "SEO analysis"
@@ -3083,6 +3054,8 @@ msgstr "Analiza czytelności"
 #: admin/statistics/class-statistics-service.php:217
 #: inc/class-wpseo-rank.php:140 inc/class-wpseo-rank.php:176
 #: inc/class-wpseo-rank.php:208 inc/class-wpseo-rank.php:240
+#: src/task-list/application/tasks/child-tasks/improve-content-readability-child.php:47
+#: src/task-list/application/tasks/child-tasks/improve-content-seo-child.php:47
 #: js/dist/block-editor.js:475 js/dist/editor-modules.js:115
 #: js/dist/editor-modules.js:368 js/dist/externals-components.js:122
 #: js/dist/externals/analysis.js:15 js/dist/externals/dashboardFrontend.js:4
@@ -3092,6 +3065,7 @@ msgstr "Wymaga poprawy"
 
 #: admin/metabox/class-metabox-section-readability.php:30
 #: inc/class-wpseo-admin-bar-menu.php:252
+#: src/task-list/application/tasks/child-tasks/improve-content-readability-child.php:59
 msgid "Readability"
 msgstr "Czytelność"
 
@@ -3332,6 +3306,8 @@ msgstr "Błąd 404: Strony nie znaleziono"
 #: admin/statistics/class-statistics-service.php:227
 #: inc/class-wpseo-rank.php:142 inc/class-wpseo-rank.php:186
 #: inc/class-wpseo-rank.php:218 inc/class-wpseo-rank.php:250
+#: src/task-list/application/tasks/child-tasks/improve-content-readability-child.php:45
+#: src/task-list/application/tasks/child-tasks/improve-content-seo-child.php:45
 #: js/dist/block-editor.js:475 js/dist/editor-modules.js:115
 #: js/dist/editor-modules.js:368 js/dist/externals-components.js:122
 #: js/dist/externals/analysis.js:15 js/dist/externals/dashboardFrontend.js:4
@@ -3782,10 +3758,12 @@ msgstr "Wtyczki %1$s oraz %2$s generują znaczniki OpenGraph, co może powodowa�
 
 #: admin/statistics/class-statistics-service.php:222
 #: inc/class-wpseo-rank.php:141 inc/class-wpseo-rank.php:181
-#: inc/class-wpseo-rank.php:213 js/dist/block-editor.js:475
-#: js/dist/editor-modules.js:115 js/dist/editor-modules.js:368
-#: js/dist/externals-components.js:122 js/dist/externals/analysis.js:15
-#: js/dist/externals/dashboardFrontend.js:4
+#: inc/class-wpseo-rank.php:213
+#: src/task-list/application/tasks/child-tasks/improve-content-readability-child.php:46
+#: src/task-list/application/tasks/child-tasks/improve-content-seo-child.php:46
+#: js/dist/block-editor.js:475 js/dist/editor-modules.js:115
+#: js/dist/editor-modules.js:368 js/dist/externals-components.js:122
+#: js/dist/externals/analysis.js:15 js/dist/externals/dashboardFrontend.js:4
 #: js/dist/frontend-inspector-resources.js:1
 msgid "OK"
 msgstr "OK"

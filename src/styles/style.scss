@@ -494,6 +494,78 @@ body {
     border: 0;
   }
 }
+.wp-block-columns {
+  .wp-block-column {
+
+    p,
+    .wp-block-paragraph {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #444;
+      font-weight: 400;
+    }
+
+    h2,
+    h2.wp-block-heading {
+      @extend %h2;
+      margin-top: 40px;
+      line-height: 1.25;
+      color: #111;
+      font-weight: 600;
+    }
+
+    h3,
+    h3.wp-block-heading {
+      @extend %h3;
+      margin-top: 30px;
+      line-height: 1.25;
+      color: #111;
+      font-weight: 600;
+    }
+
+    h4,
+    h4.wp-block-heading {
+      @extend %h4;
+      margin-top: 25px;
+      line-height: 1.25;
+      color: #111;
+      font-weight: 600;
+    }
+
+    ul,
+    ol,
+    .wp-block-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      li {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #444;
+        margin-left: 25px;
+        position: relative;
+      }
+    }
+
+    ul li::before {
+      content: "✓";
+      position: absolute;
+      left: -18px;
+      top: 2px;
+      color: var(--brand-subcolor);
+      font-size: 16px;
+    }
+
+    > * {
+      margin-top: 0;
+    }
+
+    > * + * {
+      margin-top: 20px;
+    }
+  }
+}
 // wordpress content styles end
 
 .whatsapp-button {

@@ -52,7 +52,7 @@ body::after {
 	transition:
 		transform 0.3s ease 0s,
 		visibility 0.3s ease 0s;
-	background-color: #eee;
+	background-color: var(--brand-color);
 	padding: 20px;
 	width: 100%;
 	max-width: 900px;
