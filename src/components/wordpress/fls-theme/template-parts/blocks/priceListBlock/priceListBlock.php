@@ -133,8 +133,8 @@ if (!$has_aluminium_services && !$has_steel_services) {
                 <div data-fls-tabs-body class="price-subtabs__content tabs__content">
                   <?php foreach ($aluminium_services as $service) : ?>
                     <?php
-                    $col_1_title = !empty($service['col_1_title']) ? $service['col_1_title'] : $fallback_col_1;
-                    $col_2_title = !empty($service['col_2_title']) ? $service['col_2_title'] : $fallback_col_2;
+                    $col_1_title = $fallback_col_1;
+                    $col_2_title = $fallback_col_2;
                     $rows = !empty($service['rows']) && is_array($service['rows']) ? $service['rows'] : [];
                     ?>
                     <div class="price-subtabs__body tabs__body">

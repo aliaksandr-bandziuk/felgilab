@@ -1,0 +1,497 @@
+{
+  "key": "group_price_list_block",
+  "title": "Price List Block",
+  "fields": [
+    {
+      "key": "field_price_list_pretitle",
+      "label": "Pretitle",
+      "name": "pretitle",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "allow_in_bindings": 0,
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_price_list_title",
+      "label": "Title",
+      "name": "title",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "allow_in_bindings": 0,
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_price_list_aluminium_services",
+      "label": "Aluminium Services",
+      "name": "aluminium_services",
+      "type": "repeater",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "layout": "block",
+      "pagination": 0,
+      "min": 0,
+      "max": 0,
+      "collapsed": "field_price_list_aluminium_service_title",
+      "button_label": "Add aluminium service",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_price_list_aluminium_service_title",
+          "label": "Service Title",
+          "name": "service_title",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "34",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "allow_in_bindings": 0,
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_price_list_aluminium_services"
+        },
+        {
+          "key": "field_price_list_aluminium_col_1_title",
+          "label": "Column 1 Title",
+          "name": "col_1_title",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "33",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "allow_in_bindings": 0,
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_price_list_aluminium_services"
+        },
+        {
+          "key": "field_price_list_aluminium_col_2_title",
+          "label": "Column 2 Title",
+          "name": "col_2_title",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "33",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "allow_in_bindings": 0,
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_price_list_aluminium_services"
+        },
+        {
+          "key": "field_price_list_aluminium_rows",
+          "label": "Rows",
+          "name": "rows",
+          "type": "repeater",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "layout": "table",
+          "pagination": 0,
+          "min": 0,
+          "max": 0,
+          "collapsed": "",
+          "button_label": "Add row",
+          "rows_per_page": 20,
+          "sub_fields": [
+            {
+              "key": "field_price_list_aluminium_row_type",
+              "label": "Row Type",
+              "name": "row_type",
+              "type": "select",
+              "instructions": "",
+              "required": 0,
+              "conditional_logic": 0,
+              "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+              },
+              "choices": {
+                "text": "Text",
+                "size": "Size"
+              },
+              "default_value": "text",
+              "return_format": "value",
+              "multiple": 0,
+              "allow_null": 0,
+              "allow_in_bindings": 0,
+              "ui": 0,
+              "ajax": 0,
+              "placeholder": "",
+              "parent_repeater": "field_price_list_aluminium_rows"
+            },
+            {
+              "key": "field_price_list_aluminium_label",
+              "label": "Label",
+              "name": "label",
+              "type": "text",
+              "instructions": "",
+              "required": 0,
+              "conditional_logic": [
+                [
+                  {
+                    "field": "field_price_list_aluminium_row_type",
+                    "operator": "==",
+                    "value": "text"
+                  }
+                ]
+              ],
+              "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "allow_in_bindings": 0,
+              "placeholder": "",
+              "prepend": "",
+              "append": "",
+              "parent_repeater": "field_price_list_aluminium_rows"
+            },
+            {
+              "key": "field_price_list_aluminium_size",
+              "label": "Size",
+              "name": "size",
+              "type": "text",
+              "instructions": "Enter only number, for example: 16",
+              "required": 0,
+              "conditional_logic": [
+                [
+                  {
+                    "field": "field_price_list_aluminium_row_type",
+                    "operator": "==",
+                    "value": "size"
+                  }
+                ]
+              ],
+              "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "allow_in_bindings": 0,
+              "placeholder": "",
+              "prepend": "",
+              "append": "",
+              "parent_repeater": "field_price_list_aluminium_rows"
+            },
+            {
+              "key": "field_price_list_aluminium_price",
+              "label": "Price",
+              "name": "price",
+              "type": "text",
+              "instructions": "Enter only number or value without zł, for example: 250",
+              "required": 0,
+              "conditional_logic": 0,
+              "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "allow_in_bindings": 0,
+              "placeholder": "",
+              "prepend": "",
+              "append": "",
+              "parent_repeater": "field_price_list_aluminium_rows"
+            }
+          ],
+          "parent_repeater": "field_price_list_aluminium_services"
+        }
+      ]
+    },
+    {
+      "key": "field_price_list_steel_services",
+      "label": "Steel Services",
+      "name": "steel_services",
+      "type": "repeater",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "layout": "block",
+      "pagination": 0,
+      "min": 0,
+      "max": 0,
+      "collapsed": "field_price_list_steel_service_title",
+      "button_label": "Add steel service",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_price_list_steel_service_title",
+          "label": "Service Title",
+          "name": "service_title",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "34",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "allow_in_bindings": 0,
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_price_list_steel_services"
+        },
+        {
+          "key": "field_price_list_steel_col_1_title",
+          "label": "Column 1 Title",
+          "name": "col_1_title",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "33",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "allow_in_bindings": 0,
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_price_list_steel_services"
+        },
+        {
+          "key": "field_price_list_steel_col_2_title",
+          "label": "Column 2 Title",
+          "name": "col_2_title",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "33",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "allow_in_bindings": 0,
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "parent_repeater": "field_price_list_steel_services"
+        },
+        {
+          "key": "field_price_list_steel_rows",
+          "label": "Rows",
+          "name": "rows",
+          "type": "repeater",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "layout": "table",
+          "pagination": 0,
+          "min": 0,
+          "max": 0,
+          "collapsed": "",
+          "button_label": "Add row",
+          "rows_per_page": 20,
+          "sub_fields": [
+            {
+              "key": "field_price_list_steel_row_type",
+              "label": "Row Type",
+              "name": "row_type",
+              "type": "select",
+              "instructions": "",
+              "required": 0,
+              "conditional_logic": 0,
+              "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+              },
+              "choices": {
+                "text": "Text",
+                "size": "Size"
+              },
+              "default_value": "text",
+              "return_format": "value",
+              "multiple": 0,
+              "allow_null": 0,
+              "allow_in_bindings": 0,
+              "ui": 0,
+              "ajax": 0,
+              "placeholder": "",
+              "parent_repeater": "field_price_list_steel_rows"
+            },
+            {
+              "key": "field_price_list_steel_label",
+              "label": "Label",
+              "name": "label",
+              "type": "text",
+              "instructions": "",
+              "required": 0,
+              "conditional_logic": [
+                [
+                  {
+                    "field": "field_price_list_steel_row_type",
+                    "operator": "==",
+                    "value": "text"
+                  }
+                ]
+              ],
+              "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "allow_in_bindings": 0,
+              "placeholder": "",
+              "prepend": "",
+              "append": "",
+              "parent_repeater": "field_price_list_steel_rows"
+            },
+            {
+              "key": "field_price_list_steel_size",
+              "label": "Size",
+              "name": "size",
+              "type": "text",
+              "instructions": "Enter only number, for example: 16",
+              "required": 0,
+              "conditional_logic": [
+                [
+                  {
+                    "field": "field_price_list_steel_row_type",
+                    "operator": "==",
+                    "value": "size"
+                  }
+                ]
+              ],
+              "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "allow_in_bindings": 0,
+              "placeholder": "",
+              "prepend": "",
+              "append": "",
+              "parent_repeater": "field_price_list_steel_rows"
+            },
+            {
+              "key": "field_price_list_steel_price",
+              "label": "Price",
+              "name": "price",
+              "type": "text",
+              "instructions": "Enter only number or value without zł, for example: 250",
+              "required": 0,
+              "conditional_logic": 0,
+              "wrapper": {
+                "width": "25",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "allow_in_bindings": 0,
+              "placeholder": "",
+              "prepend": "",
+              "append": "",
+              "parent_repeater": "field_price_list_steel_rows"
+            }
+          ],
+          "parent_repeater": "field_price_list_steel_services"
+        }
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/price-list-block"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "",
+  "show_in_rest": 0,
+  "modified": 1774600000
+}

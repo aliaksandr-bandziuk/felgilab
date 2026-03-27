@@ -1,7 +1,7 @@
 {
   "name": "acf/price-list-block",
   "title": "Price List Block",
-  "description": "Price list with tabs for alloy and steel wheels.",
+  "description": "Flexible price list with nested tabs and dynamic structure.",
   "category": "formatting",
   "icon": "table-col-after",
   "keywords": ["price", "cennik", "felgi", "wheels"],
@@ -12,6 +12,10 @@
   "supports": {
     "anchor": true,
     "align": false,
-    "jsx": false
+    "jsx": false,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
   }
 }
