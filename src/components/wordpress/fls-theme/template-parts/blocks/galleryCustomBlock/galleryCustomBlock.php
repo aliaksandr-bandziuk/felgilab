@@ -3,6 +3,9 @@ $pretitle = get_field('pretitle') ?: '';
 $title    = get_field('title') ?: '';
 $button   = get_field('button');
 
+// ACF field: brand | color
+$display_by = get_field('display_by') ?: 'brand';
+
 $current_lang = function_exists('pll_current_language') ? pll_current_language() : '';
 
 $gallery_i18n = [
@@ -12,11 +15,22 @@ $gallery_i18n = [
     'ru' => 'Увеличить',
     'uk' => 'Збільшити',
   ],
+  'nav_label' => [
+    'pl' => 'Nawigacja galerii',
+    'en' => 'Gallery navigation',
+    'ru' => 'Навигация галереи',
+    'uk' => 'Навігація галереї',
+  ],
 ];
 
 $lang = in_array($current_lang, ['pl', 'en', 'ru', 'uk'], true) ? $current_lang : 'pl';
 
 $items_per_tab = 6;
+
+/**
+ * Resolve taxonomy based on ACF option
+ */
+$taxonomy = $display_by === 'color' ? 'rim_color' : 'car_brand';
 
 /**
  * Render one gallery item
@@ -54,6 +68,7 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
           </span>
         </span>
       </span>
+
       <img
         src="<?php echo esc_url($image_large); ?>"
         alt="<?php echo esc_attr($image_alt); ?>"
@@ -64,16 +79,26 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
   }
 }
 
-$brands = get_terms([
-  'taxonomy'   => 'car_brand',
-  'hide_empty' => true,
+/**
+ * Build tabs data for selected taxonomy
+ */
+$terms_args = [
+  'taxonomy'   => $taxonomy,
+  'hide_empty' => false,
   'orderby'    => 'name',
   'order'      => 'ASC',
-]);
+];
+
+// Для цветов подгружаем термины в текущем языке страницы
+if ($taxonomy === 'rim_color' && function_exists('pll_current_language')) {
+  $terms_args['lang'] = $lang;
+}
+
+$terms = get_terms($terms_args);
 
 $tabs_data = [];
 
-if (!empty($brands) && !is_wp_error($brands)) {
+if (!empty($terms) && !is_wp_error($terms)) {
   $all_gallery_items = get_posts([
     'post_type'              => 'gallery_item',
     'post_status'            => 'publish',
@@ -89,10 +114,11 @@ if (!empty($brands) && !is_wp_error($brands)) {
   ]);
 
   if (!empty($all_gallery_items)) {
-    $brands_map = [];
-    foreach ($brands as $brand) {
-      $brands_map[$brand->term_id] = [
-        'term'  => $brand,
+    $terms_map = [];
+
+    foreach ($terms as $term) {
+      $terms_map[$term->term_id] = [
+        'term'  => $term,
         'items' => [],
       ];
     }
@@ -102,27 +128,35 @@ if (!empty($brands) && !is_wp_error($brands)) {
         continue;
       }
 
-      $post_terms = get_the_terms($post_id, 'car_brand');
+      $post_terms = get_the_terms($post_id, $taxonomy);
+
       if (empty($post_terms) || is_wp_error($post_terms)) {
         continue;
       }
 
       foreach ($post_terms as $term) {
-        if (!isset($brands_map[$term->term_id])) {
+        $term_id = (int) $term->term_id;
+
+        // Для цветов приводим term ID к текущему языку страницы
+        if ($taxonomy === 'rim_color' && function_exists('felgilab_translate_term_id')) {
+          $term_id = felgilab_translate_term_id($term_id, $taxonomy, $lang);
+        }
+
+        if (!isset($terms_map[$term_id])) {
           continue;
         }
 
-        if (count($brands_map[$term->term_id]['items']) >= $items_per_tab) {
+        if (count($terms_map[$term_id]['items']) >= $items_per_tab) {
           continue;
         }
 
-        $brands_map[$term->term_id]['items'][] = $post_id;
+        $terms_map[$term_id]['items'][] = $post_id;
       }
     }
 
-    foreach ($brands_map as $brand_data) {
-      if (!empty($brand_data['items'])) {
-        $tabs_data[] = $brand_data;
+    foreach ($terms_map as $term_data) {
+      if (!empty($term_data['items'])) {
+        $tabs_data[] = $term_data;
       }
     }
   }
@@ -149,12 +183,15 @@ if (!empty($brands) && !is_wp_error($brands)) {
       <?php endif; ?>
 
       <div data-fls-tabs data-fls-tabs-animate="500" class="tabs gallery-tabs">
-        <nav data-fls-tabs-titles class="tabs__navigation gallery-tabs__navigation" aria-label="Gallery Tabs Navigation">
+        <nav
+          data-fls-tabs-titles
+          class="tabs__navigation gallery-tabs__navigation"
+          aria-label="<?php echo esc_attr($gallery_i18n['nav_label'][$lang]); ?>">
           <?php foreach ($tabs_data as $index => $tab) : ?>
             <button
               type="button"
               aria-label="<?php echo esc_attr($tab['term']->name); ?>"
-              class="tabs__title gallery-tabs__title <?php echo $index === 0 ? '--tab-active' : ''; ?>">
+              class="tabs__title gallery-tabs__title <?php echo $index === 3 ? '--tab-active' : ''; ?>">
               <?php echo esc_html($tab['term']->name); ?>
             </button>
           <?php endforeach; ?>

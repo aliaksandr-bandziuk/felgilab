@@ -372,7 +372,6 @@ function felgilab_render_portfolio_data_metabox($post)
 
 	$car_name      = get_post_meta($post->ID, '_portfolio_car_name', true);
 	$rim_diameter  = get_post_meta($post->ID, '_portfolio_rim_diameter', true);
-	$rim_color     = get_post_meta($post->ID, '_portfolio_rim_color', true);
 	$service_name  = get_post_meta($post->ID, '_portfolio_service_name', true);
 ?>
 	<p>
@@ -383,11 +382,6 @@ function felgilab_render_portfolio_data_metabox($post)
 	<p>
 		<label for="portfolio_rim_diameter"><strong>Średnica felgi:</strong></label><br>
 		<input type="text" name="portfolio_rim_diameter" id="portfolio_rim_diameter" value="<?php echo esc_attr($rim_diameter); ?>" style="width:100%;" placeholder='np. 22"'>
-	</p>
-
-	<p>
-		<label for="portfolio_rim_color"><strong>Kolor:</strong></label><br>
-		<input type="text" name="portfolio_rim_color" id="portfolio_rim_color" value="<?php echo esc_attr($rim_color); ?>" style="width:100%;" placeholder="np. Srebrny">
 	</p>
 
 	<p>
@@ -425,15 +419,26 @@ function felgilab_save_portfolio_metabox($post_id)
 		update_post_meta($post_id, '_portfolio_rim_diameter', sanitize_text_field($_POST['portfolio_rim_diameter']));
 	}
 
-	if (isset($_POST['portfolio_rim_color'])) {
-		update_post_meta($post_id, '_portfolio_rim_color', sanitize_text_field($_POST['portfolio_rim_color']));
-	}
-
 	if (isset($_POST['portfolio_service_name'])) {
 		update_post_meta($post_id, '_portfolio_service_name', sanitize_text_field($_POST['portfolio_service_name']));
 	}
 }
 // portfolio metabox end
+
+if (!function_exists('felgilab_get_single_term_name')) {
+	function felgilab_get_single_term_name($post_id, $taxonomy)
+	{
+		$terms = get_the_terms($post_id, $taxonomy);
+
+		if (empty($terms) || is_wp_error($terms)) {
+			return '';
+		}
+
+		$first_term = reset($terms);
+
+		return $first_term ? $first_term->name : '';
+	}
+}
 
 // ajax portfolio filter/load more
 function felgilab_filter_portfolio_callback()
@@ -474,8 +479,27 @@ function felgilab_filter_portfolio_callback()
 
 			$car_name     = get_post_meta(get_the_ID(), '_portfolio_car_name', true);
 			$rim_diameter = get_post_meta(get_the_ID(), '_portfolio_rim_diameter', true);
-			$rim_color    = get_post_meta(get_the_ID(), '_portfolio_rim_color', true);
 			$service_name = get_post_meta(get_the_ID(), '_portfolio_service_name', true);
+
+			$rim_color = '';
+
+			$rim_terms = get_the_terms(get_the_ID(), 'rim_color');
+			if (!empty($rim_terms) && !is_wp_error($rim_terms)) {
+				$rim_term = reset($rim_terms);
+
+				if ($rim_term) {
+					$rim_term_id = (int) $rim_term->term_id;
+
+					if (!empty($lang) && function_exists('felgilab_translate_term_id')) {
+						$rim_term_id = felgilab_translate_term_id($rim_term_id, 'rim_color', $lang);
+					}
+
+					$translated_rim_term = get_term($rim_term_id, 'rim_color');
+					if ($translated_rim_term && !is_wp_error($translated_rim_term)) {
+						$rim_color = $translated_rim_term->name;
+					}
+				}
+			}
 	?>
 			<a href="<?php the_permalink(); ?>" class="portfolio-card">
 				<div class="portfolio-card__wrapper">
@@ -609,9 +633,9 @@ add_action('init', function () {
 		'public'       => true,
 		'show_in_rest' => true,
 		'menu_icon'    => 'dashicons-format-gallery',
-		'supports' 		 => ['title', 'thumbnail', 'excerpt'],
+		'supports'     => ['title', 'thumbnail', 'excerpt'],
 		'has_archive'  => false,
-		'rewrite'      => ['slug' => 'gallery-item'],
+		'rewrite'      => false,
 	]);
 });
 // cpt gallery_item end
@@ -632,22 +656,58 @@ add_action('init', function () {
 });
 // car_brand taxonomy end
 
-// custom meta box for car_brand taxonomy
-function felgilab_car_brand_radio_metabox($post, $box)
+// rim_color taxonomy
+add_action('init', function () {
+	register_taxonomy('rim_color', ['gallery_item', 'portfolio'], [
+		'labels' => [
+			'name'          => 'Rim Colors',
+			'singular_name' => 'Rim Color',
+		],
+		'public'       => true,
+		'hierarchical' => false,
+		'show_in_rest' => true,
+		'rewrite'      => ['slug' => 'rim-color'],
+		'meta_box_cb'  => 'felgilab_rim_color_radio_metabox',
+	]);
+});
+// rim_color taxonomy end
+
+function felgilab_single_term_radio_metabox($post, $box)
 {
 	$taxonomy = $box['args']['taxonomy'];
-	$terms    = get_terms([
+
+	$terms_args = [
 		'taxonomy'   => $taxonomy,
 		'hide_empty' => false,
-	]);
+		'orderby'    => 'name',
+		'order'      => 'ASC',
+	];
+
+	// Для цветов в админке всегда показываем польские термины
+	if ($taxonomy === 'rim_color' && function_exists('pll_default_language')) {
+		$terms_args['lang'] = pll_default_language();
+	}
+
+	$terms = get_terms($terms_args);
 
 	if (is_wp_error($terms) || empty($terms)) {
-		echo '<p>No brands found.</p>';
+		echo '<p>No terms found.</p>';
 		return;
 	}
 
 	$current_terms = wp_get_object_terms($post->ID, $taxonomy, ['fields' => 'ids']);
 	$current_term  = !empty($current_terms) ? (int) $current_terms[0] : 0;
+
+	// Если это цвет, а у поста выбран переводной термин,
+	// приводим его обратно к польскому, чтобы radio корректно подсветился
+	if ($taxonomy === 'rim_color' && $current_term > 0 && function_exists('pll_default_language') && function_exists('pll_get_term')) {
+		$default_lang = pll_default_language();
+		$default_term = pll_get_term($current_term, $default_lang);
+
+		if (!empty($default_term)) {
+			$current_term = (int) $default_term;
+		}
+	}
 
 	wp_nonce_field('felgilab_save_single_term_' . $taxonomy, 'felgilab_single_term_nonce_' . $taxonomy);
 
@@ -666,17 +726,24 @@ function felgilab_car_brand_radio_metabox($post, $box)
 	echo '<li style="margin-top:10px;">';
 	echo '<label>';
 	echo '<input type="radio" name="felgilab_single_term_' . esc_attr($taxonomy) . '" value="0" ' . checked($current_term, 0, false) . '> ';
-	echo esc_html__('No brand', 'felgilab');
+	echo esc_html__('No term', 'fls');
 	echo '</label>';
 	echo '</li>';
 
 	echo '</ul>';
 	echo '</div>';
 }
-// custom meta box for car_brand taxonomy end
 
-// save single term for car_brand taxonomy
-function felgilab_save_single_car_brand_term($post_id)
+function felgilab_car_brand_radio_metabox($post, $box)
+{
+	felgilab_single_term_radio_metabox($post, $box);
+}
+function felgilab_rim_color_radio_metabox($post, $box)
+{
+	felgilab_single_term_radio_metabox($post, $box);
+}
+
+function felgilab_save_single_taxonomy_term($post_id, $taxonomy)
 {
 	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
 		return;
@@ -686,7 +753,6 @@ function felgilab_save_single_car_brand_term($post_id)
 		return;
 	}
 
-	$taxonomy  = 'car_brand';
 	$nonce_key = 'felgilab_single_term_nonce_' . $taxonomy;
 
 	if (!isset($_POST[$nonce_key])) {
@@ -700,16 +766,44 @@ function felgilab_save_single_car_brand_term($post_id)
 	$field_name = 'felgilab_single_term_' . $taxonomy;
 	$term_id    = isset($_POST[$field_name]) ? (int) $_POST[$field_name] : 0;
 
-	if ($term_id > 0) {
-		wp_set_object_terms($post_id, [$term_id], $taxonomy, false);
-	} else {
+	if ($term_id <= 0) {
 		wp_set_object_terms($post_id, [], $taxonomy, false);
+		return;
 	}
+
+	// Для цветов сохраняем перевод термина под язык текущего поста
+	if ($taxonomy === 'rim_color' && function_exists('pll_get_post_language')) {
+		$post_lang = pll_get_post_language($post_id);
+
+		if (!empty($post_lang)) {
+			$term_id = felgilab_translate_term_id($term_id, $taxonomy, $post_lang);
+		}
+	}
+
+	wp_set_object_terms($post_id, [$term_id], $taxonomy, false);
 }
 
-add_action('save_post_gallery_item', 'felgilab_save_single_car_brand_term');
-add_action('save_post_portfolio', 'felgilab_save_single_car_brand_term');
-// save single term for car_brand taxonomy end
+function felgilab_save_gallery_item_single_terms($post_id)
+{
+	felgilab_save_single_taxonomy_term($post_id, 'car_brand');
+	felgilab_save_single_taxonomy_term($post_id, 'rim_color');
+}
+
+function felgilab_save_portfolio_single_terms($post_id)
+{
+	felgilab_save_single_taxonomy_term($post_id, 'car_brand');
+	felgilab_save_single_taxonomy_term($post_id, 'rim_color');
+}
+
+add_action('save_post_gallery_item', 'felgilab_save_gallery_item_single_terms');
+add_action('save_post_portfolio', 'felgilab_save_portfolio_single_terms');
+
+function felgilab_add_gallery_taxonomies_to_polylang($taxonomies)
+{
+	$taxonomies[] = 'rim_color';
+	return $taxonomies;
+}
+add_filter('pll_get_taxonomies', 'felgilab_add_gallery_taxonomies_to_polylang');
 
 
 // services helpers
@@ -746,6 +840,38 @@ if (!function_exists('felgilab_get_services_archive_url')) {
 		}
 
 		return home_url('/' . $base_slug . '/');
+	}
+}
+
+if (!function_exists('felgilab_translate_term_id')) {
+	function felgilab_translate_term_id($term_id, $taxonomy, $lang = '')
+	{
+		$term_id = (int) $term_id;
+
+		if ($term_id <= 0) {
+			return 0;
+		}
+
+		// Только цвета переводим через Polylang
+		if ($taxonomy !== 'rim_color') {
+			return $term_id;
+		}
+
+		if (!function_exists('pll_get_term')) {
+			return $term_id;
+		}
+
+		if (empty($lang) && function_exists('pll_current_language')) {
+			$lang = pll_current_language();
+		}
+
+		if (empty($lang)) {
+			return $term_id;
+		}
+
+		$translated_term_id = pll_get_term($term_id, $lang);
+
+		return !empty($translated_term_id) ? (int) $translated_term_id : $term_id;
 	}
 }
 
@@ -917,6 +1043,45 @@ function felgilab_services_post_type_link($post_link, $post, $leavename, $sample
 }
 add_filter('post_type_link', 'felgilab_services_post_type_link', 10, 4);
 // services permalink with parents + language end
+
+function felgilab_gallery_item_permalink($post_link, $post)
+{
+	if ($post->post_type !== 'gallery_item') {
+		return $post_link;
+	}
+
+	$brand_slug = 'no-brand';
+	$color_slug = 'no-color';
+
+	$brand_terms = get_the_terms($post->ID, 'car_brand');
+	if (!empty($brand_terms) && !is_wp_error($brand_terms)) {
+		$brand_term = reset($brand_terms);
+		if ($brand_term && !empty($brand_term->slug)) {
+			$brand_slug = $brand_term->slug;
+		}
+	}
+
+	$color_terms = get_the_terms($post->ID, 'rim_color');
+	if (!empty($color_terms) && !is_wp_error($color_terms)) {
+		$color_term = reset($color_terms);
+		if ($color_term && !empty($color_term->slug)) {
+			$color_slug = $color_term->slug;
+		}
+	}
+
+	return home_url('/gallery-item/' . $brand_slug . '/' . $color_slug . '/' . $post->post_name . '/');
+}
+add_filter('post_type_link', 'felgilab_gallery_item_permalink', 10, 2);
+
+function felgilab_gallery_item_rewrite_rules()
+{
+	add_rewrite_rule(
+		'^gallery-item/([^/]+)/([^/]+)/([^/]+)/?$',
+		'index.php?post_type=gallery_item&name=$matches[3]',
+		'top'
+	);
+}
+add_action('init', 'felgilab_gallery_item_rewrite_rules', 20);
 
 // services rewrite rules
 function felgilab_services_rewrite_rules()
