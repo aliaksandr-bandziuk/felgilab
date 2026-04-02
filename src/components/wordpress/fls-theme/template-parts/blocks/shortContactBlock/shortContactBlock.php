@@ -52,7 +52,7 @@ $i18n = [
 $phone_label = $i18n['phone'][$lang];
 ?>
 
-<section <?php echo $wrapper_attributes; ?> aria-label="<?php echo esc_attr($title); ?>>">
+<section <?php echo $wrapper_attributes; ?> aria-label="<?php echo esc_attr($title); ?>">
   <div class=" short-form__container">
     <div class="short-form__wrapper">
       <p class="title-lite text-center mb20">
@@ -75,7 +75,7 @@ $phone_label = $i18n['phone'][$lang];
           <span><?php echo esc_html($phone_label); ?></span>
         </div>
 
-        <button type="submit" class="button-primary btn" aria-label="<?php echo esc_attr($button_text); ?>">
+        <button type="submit" class="button-primary btn w_btn2" aria-label="<?php echo esc_attr($button_text); ?>">
           <?php echo esc_html($button_text); ?>
         </button>
       </form>

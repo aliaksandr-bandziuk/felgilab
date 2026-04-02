@@ -147,7 +147,7 @@ $i18n = [
             <div class="file-list" id="fileList_<?php echo esc_attr($block['id']); ?>"></div>
           </div>
 
-          <button type="submit" class="button-primary btn" aria-label="<?php echo esc_attr($button_text); ?>">
+          <button type="submit" class="button-primary btn w_btn2" aria-label="<?php echo esc_attr($button_text); ?>">
             <?php echo esc_html($button_text); ?>
           </button>
         </form>
