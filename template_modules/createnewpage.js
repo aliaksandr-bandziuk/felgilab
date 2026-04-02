@@ -47,13 +47,13 @@ async function createFlsPage() {
 
 			fs.mkdirSync(`src/components/wordpress/fls-theme/components/${name}`)
 			fs.writeFileSync(`src/components/wordpress/fls-theme/pages/${name}.php`, `
-<? /* Template Name: ${name} page template */ ?>
-<? get_header() ?>
+<?php /* Template Name: ${name} page template */ ?>
+<?php get_header() ?>
 <main class="page">
 	<div data-fls-${name} class="${name}">
 	</div>
 </main>
-<? get_footer() ?>
+<?php get_footer() ?>
 			`)
 
 			logger(`_CREATE_PAGE_DONE`, name)

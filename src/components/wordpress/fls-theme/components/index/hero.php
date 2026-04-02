@@ -1,2 +1,2 @@
-<?
+<?php
 $content = $args['content'];

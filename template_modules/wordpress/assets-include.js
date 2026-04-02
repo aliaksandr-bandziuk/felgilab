@@ -12,7 +12,7 @@ export default function wpAssetsInclude() {
 	const file = `src/components/wordpress/fls-theme/inc/assets-include.php`
 	const moduleType = []
 	let data = ``
-	data = `<?`
+	data = `<?php\n`
 	data += `const VITE_HOST='http://${templateConfig.server.hostname}:${templateConfig.server.port}';`
 	data += `function add_vite() {`
 	if (isProduction) {

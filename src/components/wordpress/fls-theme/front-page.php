@@ -1,5 +1,5 @@
-<? /* Template Name: index page template */ ?>
-<? get_header() ?>
+<?php /* Template Name: index page template */ ?>
+<?php get_header() ?>
 <main class="page">
   <div data-fls-index class="index">
 
@@ -9,4 +9,4 @@
 
   </div>
 </main>
-<? get_footer() ?>
+<?php get_footer() ?>
