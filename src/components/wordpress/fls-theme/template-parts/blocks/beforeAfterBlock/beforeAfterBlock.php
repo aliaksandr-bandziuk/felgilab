@@ -61,11 +61,13 @@ if (!$before_image || !$after_image) {
       <div data-fls-beforeafter-before class="before-after__item before-after__item--before">
         <?php echo wp_get_attachment_image(
           $before_image['ID'],
-          'full',
+          'before-after-main',
           false,
           [
-            'alt' => esc_attr($before_label),
-            'loading' => 'lazy'
+            'alt'      => esc_attr($before_label),
+            'loading'  => 'lazy',
+            'decoding' => 'async',
+            'sizes'    => '100vw',
           ]
         ); ?>
       </div>
@@ -74,11 +76,13 @@ if (!$before_image || !$after_image) {
       <div data-fls-beforeafter-after class="before-after__item before-after__item--after">
         <?php echo wp_get_attachment_image(
           $after_image['ID'],
-          'full',
+          'before-after-main',
           false,
           [
-            'alt' => esc_attr($after_label),
-            'loading' => 'lazy'
+            'alt'      => esc_attr($after_label),
+            'loading'  => 'lazy',
+            'decoding' => 'async',
+            'sizes'    => '100vw',
           ]
         ); ?>
       </div>

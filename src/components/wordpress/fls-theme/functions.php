@@ -112,6 +112,11 @@ function fls_setup()
 	add_theme_support('align-wide'); // Поддержка широкого выравнивания блоков
 	add_theme_support('editor-styles'); // Подключение стилей редактора блоков
 	add_editor_style(); // Подключение стилей для редактора
+	add_image_size('hero-main', 1600, 0, false); // Размер для главного изображения в блоке Hero
+	add_image_size('portfolio-card', 600, 400, true); // Размер для изображений в карточках портфолио
+	add_image_size('gallery-grid', 800, 600, true); // Размер для изображений в галерее
+	add_image_size('before-after-main', 1400, 0, false); // Размер для изображений в блоке "До и После"
+	add_image_size('service-card', 700, 460, true); // Размер для изображений в карточках услуг
 }
 add_action('after_setup_theme', 'fls_setup');
 
@@ -534,9 +539,12 @@ function felgilab_filter_portfolio_callback()
 					<div class="portfolio-card__image">
 						<?php
 						if (has_post_thumbnail()) {
-							the_post_thumbnail('full');
+							the_post_thumbnail('portfolio-card', [
+								'loading' => 'lazy',
+								'decoding' => 'async',
+							]);
 						} else {
-							echo '<img src="' . esc_url(get_template_directory_uri() . '/wp-content/uploads/2026/03/no-image.webp') . '" alt="No image">';
+							echo '<img src="' . esc_url(get_template_directory_uri() . '/assets/img/no-image.webp') . '" alt="No image" loading="lazy" decoding="async">';
 						}
 						?>
 					</div>

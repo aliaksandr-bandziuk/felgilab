@@ -18,13 +18,14 @@ use CyrToLat\BackgroundProcesses\TermConversionProcess;
 use CyrToLat\Settings\Converter as SettingsConverter;
 use CyrToLat\Settings\SystemInfo as SettingsSystemInfo;
 use CyrToLat\Settings\Tables as SettingsTables;
+use JsonException;
 use Polylang;
 use SitePress;
+use stdClass;
 use WP_CLI;
 use WP_Error;
 use WP_Post;
 use wpdb;
-use Exception;
 use CyrToLat\Settings\Settings;
 use CyrToLat\Symfony\Polyfill\Mbstring\Mbstring;
 
@@ -38,98 +39,98 @@ class Main {
 	 *
 	 * @var Request
 	 */
-	protected $request;
+	protected Request $request;
 
 	/**
 	 * Plugin settings.
 	 *
 	 * @var Settings
 	 */
-	protected $settings;
+	protected Settings $settings;
 
 	/**
 	 * Process posts instance.
 	 *
-	 * @var PostConversionProcess
+	 * @var PostConversionProcess|null
 	 */
-	protected $process_all_posts;
+	protected ?PostConversionProcess $process_all_posts = null;
 
 	/**
 	 * Process terms instance.
 	 *
-	 * @var TermConversionProcess
+	 * @var TermConversionProcess|null
 	 */
-	protected $process_all_terms;
+	protected ?TermConversionProcess $process_all_terms = null;
 
 	/**
 	 * Admin Notices instance.
 	 *
 	 * @var AdminNotices
 	 */
-	protected $admin_notices;
+	protected AdminNotices $admin_notices;
 
 	/**
 	 * Converter instance.
 	 *
-	 * @var Converter
+	 * @var Converter|null
 	 */
-	protected $converter;
+	protected ?Converter $converter = null;
 
 	/**
 	 * WP_CLI instance.
 	 *
-	 * @var WPCli
+	 * @var WPCli|null
 	 */
-	protected $cli;
+	protected ?WPCli $cli = null;
 
 	/**
 	 * ACF instance.
 	 *
-	 * @var ACF
+	 * @var ACF|null
 	 */
-	protected $acf;
+	protected ?ACF $acf = null;
 
 	/**
 	 * Flag showing that we are processing a term.
 	 *
 	 * @var bool
 	 */
-	private $is_term = false;
+	private bool $is_term = false;
 
 	/**
 	 * Taxonomies saved in pre_insert_term or get_terms_args filter.
 	 *
-	 * @var string[]|null
+	 * @var string[]
 	 */
-	private $taxonomies;
+	private array $taxonomies = [];
 
 	/**
 	 * Polylang locale.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	private $pll_locale;
+	private ?string $pll_locale = null;
 
 	/**
 	 * WPML locale.
 	 *
 	 * @var string|null
 	 */
-	protected $wpml_locale;
+	protected ?string $wpml_locale = null;
 
 	/**
 	 * WPML languages.
 	 *
 	 * @var array
 	 */
-	protected $wpml_languages;
+	protected array $wpml_languages = [];
 
 	/**
-	 * Current request is frontend.
+	 * The current request is frontend.
 	 *
 	 * @var bool|null
 	 */
-	protected $is_frontend;
+	protected ?bool $is_frontend = null;
 
 	/**
 	 * Init plugin.
@@ -150,7 +151,6 @@ class Main {
 
 		$this->init_multilingual();
 		$this->init_classes();
-		$this->init_cli();
 		$this->init_hooks();
 	}
 
@@ -231,30 +231,6 @@ class Main {
 	}
 
 	/**
-	 * Init in CLI mode.
-	 *
-	 * @return void
-	 */
-	protected function init_cli(): void {
-		if ( ! $this->request->is_cli() ) {
-			return;
-		}
-
-		$this->cli = new WPCli( $this->converter );
-
-		try {
-			/**
-			 * Method WP_CLI::add_command() accepts a class as callable.
-			 *
-			 * @noinspection PhpParamsInspection
-			 */
-			WP_CLI::add_command( 'cyr2lat', $this->cli );
-		} catch ( Exception $ex ) {
-			return;
-		}
-	}
-
-	/**
 	 * Init hooks.
 	 */
 	protected function init_hooks(): void {
@@ -278,10 +254,30 @@ class Main {
 		}
 
 		add_action( 'before_woocommerce_init', [ $this, 'declare_wc_compatibility' ] );
+
+		if ( $this->request->is_cli() ) {
+			add_action( 'cli_init', [ $this, 'action_cli_init' ] );
+		}
 	}
 
 	/**
-	 * Get Settings instance.
+	 * Action cli init.
+	 *
+	 * @return void
+	 */
+	public function action_cli_init(): void {
+		$this->cli = new WPCli( $this->converter );
+
+		/**
+		 * Method WP_CLI::add_command() accepts a class as callable.
+		 *
+		 * @noinspection PhpParamsInspection
+		 */
+		WP_CLI::add_command( 'cyr2lat', $this->cli );
+	}
+
+	/**
+	 * Get a Settings instance.
 	 *
 	 * @return Settings
 	 */
@@ -394,12 +390,93 @@ class Main {
 	}
 
 	/**
+	 * Check if the title is a local attribute.
+	 *
+	 * @param string $title Title.
+	 *
+	 * @return bool
+	 */
+	protected function is_local_attribute( string $title ): bool {
+		// Global attribute.
+		if ( 0 === strpos( $title, 'pa_' ) ) {
+			return false;
+		}
+
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+
+		$action = (string) filter_input( INPUT_POST, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+
+		// The `save attributes` action.
+		if ( 'woocommerce_save_attributes' === $action ) {
+			$data            = (string) filter_input( INPUT_POST, 'data', FILTER_SANITIZE_URL );
+			$attributes      = $this->wp_parse_str( urldecode( $data ) );
+			$attribute_names = $attributes['attribute_names'] ?? [];
+
+			return in_array( $title, $attribute_names, true );
+		}
+
+		// The `edit post` action.
+		if ( 'editpost' === $action ) {
+			$attribute_names = array_map(
+				'sanitize_text_field',
+				(array) wp_unslash( $_POST['attribute_names'] ?? [] )
+			);
+
+			return in_array( $title, $attribute_names, true );
+		}
+
+		if ( doing_action( 'woocommerce_variable_add_to_cart' ) ) {
+			$attributes = $GLOBALS['product']->get_attributes();
+
+			$encoded_attr_name = strtolower( rawurlencode( mb_strtolower( $title ) ) );
+
+			if ( isset( $attributes[ $encoded_attr_name ] ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		if ( did_action( 'woocommerce_load_cart_from_session' ) ) {
+			return true;
+		}
+
+		$attr_name = str_replace( 'attribute_', '', mb_strtolower( $title ) );
+		$attr_name = 'attribute_' . $attr_name;
+
+		$encoded_attr_name = rawurlencode( $attr_name );
+
+		return isset( $_POST[ $encoded_attr_name ] ) || isset( $_POST[ strtolower( $encoded_attr_name ) ] );
+
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
+	}
+
+	// @codeCoverageIgnoreStart
+
+	/**
+	 * Polyfill of the wp_parse_str().
+	 * Added for test reasons.
+	 *
+	 * @param string $input_string Input string.
+	 *
+	 * @return array
+	 */
+	protected function wp_parse_str( string $input_string ): array {
+		wp_parse_str( $input_string, $result );
+
+		return $result;
+	}
+
+	// @codeCoverageIgnoreEnd
+
+	/**
 	 * Check if title is a product not converted attribute.
 	 *
 	 * @param string $title Title.
 	 *
 	 * @return bool
 	 * @noinspection PhpUndefinedFunctionInspection
+	 * @noinspection PhpUndefinedMethodInspection
 	 */
 	protected function is_wc_product_not_converted_attribute( string $title ): bool {
 
@@ -436,7 +513,11 @@ class Main {
 			return false;
 		}
 
-		return $this->is_wc_attribute_taxonomy( $title ) || $this->is_wc_product_not_converted_attribute( $title );
+		return (
+			$this->is_wc_attribute_taxonomy( $title ) ||
+			$this->is_local_attribute( $title ) ||
+			$this->is_wc_product_not_converted_attribute( $title )
+		);
 	}
 
 	/**
@@ -460,7 +541,7 @@ class Main {
 		}
 
 		$filename = (string) $filename;
-		$is_utf8  = version_compare( $wp_version, '6.9-RC1', '>=' ) ? 'wp_is_valid_utf8' : 'seems_utf8';
+		$is_utf8  = version_compare( (string) $wp_version, '6.9-RC1', '>=' ) ? 'wp_is_valid_utf8' : 'seems_utf8';
 
 		if ( $is_utf8( $filename ) ) {
 			$filename = (string) Mbstring::mb_strtolower( $filename );
@@ -589,7 +670,7 @@ class Main {
 			return $data;
 		}
 
-		// Run code only on post edit screen.
+		// Run code only on post-edit screen.
 		if ( ! ( $current_screen && 'post' === $current_screen->base ) ) {
 			return $data;
 		}
@@ -628,7 +709,7 @@ class Main {
 	}
 
 	/**
-	 * Filters the terms query arguments.
+	 * Filters the term query arguments.
 	 *
 	 * @param array|mixed $args       An array of get_terms() arguments.
 	 * @param string[]    $taxonomies An array of taxonomy names.
@@ -675,6 +756,7 @@ class Main {
 		}
 
 		$pll_get_post_language = $this->pll_locale_filter_with_classic_editor();
+
 		if ( $pll_get_post_language ) {
 			$this->pll_locale = $pll_get_post_language;
 
@@ -682,6 +764,7 @@ class Main {
 		}
 
 		$pll_get_term_language = $this->pll_locale_filter_with_term();
+
 		if ( $pll_get_term_language ) {
 			$this->pll_locale = $pll_get_term_language;
 
@@ -707,7 +790,12 @@ class Main {
 		 * @var WP_REST_Server $rest_server
 		 */
 		$rest_server = rest_get_server();
-		$data        = json_decode( $rest_server::get_raw_data(), false );
+
+		try {
+			$data = json_decode( $rest_server::get_raw_data(), false, 512, JSON_THROW_ON_ERROR );
+		} catch ( JsonException $e ) {
+			$data = new stdClass();
+		}
 
 		return $data->lang ?? false;
 	}
@@ -805,11 +893,7 @@ class Main {
 		$language_code        = wpml_get_current_language();
 		$this->wpml_languages = (array) apply_filters( 'wpml_active_languages', [] );
 
-		return (
-		isset( $this->wpml_languages[ $language_code ] ) ?
-			$this->wpml_languages[ $language_code ]['default_locale'] :
-			null
-		);
+		return $this->wpml_languages[ $language_code ]['default_locale'] ?? null;
 	}
 
 	/**
@@ -826,10 +910,7 @@ class Main {
 	public function wpml_language_has_switched( $language_code, $cookie_lang, string $original_language ): void {
 		$language_code = (string) $language_code;
 
-		$this->wpml_locale =
-			isset( $this->wpml_languages[ $language_code ] ) ?
-				$this->wpml_languages[ $language_code ]['default_locale'] :
-				null;
+		$this->wpml_locale = $this->wpml_languages[ $language_code ]['default_locale'] ?? null;
 	}
 
 	/**

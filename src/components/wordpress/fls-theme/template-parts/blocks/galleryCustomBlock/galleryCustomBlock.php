@@ -44,15 +44,14 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
       return;
     }
 
-    $image_full  = wp_get_attachment_image_url($thumbnail_id, 'full');
-    $image_large = wp_get_attachment_image_url($thumbnail_id, 'large');
-    $image_alt   = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
+    $image_full = wp_get_attachment_image_url($thumbnail_id, 'full');
+    $image_alt  = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
 
     if (!$image_alt) {
       $image_alt = get_the_title($post_id);
     }
 
-    if (!$image_full || !$image_large) {
+    if (!$image_full) {
       return;
     }
 ?>
@@ -69,11 +68,19 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
         </span>
       </span>
 
-      <img
-        src="<?php echo esc_url($image_large); ?>"
-        alt="<?php echo esc_attr($image_alt); ?>"
-        loading="lazy"
-        decoding="async">
+      <?php
+      echo wp_get_attachment_image(
+        $thumbnail_id,
+        'gallery-grid',
+        false,
+        [
+          'alt'      => esc_attr($image_alt),
+          'loading'  => 'lazy',
+          'decoding' => 'async',
+          'sizes'    => '(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 33vw',
+        ]
+      );
+      ?>
     </a>
 <?php
   }

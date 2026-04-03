@@ -9,8 +9,10 @@ $whatsapp_url     = get_field('whatsapp_url');
 $popup_text       = get_field('popup_text');
 $popup_link       = get_field('popup_link');
 
-$image_url = !empty($background_image['url']) ? $background_image['url'] : '';
-$image_alt = !empty($background_image['alt']) ? $background_image['alt'] : (!empty($title) ? wp_strip_all_tags($title) : 'Hero image');
+$image_id  = !empty($background_image['ID']) ? $background_image['ID'] : 0;
+$image_alt = !empty($background_image['alt'])
+  ? $background_image['alt']
+  : (!empty($title) ? wp_strip_all_tags($title) : 'Hero image');
 
 $section_classes = 'main-hero';
 
@@ -26,12 +28,23 @@ if (empty($video_id)) {
   data-hero-youtube
   data-video-id="<?php echo esc_attr($video_id); ?>">
   <div class="main-hero__media">
-    <?php if ($image_url) : ?>
+    <?php if ($image_id) : ?>
       <div class="main-hero__image">
-        <img
-          src="<?php echo esc_url($image_url); ?>"
-          alt="<?php echo esc_attr($image_alt); ?>"
-          class="main-hero__img">
+        <?php
+        echo wp_get_attachment_image(
+          $image_id,
+          'hero-main',
+          false,
+          [
+            'class'         => 'main-hero__img',
+            'alt'           => esc_attr($image_alt),
+            'loading'       => 'eager',
+            'fetchpriority' => 'high',
+            'decoding'      => 'async',
+            'sizes'         => '100vw',
+          ]
+        );
+        ?>
       </div>
     <?php endif; ?>
 

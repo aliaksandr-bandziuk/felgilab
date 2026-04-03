@@ -52,13 +52,15 @@ if (!empty($block['align'])) {
               $service_id    = is_object($slide) ? $slide->ID : $slide;
               $service_title = get_the_title($service_id);
               $service_url   = get_permalink($service_id);
-              $image_html    = get_the_post_thumbnail(
+              $image_html = get_the_post_thumbnail(
                 $service_id,
-                'large',
+                'service-card',
                 array(
-                  'class' => 'service-item__img',
-                  'alt'   => esc_attr($service_title),
-                  'loading' => 'lazy',
+                  'class'    => 'service-item__img',
+                  'alt'      => esc_attr($service_title),
+                  'loading'  => 'lazy',
+                  'decoding' => 'async',
+                  'sizes'    => '(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 33vw',
                 )
               );
 
