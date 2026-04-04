@@ -79,9 +79,9 @@ $center_img = '/wp-content/uploads/2026/03/tyre-animate.png';
     </div>
 
     <div class="working-process__body">
-      <div class="working-process__bg">
+      <!-- <div class="working-process__bg">
         <img src="/wp-content/uploads/2026/03/car-outline.png" alt="" />
-      </div>
+      </div> -->
       <div class="working-process__grid">
         <div class="working-process__item working-process__item--1">
           <div class="working-process__item-content">
@@ -120,6 +120,8 @@ $center_img = '/wp-content/uploads/2026/03/tyre-animate.png';
         <div class="working-process__center">
           <img
             src="<?php echo esc_url($center_img); ?>"
+            width="300"
+            height="300"
             alt="Wheel service process" />
         </div>
 

@@ -271,6 +271,23 @@ import "../custom/headerScroll.js";
 import "../custom/toggleSubMenu.js";
 import "../custom/updateBusinessStatus.js";
 import "../custom/dropdownLanguage.js";
-import "../custom/loadVideoHero.js";
-import "../custom/uploadPhotos.js";
-import "../custom/gigitsCounter.js";
+// import "../custom/loadVideoHero.js";
+// import "../custom/uploadPhotos.js";
+// import "../custom/gigitsCounter.js";
+if (document.querySelector('[data-hero-youtube][data-video-id]')) {
+	import("../custom/loadVideoHero.js");
+}
+window.addEventListener("load", () => {
+	if (document.querySelector(".counter__value")) {
+		import("../custom/gigitsCounter.js").then(module => {
+			module.initDigitsCounter();
+		});
+	}
+}, { once: true });
+window.addEventListener("load", () => {
+	if (document.getElementById("wheel_photos")) {
+		import("../custom/uploadPhotos.js").then(module => {
+			module.initUploadPhotos();
+		});
+	}
+}, { once: true });

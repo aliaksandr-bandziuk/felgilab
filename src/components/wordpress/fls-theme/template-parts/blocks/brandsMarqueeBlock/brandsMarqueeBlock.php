@@ -79,6 +79,8 @@ if (empty($logos) || !is_array($logos)) {
         <a
           href="<?php echo esc_url($link['url']); ?>"
           class="brands-marquee__item"
+          width="120"
+          height="60"
           aria-label="<?php echo esc_attr($image_alt); ?>"
           <?php if (!empty($link['target'])) : ?>
           target="<?php echo esc_attr($link['target']); ?>"
@@ -93,7 +95,7 @@ if (empty($logos) || !is_array($logos)) {
 
       <?php else : ?>
 
-        <div class="brands-marquee__item">
+        <div class="brands-marquee__item" width="120" height="60">
 
           <img
             src="<?php echo esc_url($image_url); ?>"

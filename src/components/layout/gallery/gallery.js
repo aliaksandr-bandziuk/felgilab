@@ -1,72 +1,75 @@
-// Підключення функціоналу "Чертоги Фрілансера"
-import { isMobile, FLS } from "@js/common/functions.js";
-
-/*
-Документація по роботі у шаблоні: https://www.lightgalleryjs.com/docs/
-Документація плагіна: https://www.lightgalleryjs.com/docs/
-Сніппет(HTML):
-*/
-
-// Підключення базового набору функціоналу
-import lightGallery from 'lightgallery';
 const KEY = '7EC452A9-0CFD441C-BD984C7C-17C8456E';
 
-// Плагіни
-// lgZoom, lgAutoplay, lgComment, lgFullscreen, lgHash, lgPager, lgRotate, lgShare, lgThumbnail, lgVideo, lgMediumZoom
-// import lgThumbnail from 'lightgallery/plugins/thumbnail/lg-thumbnail.min.js'
-//import lgZoom from 'lightgallery/plugins/zoom/lg-zoom.min.js'
+let lightGalleryModulePromise = null;
+let lightGalleryStylesPromise = null;
 
-// Базові стилі
-import './assets/lightgallery.css';
+async function loadLightGalleryAssets() {
+	if (!lightGalleryModulePromise) {
+		lightGalleryModulePromise = import('lightgallery');
+	}
 
-// Стилі доповнень
-// import './assets/lg-transitions.css';
-// import './assets/lg-thumbnail.css';
-// import './assets/lg-video.css';
-// import './assets/lg-autoplay.css';
-// import './assets/lg-zoom.css';
-// import './assets/lg-pager.css';
-// import './assets/lg-fullscreen.css';
-// import './assets/lg-share.css';
-// import './assets/lg-comments.css';
-// import './assets/lg-rotate.css';
-// import './assets/lg-rotate.css';
-// import './assets/lg-medium-zoom.css';
-// import './assets/lg-relative-caption.css';
+	if (!lightGalleryStylesPromise) {
+		lightGalleryStylesPromise = import('./assets/lightgallery.css');
+	}
 
-// Усі стилі
-// import './assets/lightgallery-bundle.css';
+	const [{ default: lightGallery }] = await Promise.all([
+		lightGalleryModulePromise,
+		lightGalleryStylesPromise,
+	]);
 
+	return lightGallery;
+}
 
+async function initSingleGallery(gallery) {
+	if (!gallery) return;
+	if (gallery.dataset.galleryInitialized === 'true') return;
+	if (gallery.dataset.galleryInitializing === 'true') return;
+	if (!gallery.querySelector('a')) return;
 
+	gallery.dataset.galleryInitializing = 'true';
 
-// Запуск
-function initGallery() {
-	// if (document.querySelector('[data-fls-gallery]')) {
-	// 	const gallery = new lightGallery(document.querySelector('[data-fls-gallery]'), {
-	// 		//plugins: [lgZoom, lgThumbnail],
-	// 		licenseKey: KEY,
-	// 		selector: 'a',
-	// 		speed: 500,
-	// 	})
-	// }
-
-	const galleries = document.querySelectorAll('[data-fls-gallery]');
-
-	if (!galleries.length) return;
-
-	galleries.forEach((gallery) => {
-		if (gallery.dataset.galleryInitialized === 'true') return;
+	try {
+		const lightGallery = await loadLightGalleryAssets();
 
 		lightGallery(gallery, {
-			// plugins: [lgZoom, lgThumbnail],
 			licenseKey: KEY,
 			selector: 'a',
 			speed: 500,
 		});
 
 		gallery.dataset.galleryInitialized = 'true';
-	});
+	} catch (error) {
+		console.error('LightGallery init error:', error);
+	} finally {
+		gallery.removeAttribute('data-gallery-initializing');
+	}
 }
-window.addEventListener('load', initGallery);
 
+function observeGalleries() {
+	const galleries = document.querySelectorAll('[data-fls-gallery]');
+	if (!galleries.length) return;
+
+	const observer = new IntersectionObserver((entries, obs) => {
+		entries.forEach((entry) => {
+			if (!entry.isIntersecting) return;
+
+			const gallery = entry.target;
+			initSingleGallery(gallery);
+			obs.unobserve(gallery);
+		});
+	}, {
+		rootMargin: '300px 0px',
+		threshold: 0.01,
+	});
+
+	galleries.forEach((gallery) => observer.observe(gallery));
+}
+
+window.addEventListener('load', observeGalleries);
+
+document.addEventListener('galleryTabLoaded', (e) => {
+	const gallery = e.detail?.gallery;
+	if (!gallery) return;
+
+	initSingleGallery(gallery);
+});

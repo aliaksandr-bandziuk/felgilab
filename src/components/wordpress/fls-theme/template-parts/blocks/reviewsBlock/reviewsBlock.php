@@ -51,7 +51,23 @@ if (empty($reviews) || !is_array($reviews)) {
 ?>
 
 <section id="<?php echo esc_attr($block_id); ?>" class="<?php echo esc_attr($classes); ?>">
-  <img src="/wp-content/uploads/2026/03/review-shape.png" alt="" class="reviews__shape">
+  <?php if (!empty($shape_image['ID'])) : ?>
+    <?php
+    echo wp_get_attachment_image(
+      $shape_image['ID'],
+      'full',
+      false,
+      [
+        'class'    => 'reviews__shape',
+        'alt'      => '',
+        'loading'  => 'lazy',
+        'decoding' => 'async',
+      ]
+    );
+    ?>
+  <?php else : ?>
+    <img src="/wp-content/uploads/2026/03/review-shape.png" alt="" class="reviews__shape" loading="lazy" decoding="async">
+  <?php endif; ?>
 
   <div class="reviews__layout">
     <div class="reviews__container">
@@ -71,11 +87,19 @@ if (empty($reviews) || !is_array($reviews)) {
                     data-review-gallery-id="<?php echo esc_attr($index); ?>">
                     <div class="reviews__content">
                       <div class="reviews__bg" aria-hidden="true">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/reviews/car-outline.svg'); ?>" alt="">
+                        <img
+                          src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/reviews/car-outline.svg'); ?>"
+                          alt=""
+                          loading="lazy"
+                          decoding="async">
                       </div>
 
                       <div class="reviews__quote" aria-hidden="true">
-                        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/icons/quote.svg'); ?>" alt="">
+                        <img
+                          src="<?php echo esc_url(get_template_directory_uri() . '/assets/img/icons/quote.svg'); ?>"
+                          alt=""
+                          loading="lazy"
+                          decoding="async">
                       </div>
 
                       <?php if (!empty($text)) : ?>
@@ -131,14 +155,26 @@ if (empty($reviews) || !is_array($reviews)) {
           <div class="reviews__media-slider swiper">
             <div class="swiper-wrapper">
               <?php foreach ($gallery as $image) :
-                if (empty($image['url'])) {
+                if (empty($image['ID'])) {
                   continue;
                 }
+
+                $image_alt = !empty($image['alt']) ? $image['alt'] : 'Review image';
               ?>
                 <div class="swiper-slide">
-                  <img
-                    src="<?php echo esc_url($image['url']); ?>"
-                    alt="<?php echo esc_attr($image['alt'] ?: 'Review image'); ?>">
+                  <?php
+                  echo wp_get_attachment_image(
+                    $image['ID'],
+                    'review-gallery',
+                    false,
+                    [
+                      'alt'      => esc_attr($image_alt),
+                      'loading'  => 'lazy',
+                      'decoding' => 'async',
+                      'sizes'    => '(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 720px',
+                    ]
+                  );
+                  ?>
                 </div>
               <?php endforeach; ?>
             </div>

@@ -125,7 +125,7 @@
 				<div class="header__container relative">
 					<div class="header__menu menu">
 						<div class="burger-bg">
-							<button type="button" data-fls-menu class="menu__icon icon-menu"><span></span></button>
+							<button type="button" data-fls-menu class="menu__icon icon-menu" aria-label="Toggle Burger Menu"><span></span></button>
 						</div>
 						<div class="menu__wrapper">
 							<div class="header-logo">
@@ -133,7 +133,7 @@
 									<img src="<?php
 														$custom_logo__url = wp_get_attachment_image_src(get_theme_mod('custom_logo'), 'full');
 														echo $custom_logo__url[0];
-														?>" alt="Felgilab" class="logo-image">
+														?>" alt="Felgilab" class="logo-image" width="150" height="150">
 								</a>
 							</div>
 							<div class="header-elements">
@@ -248,7 +248,7 @@
 									</div>
 								</nav>
 								<div class="header-buttons">
-									<button data-fls-popup-link="popup-order" class="header-popup-button">
+									<button data-fls-popup-link="popup-order" class="header-popup-button" type="button" aria-label="Open Order Popup">
 										<span class="--icon-ico-callback ico-callback-header"></span>
 										<div class="header-button-content">
 											<span class="header-button-content__text">

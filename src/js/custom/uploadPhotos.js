@@ -1,19 +1,24 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const fileInput = document.getElementById("wheel_photos");
-  const fileList = document.getElementById("fileList");
+export function initUploadPhotos() {
+  const fileInputs = document.querySelectorAll('input[type="file"][name="wheel_photos[]"]');
 
-  if (!fileInput || !fileList) return;
+  if (!fileInputs.length) return;
 
-  fileInput.addEventListener("change", () => {
-    fileList.innerHTML = "";
+  fileInputs.forEach((fileInput) => {
+    const fileList = fileInput.closest("form")?.querySelector(".file-list");
 
-    if (!fileInput.files.length) return;
+    if (!fileList) return;
 
-    Array.from(fileInput.files).forEach((file) => {
-      const item = document.createElement("div");
-      item.className = "file-item";
-      item.textContent = file.name;
-      fileList.appendChild(item);
+    fileInput.addEventListener("change", () => {
+      fileList.innerHTML = "";
+
+      if (!fileInput.files.length) return;
+
+      Array.from(fileInput.files).forEach((file) => {
+        const item = document.createElement("div");
+        item.className = "file-item";
+        item.textContent = file.name;
+        fileList.appendChild(item);
+      });
     });
   });
-});
+}

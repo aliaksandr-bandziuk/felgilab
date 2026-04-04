@@ -100,6 +100,8 @@ if (!$has_aluminium_services && !$has_steel_services) {
               <img
                 src="/wp-content/uploads/2026/03/rim-alum.png"
                 alt="<?php echo esc_attr($aluminium_label); ?>"
+                width="60"
+                height="60"
                 class="price-list-tabs__img">
               <span><?php echo esc_html($aluminium_label); ?></span>
             </button>
@@ -110,6 +112,8 @@ if (!$has_aluminium_services && !$has_steel_services) {
               <img
                 src="/wp-content/uploads/2026/03/rim-steel.png"
                 alt="<?php echo esc_attr($steel_label); ?>"
+                width="60"
+                height="60"
                 class="price-list-tabs__img">
               <span><?php echo esc_html($steel_label); ?></span>
             </button>

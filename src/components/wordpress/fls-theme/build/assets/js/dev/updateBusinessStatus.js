@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const BUSINESS_TZ = "Europe/Warsaw";
-  const hoursWeek = { start: 8, end: 19 };
+  const hoursWeek = { start: 8, end: 17 };
   const hoursSat = { start: 9, end: 13 };
   const lang = (document.documentElement.lang || "pl").slice(0, 2).toLowerCase();
   const i18n = {

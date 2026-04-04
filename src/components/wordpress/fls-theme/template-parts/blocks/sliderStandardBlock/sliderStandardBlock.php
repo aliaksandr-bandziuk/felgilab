@@ -54,13 +54,13 @@ if (!empty($block['align'])) {
               $service_url   = get_permalink($service_id);
               $image_html = get_the_post_thumbnail(
                 $service_id,
-                'service-card',
+                'service-card-small',
                 array(
                   'class'    => 'service-item__img',
                   'alt'      => esc_attr($service_title),
                   'loading'  => 'lazy',
                   'decoding' => 'async',
-                  'sizes'    => '(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 33vw',
+                  'sizes'    => '(max-width: 767px) calc(100vw - 30px), 360px',
                 )
               );
 

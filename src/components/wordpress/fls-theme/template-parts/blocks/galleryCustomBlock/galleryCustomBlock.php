@@ -3,9 +3,7 @@ $pretitle = get_field('pretitle') ?: '';
 $title    = get_field('title') ?: '';
 $button   = get_field('button');
 
-// ACF field: brand | color
 $display_by = get_field('display_by') ?: 'brand';
-
 $current_lang = function_exists('pll_current_language') ? pll_current_language() : '';
 
 $gallery_i18n = [
@@ -24,17 +22,9 @@ $gallery_i18n = [
 ];
 
 $lang = in_array($current_lang, ['pl', 'en', 'ru', 'uk'], true) ? $current_lang : 'pl';
-
 $items_per_tab = 6;
-
-/**
- * Resolve taxonomy based on ACF option
- */
 $taxonomy = $display_by === 'color' ? 'rim_color' : 'car_brand';
 
-/**
- * Render one gallery item
- */
 if (!function_exists('felgilab_render_gallery_block_item')) {
   function felgilab_render_gallery_block_item($post_id, $zoom_text)
   {
@@ -59,7 +49,7 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
       <span class="button-main main-btn gallery-zoom-btn" aria-hidden="true">
         <span class="whatsapp-main__wrapper">
           <span class="whatsapp-main__text">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 16 16" fill="#fff" class="bi bi-zoom-in">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 16 16" fill="#fff" class="bi bi-zoom-in">
               <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
               <path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z" />
               <path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z" />
@@ -71,13 +61,13 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
       <?php
       echo wp_get_attachment_image(
         $thumbnail_id,
-        'gallery-grid',
+        'gallery-grid-home',
         false,
         [
           'alt'      => esc_attr($image_alt),
           'loading'  => 'lazy',
           'decoding' => 'async',
-          'sizes'    => '(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 33vw',
+          'sizes'    => '(max-width: 767px) calc(100vw - 30px), (max-width: 1200px) calc(50vw - 24px), 360px',
         ]
       );
       ?>
@@ -86,9 +76,6 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
   }
 }
 
-/**
- * Build tabs data for selected taxonomy
- */
 $terms_args = [
   'taxonomy'   => $taxonomy,
   'hide_empty' => false,
@@ -96,13 +83,11 @@ $terms_args = [
   'order'      => 'ASC',
 ];
 
-// Для цветов подгружаем термины в текущем языке страницы
 if ($taxonomy === 'rim_color' && function_exists('pll_current_language')) {
   $terms_args['lang'] = $lang;
 }
 
 $terms = get_terms($terms_args);
-
 $tabs_data = [];
 
 if (!empty($terms) && !is_wp_error($terms)) {
@@ -144,7 +129,6 @@ if (!empty($terms) && !is_wp_error($terms)) {
       foreach ($post_terms as $term) {
         $term_id = (int) $term->term_id;
 
-        // Для цветов приводим term ID к текущему языку страницы
         if ($taxonomy === 'rim_color' && function_exists('felgilab_translate_term_id')) {
           $term_id = felgilab_translate_term_id($term_id, $taxonomy, $lang);
         }
@@ -167,6 +151,11 @@ if (!empty($terms) && !is_wp_error($terms)) {
       }
     }
   }
+}
+
+$default_tab_index = 3;
+if ($default_tab_index >= count($tabs_data)) {
+  $default_tab_index = 0;
 }
 ?>
 
@@ -198,21 +187,31 @@ if (!empty($terms) && !is_wp_error($terms)) {
             <button
               type="button"
               aria-label="<?php echo esc_attr($tab['term']->name); ?>"
-              class="tabs__title gallery-tabs__title <?php echo $index === 3 ? '--tab-active' : ''; ?>">
+              class="tabs__title gallery-tabs__title <?php echo $index === $default_tab_index ? '--tab-active' : ''; ?>">
               <?php echo esc_html($tab['term']->name); ?>
             </button>
           <?php endforeach; ?>
         </nav>
 
         <div data-fls-tabs-body class="tabs__content">
-          <?php foreach ($tabs_data as $tab) : ?>
+          <?php foreach ($tabs_data as $index => $tab) : ?>
             <div class="tabs__body gallery-tabs__body">
               <div class="tab-gallery">
-                <div class="gallery" data-fls-gallery>
-                  <?php foreach ($tab['items'] as $post_id) : ?>
-                    <?php felgilab_render_gallery_block_item($post_id, $gallery_i18n['zoom'][$lang]); ?>
-                  <?php endforeach; ?>
+                <div class="gallery" data-fls-gallery data-gallery-loaded="<?php echo $index === $default_tab_index ? 'true' : 'false'; ?>">
+                  <?php if ($index === $default_tab_index) : ?>
+                    <?php foreach ($tab['items'] as $post_id) : ?>
+                      <?php felgilab_render_gallery_block_item($post_id, $gallery_i18n['zoom'][$lang]); ?>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
                 </div>
+
+                <?php if ($index !== $default_tab_index) : ?>
+                  <template class="gallery-tab-template">
+                    <?php foreach ($tab['items'] as $post_id) : ?>
+                      <?php felgilab_render_gallery_block_item($post_id, $gallery_i18n['zoom'][$lang]); ?>
+                    <?php endforeach; ?>
+                  </template>
+                <?php endif; ?>
               </div>
             </div>
           <?php endforeach; ?>

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+function initDigitsCounter() {
   const counters = document.querySelectorAll(".counter__value");
   if (!counters.length) return;
   const animateCounter = (counter) => {
@@ -37,4 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, observerOptions);
   counters.forEach((counter) => observer.observe(counter));
-});
+}
+export {
+  initDigitsCounter
+};

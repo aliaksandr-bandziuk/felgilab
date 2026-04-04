@@ -9,7 +9,7 @@ $whatsapp_url     = get_field('whatsapp_url');
 $popup_text       = get_field('popup_text');
 $popup_link       = get_field('popup_link');
 
-$image_id  = !empty($background_image['ID']) ? $background_image['ID'] : 0;
+$image_id  = !empty($background_image['ID']) ? (int) $background_image['ID'] : 0;
 $image_alt = !empty($background_image['alt'])
   ? $background_image['alt']
   : (!empty($title) ? wp_strip_all_tags($title) : 'Hero image');
@@ -26,7 +26,10 @@ if (empty($video_id)) {
 <section
   class="<?php echo esc_attr($section_classes); ?>"
   data-hero-youtube
-  data-video-id="<?php echo esc_attr($video_id); ?>">
+  <?php if (!empty($video_id)) : ?>
+  data-video-id="<?php echo esc_attr($video_id); ?>"
+  <?php endif; ?>>
+
   <div class="main-hero__media">
     <?php if ($image_id) : ?>
       <div class="main-hero__image">
@@ -48,9 +51,11 @@ if (empty($video_id)) {
       </div>
     <?php endif; ?>
 
-    <div class="main-hero__video-wrap">
-      <div id="<?php echo esc_attr($player_id); ?>" class="main-hero__video"></div>
-    </div>
+    <?php if (!empty($video_id)) : ?>
+      <div class="main-hero__video-wrap" aria-hidden="true">
+        <div id="<?php echo esc_attr($player_id); ?>" class="main-hero__video"></div>
+      </div>
+    <?php endif; ?>
   </div>
 
   <div class="main-hero__body">

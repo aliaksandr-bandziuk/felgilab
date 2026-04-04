@@ -113,12 +113,34 @@ function fls_setup()
 	add_theme_support('editor-styles'); // Подключение стилей редактора блоков
 	add_editor_style(); // Подключение стилей для редактора
 	add_image_size('hero-main', 1600, 0, false); // Размер для главного изображения в блоке Hero
+	add_image_size('hero-mobile', 768, 0, false); // Размер для главного изображения в блоке Hero на мобильных устройствах
 	add_image_size('portfolio-card', 600, 400, true); // Размер для изображений в карточках портфолио
 	add_image_size('gallery-grid', 800, 600, true); // Размер для изображений в галерее
+	add_image_size('gallery-grid-home', 520, 390, true); // Размер для изображений в галерее на главной странице
 	add_image_size('before-after-main', 1400, 0, false); // Размер для изображений в блоке "До и После"
 	add_image_size('service-card', 700, 460, true); // Размер для изображений в карточках услуг
+	add_image_size('service-card-small', 420, 276, true); // Размер для изображений в карточках услуг на мобильных устройствах
+	add_image_size('review-gallery', 720, 540, true); // Размер для изображений в галерее отзывов
+	add_image_size('main-logo', 300, 0, false); // Размер для главного логотипа в шапке
 }
 add_action('after_setup_theme', 'fls_setup');
+
+add_action('wp_head', function () {
+?>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		rel="preload"
+		as="style"
+		href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap"
+		onload="this.onload=null;this.rel='stylesheet'">
+	<noscript>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap">
+	</noscript>
+<?php
+}, 1);
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -1747,3 +1769,16 @@ add_filter('wpseo_robots', function ($robots) {
 	return $robots;
 });
 // add noindex for gallery_item cpt end
+
+// add async loading for specific styles
+add_filter('style_loader_tag', function ($html, $handle, $href, $media) {
+
+	$async_styles = ['vite-custom-css'];
+
+	if (in_array($handle, $async_styles, true)) {
+		return "<link rel='preload' href='{$href}' as='style' onload=\"this.onload=null;this.rel='stylesheet'\">\n<noscript><link rel='stylesheet' href='{$href}' media='{$media}'></noscript>";
+	}
+
+	return $html;
+}, 10, 4);
+// add async loading for specific styles end

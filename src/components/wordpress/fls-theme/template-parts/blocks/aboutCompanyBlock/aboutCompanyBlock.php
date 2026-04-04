@@ -25,7 +25,7 @@ $description = get_field('description');
 $items       = get_field('items');
 
 $static_media_image = '/wp-content/uploads/2026/03/rim-about-1.jpg';
-$static_icon_image  = '/wp-content/uploads/2026/03/rim-service-icon.svg';
+// $static_icon_image  = '/wp-content/uploads/2026/03/rim-service-icon.svg';
 ?>
 
 <section id="<?php echo esc_attr($block_id); ?>" class="<?php echo esc_attr($classes); ?>">
