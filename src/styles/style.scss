@@ -490,6 +490,11 @@ body {
 }
 
 .wp-block-columns {
+
+  @media screen and (max-width: 768px) {
+    padding: 0 5px;
+  }
+
   .wp-block-column {
     p,
     .wp-block-paragraph {

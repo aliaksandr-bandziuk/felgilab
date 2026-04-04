@@ -55,6 +55,10 @@ textarea.input-contact {
   // border-radius: 10px;
   resize: none;
   overflow-y: auto;
+
+  @media screen and (min-width: 768px) {
+    padding: 0.8rem 1.2rem;
+  }
 }
 
 .input-container label {
@@ -62,13 +66,18 @@ textarea.input-contact {
   top: 50%;
   left: 15px;
   transform: translateY(-50%);
-  padding: 0 0.4rem;
+  padding: 0;
   color: #fff;
-  font-size: 18px;
+  font-size: clamp(0.938rem, 0.844rem + 0.38vw, 1.125rem);
+  line-height: 1.2;
   font-weight: 400;
   pointer-events: none;
   z-index: 1;
   transition: 0.5s;
+
+  @media screen and (min-width: 768px) {
+    padding: 0 0.4rem;
+  }
 }
 
 .input-contact::placeholder {

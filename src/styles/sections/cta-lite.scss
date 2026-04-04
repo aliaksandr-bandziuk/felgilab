@@ -1,5 +1,5 @@
 .cta-lite {
-  padding: 35px 55px;
+  padding: 10px 15px;
   margin-bottom: clamp(3.125rem, 1.875rem + 5vw, 5.625rem);
   background-color: #ffffff;
   box-shadow: 0 5px 24px 6px rgba(0, 0, 0, 0.06);
@@ -22,8 +22,13 @@
 }
 .ctalite-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 20px;
+
+  @media screen and (min-width: 980px) {
+    flex-direction: row;
+  }
 
 		// .ctalite-content__image
 		&__image {

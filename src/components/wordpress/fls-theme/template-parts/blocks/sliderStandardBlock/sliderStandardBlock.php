@@ -99,7 +99,7 @@ if (!empty($block['align'])) {
           </div>
         </div>
 
-        <div class="slider-block__controls mt10">
+        <div class="slider-block__controls mt30">
           <button class="slider-block__button slider-block__button--prev" type="button" aria-label="<?php esc_attr_e('Poprzedni slajd', 'fls'); ?>">
             <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <polyline fill="none" stroke="#000" points="10 14 5 9.5 10 5"></polyline>
