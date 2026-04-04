@@ -175,7 +175,10 @@
 	font-weight: 400;
   text-transform: none;
 	background-color: #fff;
-	width: fit-content;
+
+	&:hover {
+		color: var(--brand-subcolor);
+	}
 
 	&:hover {
 		color: #fff;
@@ -187,6 +190,7 @@
 		font-size: 14px;
 		color: #fff;
 		background-color: unset;
+		width: fit-content;
 	}
 }
 
