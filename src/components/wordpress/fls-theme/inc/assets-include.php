@@ -1,14 +1,12 @@
 <?php
 const VITE_HOST = 'http://localhost:1111';
 function add_vite() {
-wp_enqueue_style('app.min.css', '/wp-content/themes/fls-theme/build/assets/css/app.min.css', array(), null, 'all');
-wp_enqueue_script('app.min.js', '/wp-content/themes/fls-theme/build/assets/js/app.min.js', array(), null, true);
-wp_enqueue_style('vite-custom-css', '/wp-content/themes/fls-theme/build/assets/css/custom.css', array(), null, 'all');
-wp_enqueue_script('vite-custom-js', '/wp-content/themes/fls-theme/build/assets/js/custom.js', array(), null, true);
+wp_enqueue_script('vite-client', VITE_HOST . '/@vite/client', array(), null, true);
+wp_enqueue_script('vite-app', VITE_HOST . '/components/wordpress/fls-theme/assets/app.js', array(), null, true);
 }
 add_action('wp_enqueue_scripts', 'add_vite');
 function add_type_module_attribute($tag, $handle) {
-if ('app.min.js' === $handle) {
+if ('vite-client' === $handle || 'vite-app' === $handle) {
 return str_replace('<script', '<script type="module"', $tag);
 }
 return $tag;

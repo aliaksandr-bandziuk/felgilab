@@ -124,8 +124,8 @@
 			<div class="header__wrapper" id="headerWrapper">
 				<div class="header__container relative">
 					<div class="header__menu menu">
-						<div class="burger-bg">
-							<button type="button" data-fls-menu class="menu__icon icon-menu" aria-label="Toggle Burger Menu"><span></span></button>
+						<div class="burger-bg" data-fls-menu>
+							<button type="button" class="menu__icon icon-menu" aria-label="Toggle Burger Menu"><span></span></button>
 						</div>
 						<div class="menu__wrapper">
 							<div class="header-logo">

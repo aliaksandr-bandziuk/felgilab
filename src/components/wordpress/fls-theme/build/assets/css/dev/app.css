@@ -544,7 +544,7 @@ body::after {
   gap: clamp(0.625rem, 0.313rem + 1.25vw, 1.25rem);
   background-color: var(--brand-color);
   color: #fff;
-  padding: 1rem 0.9375rem 0.75rem 0.9375rem;
+  padding: 0.875rem 0.9375rem 0.6875rem 0.9375rem;
   transition: all 0.3s ease-in-out;
 }
 .header-popup-button__arrow {
@@ -2713,6 +2713,7 @@ body {
 
 .breadcrumbs__list {
   display: flex;
+  flex-wrap: wrap;
   list-style: none;
   padding: 0;
   margin: 0;

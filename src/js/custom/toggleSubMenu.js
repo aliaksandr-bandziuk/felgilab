@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-
   const menuItems = document.querySelectorAll('.menu__item.menu__has-submenu');
 
   const closeAllSubMenus = () => {
@@ -11,12 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const isDesktop = () => window.matchMedia('(min-width: 981px)').matches;
+
   menuItems.forEach(menuItem => {
     const subList = menuItem.querySelector('.menu__sub-list');
     const arrow = menuItem.querySelector('.menu__arrow');
 
-    // События для десктопа
     menuItem.addEventListener('mouseenter', () => {
+      if (!isDesktop()) return;
+
       closeAllSubMenus();
 
       if (subList) {
@@ -28,6 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     menuItem.addEventListener('mouseleave', () => {
+      if (!isDesktop()) return;
+
       if (subList) {
         subList.classList.remove('menu__sub-list--open');
       }
@@ -35,41 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
         arrow.classList.remove('menu__arrow--rotated');
       }
     });
-
-    // Обработчик клика для мобильных устройств
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      menuItem.addEventListener('click', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        // Если подменю уже открыто, закрываем его, иначе открываем и закрываем все остальные
-        if (subList && subList.classList.contains('menu__sub-list--open')) {
-          subList.classList.remove('menu__sub-list--open');
-          if (arrow) {
-            arrow.classList.remove('menu__arrow--rotated');
-          }
-        } else {
-          closeAllSubMenus();
-          if (subList) {
-            subList.classList.add('menu__sub-list--open');
-          }
-          if (arrow) {
-            arrow.classList.add('menu__arrow--rotated');
-          }
-        }
-      });
-    }
   });
 
-  // Закрытие подменю при нажатии Escape
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
+    if (event.key === 'Escape' && isDesktop()) {
       closeAllSubMenus();
     }
   });
 
-  // Закрытие подменю при клике вне области меню
   document.addEventListener('click', (event) => {
+    if (!isDesktop()) return;
+
     const isClickInside = Array.from(menuItems).some(menuItem => menuItem.contains(event.target));
     if (!isClickInside) {
       closeAllSubMenus();
