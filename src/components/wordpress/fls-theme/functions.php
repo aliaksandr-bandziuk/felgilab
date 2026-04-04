@@ -1773,7 +1773,11 @@ add_filter('wpseo_robots', function ($robots) {
 // add async loading for specific styles
 add_filter('style_loader_tag', function ($html, $handle, $href, $media) {
 
-	$async_styles = ['vite-custom-css'];
+	$async_styles = [
+		'vite-custom-css',
+		'app',
+		'style',
+	];
 
 	if (in_array($handle, $async_styles, true)) {
 		return "<link rel='preload' href='{$href}' as='style' onload=\"this.onload=null;this.rel='stylesheet'\">\n<noscript><link rel='stylesheet' href='{$href}' media='{$media}'></noscript>";
@@ -1782,3 +1786,31 @@ add_filter('style_loader_tag', function ($html, $handle, $href, $media) {
 	return $html;
 }, 10, 4);
 // add async loading for specific styles end
+
+// add defer loading for scripts except some specific ones
+add_filter('script_loader_tag', function ($tag, $handle, $src) {
+
+	if (is_admin()) return $tag;
+
+	// исключения
+	$exclude = [
+		'gtm',
+		'google-tag-manager',
+		'jquery', // важно!
+	];
+
+	foreach ($exclude as $ex) {
+		if (strpos($handle, $ex) !== false) {
+			return $tag;
+		}
+	}
+
+	// если уже есть defer или async — не трогаем
+	if (strpos($tag, 'defer') !== false || strpos($tag, 'async') !== false) {
+		return $tag;
+	}
+
+	// добавляем defer внутрь тега
+	return str_replace('<script ', '<script defer ', $tag);
+}, 10, 3);
+// add defer loading for scripts except some specific ones end

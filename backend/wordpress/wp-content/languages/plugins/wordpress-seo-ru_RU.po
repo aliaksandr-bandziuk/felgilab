@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Yoast SEO &#8211; Advanced SEO with real-time guidance and built-in AI - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-04-02 06:35:23+0000\n"
+"PO-Revision-Date: 2026-04-04 08:48:08+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,6 +15,40 @@ msgstr ""
 #: src/task-list/application/tasks/improve-content-seo.php:108
 msgid "Improve the SEO of your recent content: %1$s"
 msgstr "Улучшить SEO ваших последних публикаций: %1$s"
+
+#. translators: %1$s expands to the post type label this task is about
+#: src/task-list/application/tasks/improve-content-readability.php:107
+msgid "Improve the readability of your recent content: %1$s"
+msgstr "Улучшите читабельность вашего недавнего контента: %1$s"
+
+#: src/task-list/application/tasks/child-tasks/improve-content-seo-child.php:52
+msgid "Your content is partially optimized. Adding a few more SEO best practices will help you reach a wider audience."
+msgstr "Ваш контент частично оптимизирован. Применение ещё нескольких рекомендаций по SEO поможет вам охватить более широкую аудиторию."
+
+#: src/task-list/application/tasks/child-tasks/improve-content-seo-child.php:51
+msgid "Your content is well optimized for search engines. This increases your chances of ranking higher in search results."
+msgstr "Ваш контент хорошо оптимизирован для поисковых систем. Это повышает ваши шансы на более высокое место в результатах поиска."
+
+#: src/task-list/application/tasks/child-tasks/improve-content-readability-child.php:52
+msgid "Your content is readable but could be clearer. Consider simplifying a few sentences to improve the overall flow."
+msgstr "Ваш контент читается легко, но его можно сделать более понятным. Подумайте о том, чтобы упростить некоторые предложения, чтобы улучшить общее восприятие текста."
+
+#: src/task-list/application/tasks/child-tasks/improve-content-readability-child.php:51
+msgid "Your content is clear and easy to read. This helps your audience stay engaged with your message."
+msgstr "Ваш контент написан понятно и легко читается. Это помогает вашей аудитории сохранять интерес к вашему сообщению."
+
+#: src/schema-aggregator/user-interface/site-schema-aggregator-cache-cli-command.php:99
+msgid "All site schema cache has been cleared successfully."
+msgstr "Кэш схем всех сайтов был успешно очищен."
+
+#: src/schema-aggregator/user-interface/site-schema-aggregator-cache-cli-command.php:90
+msgid "The site schema cache has been cleared successfully."
+msgstr "Кэш схемы сайта был успешно очищен."
+
+#. translators: %1$s expands to the post type label this task is about
+#: src/task-list/application/tasks/set-search-appearance-templates.php:132
+msgid "Set search appearance templates for your content type: %1$s"
+msgstr "Задайте шаблоны отображения результатов поиска для вашего типа контента: %1$s"
 
 #: src/task-list/domain/exceptions/complete-llms-task-exception.php:17
 msgid "Failed to enable llms.txt option."
@@ -55,6 +89,11 @@ msgstr "Создать новый контент"
 #: src/task-list/application/tasks/create-new-content.php:95
 msgid "Create new post"
 msgstr "Создать новую публикацию"
+
+#. translators: %s expands to Yoast SEO
+#: src/task-list/application/tasks/complete-ftc.php:94
+msgid "Skipping setup limits how much %s can help you. Completing it makes sure the core settings are working in your favor."
+msgstr "Если пропустить настройку, эффективность %s будет ограничена. Её выполнение гарантирует, что основные настройки будут работать в ваших интересах."
 
 #: src/task-list/application/tasks/complete-ftc.php:91
 msgid "Complete the first time configuration"

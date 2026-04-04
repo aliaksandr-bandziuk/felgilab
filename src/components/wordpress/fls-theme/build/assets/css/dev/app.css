@@ -205,7 +205,6 @@ body::after {
   transform: scale(0);
   transition: transform 0.3s ease 0s, visibility 0.3s ease 0s;
   background-color: var(--brand-color);
-  padding: 1.25rem;
   width: 100%;
   max-width: 56.25rem;
   border-radius: 0.25rem;
@@ -917,6 +916,9 @@ body::after {
   flex-direction: column;
   align-items: center;
 }
+.block-precontent__title {
+  text-align: center;
+}
 .block-precontent__descr {
   color: #888888;
   font-size: clamp(1rem, 0.938rem + 0.25vw, 1.125rem);
@@ -1031,15 +1033,25 @@ body::after {
 .gallery-tabs__navigation {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.625rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
   margin-bottom: 1.25rem;
-  max-width: 56.25rem;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  padding-bottom: 0.25rem;
+}
+.gallery-tabs__navigation::-webkit-scrollbar {
+  display: none;
 }
 .gallery-tabs__title {
+  flex: 0 0 auto;
+  white-space: nowrap;
   padding: 0.9375rem 1.25rem;
   background-color: rgba(221, 221, 221, 0.2);
   border-radius: 0.25rem;
@@ -1051,6 +1063,7 @@ body::after {
   background-color: var(--brand-color);
   color: #fff;
 }
+
 .gallery-zoom-btn {
   position: absolute;
   top: 50%;
@@ -1080,7 +1093,7 @@ body::after {
   transition: all 0.3s ease-in-out;
 }
 .cta-lite {
-  padding: 2.1875rem 3.4375rem;
+  padding: 0.625rem 0.9375rem;
   margin-bottom: clamp(3.125rem, 1.875rem + 5vw, 5.625rem);
   background-color: #ffffff;
   box-shadow: 0 0.3125rem 1.5rem 0.375rem rgba(0, 0, 0, 0.06);
@@ -1094,6 +1107,7 @@ body::after {
 
 .ctalite-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 1.25rem;
 }
@@ -1830,9 +1844,10 @@ textarea.input-contact {
   top: 50%;
   left: 0.9375rem;
   transform: translateY(-50%);
-  padding: 0 0.4rem;
+  padding: 0;
   color: #fff;
-  font-size: 1.125rem;
+  font-size: clamp(0.938rem, 0.844rem + 0.38vw, 1.125rem);
+  line-height: 1.2;
   font-weight: 400;
   pointer-events: none;
   z-index: 1;
@@ -2900,7 +2915,6 @@ body {
   height: 100%;
   border: 0;
 }
-
 .wp-block-columns .wp-block-column p,
 .wp-block-columns .wp-block-column .wp-block-paragraph {
   font-size: 1.1rem;
@@ -3371,6 +3385,9 @@ body {
   background-color: #fff;
 }
 .menu__sub-link:hover {
+  color: var(--brand-subcolor);
+}
+.menu__sub-link:hover {
   color: #fff;
   background-color: var(--brand-color);
 }
@@ -3630,6 +3647,9 @@ body {
   .header-button-content {
     display: none;
   }
+  .menu__sub-item {
+    width: fit-content;
+  }
   .menu {
     display: flex;
     flex-direction: row-reverse;
@@ -3652,6 +3672,7 @@ body {
     font-size: 0.875rem;
     color: #fff;
     background-color: unset;
+    width: fit-content;
   }
   .menu__has-submenu {
     flex-direction: column;
@@ -3763,6 +3784,10 @@ body {
     bottom: calc(50% - 0.0625rem);
     transform: rotate(45deg);
     background-color: #fff;
+  }}
+@media screen and (max-width: 48rem){
+  .wp-block-columns {
+    padding: 0 0.3125rem;
   }}
 @media (max-width: 47.99875rem){
   .comparison__header {
@@ -3893,6 +3918,12 @@ body {
   }
   .cta-lite {
     padding: 3.125rem 0.9375rem;
+  }
+  textarea.input-contact {
+    padding: 0.8rem 1.2rem;
+  }
+  .input-container label {
+    padding: 0 0.4rem;
   }
   .inputs-wrapper {
     flex-direction: row;
@@ -4113,8 +4144,20 @@ body {
     display: none;
     padding: 1.25rem 1.875rem;
   }
+  .gallery-tabs__navigation {
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow-x: visible;
+    max-width: 56.25rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 0;
+  }
   .cta-lite__wrapper {
     grid-template-columns: 1fr 0.8fr 1fr;
+  }
+  .ctalite-content {
+    flex-direction: row;
   }
   .ctalite-contact:nth-of-type(2) {
     padding: 0 1.5625rem;
