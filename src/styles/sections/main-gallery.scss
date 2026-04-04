@@ -8,52 +8,67 @@
 }
 
 .gallery-tabs {
+  // .gallery-tabs__navigation
+  &__navigation {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-bottom: 20px;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-bottom: 4px;
 
-		// .gallery-tabs__navigation
-		&__navigation {
-      display: flex;
-      align-items: center;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media screen and (min-width: 980px) {
       justify-content: center;
-      gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 20px;
+      overflow-x: visible;
       max-width: 900px;
       margin-left: auto;
       margin-right: auto;
-		}
+      padding-bottom: 0;
+    }
+  }
 
-		// .gallery-tabs__title
-		&__title {
-      padding: 15px 20px;
-      background-color: rgba(221, 221, 221, 0.2);
-      border-radius: 4px;
-      transition: all 0.3s ease-in-out;
-      font-size: 1.1rem;
-      font-weight: 500;
+  // .gallery-tabs__title
+  &__title {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 15px 20px;
+    background-color: rgba(221, 221, 221, 0.2);
+    border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+    font-size: 1.1rem;
+    font-weight: 500;
+
+    @media screen and (min-width: 768px) {
+      &:hover {
+        background-color: var(--brand-color-alt);
+        color: #fff;
+      }
+    }
+
+    &.--tab-active {
+      background-color: var(--brand-color);
+      color: #fff;
 
       @media screen and (min-width: 768px) {
         &:hover {
           background-color: var(--brand-color-alt);
-          color: #fff;
         }
       }
-
-      &.--tab-active {
-        background-color: var(--brand-color);
-        color: #fff;
-
-          @media screen and (min-width: 768px) {
-          &:hover {
-            background-color: var(--brand-color-alt);
-          }
-        }
-      }
-		}
-
-		// .gallery-tabs__body
-
-		&__body {
-		}
+    }
+  }
 }
 
 .gallery-zoom-btn {
