@@ -291,3 +291,4 @@ window.addEventListener("load", () => {
 		});
 	}
 }, { once: true });
+import "../custom/priceCalculator.js";

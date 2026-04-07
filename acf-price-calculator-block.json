@@ -1,0 +1,392 @@
+[
+  {
+    "key": "group_price_calculator_block",
+    "title": "Block: Price Calculator",
+    "fields": [
+      {
+        "key": "field_price_calculator_title",
+        "label": "Title",
+        "name": "title",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "Kalkulator kosztów",
+        "maxlength": "",
+        "placeholder": "",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_price_calculator_calculate_button_text",
+        "label": "Calculate button text",
+        "name": "calculate_button_text",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "Wycenić",
+        "maxlength": "",
+        "placeholder": "",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_price_calculator_summary_title",
+        "label": "Summary title",
+        "name": "summary_title",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "Podsumowanie",
+        "maxlength": "",
+        "placeholder": "",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_price_calculator_appointment_button_text",
+        "label": "Appointment button text",
+        "name": "appointment_button_text",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "50",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "Umów się na wizytę do serwisu",
+        "maxlength": "",
+        "placeholder": "",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_price_calculator_appointment_button_type",
+        "label": "Appointment button type",
+        "name": "appointment_button_type",
+        "aria-label": "",
+        "type": "select",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "33",
+          "class": "",
+          "id": ""
+        },
+        "choices": {
+          "popup": "Popup",
+          "link": "Link"
+        },
+        "default_value": "popup",
+        "return_format": "value",
+        "multiple": 0,
+        "allow_null": 0,
+        "ui": 1,
+        "ajax": 0,
+        "placeholder": ""
+      },
+      {
+        "key": "field_price_calculator_appointment_popup_selector",
+        "label": "Appointment popup selector",
+        "name": "appointment_popup_selector",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": [
+          [
+            {
+              "field": "field_price_calculator_appointment_button_type",
+              "operator": "==",
+              "value": "popup"
+            }
+          ]
+        ],
+        "wrapper": {
+          "width": "33",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "#popup-order",
+        "maxlength": "",
+        "placeholder": "",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_price_calculator_appointment_button_url",
+        "label": "Appointment button URL",
+        "name": "appointment_button_url",
+        "aria-label": "",
+        "type": "url",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": [
+          [
+            {
+              "field": "field_price_calculator_appointment_button_type",
+              "operator": "==",
+              "value": "link"
+            }
+          ]
+        ],
+        "wrapper": {
+          "width": "34",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "",
+        "placeholder": ""
+      },
+      {
+        "key": "field_price_calculator_vat_rate",
+        "label": "VAT rate",
+        "name": "vat_rate",
+        "aria-label": "",
+        "type": "number",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "33",
+          "class": "",
+          "id": ""
+        },
+        "default_value": 23,
+        "min": "",
+        "max": "",
+        "allow_in_bindings": 0,
+        "placeholder": "",
+        "step": "0.01",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_price_calculator_wheels_count",
+        "label": "Wheels count",
+        "name": "wheels_count",
+        "aria-label": "",
+        "type": "number",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "33",
+          "class": "",
+          "id": ""
+        },
+        "default_value": 4,
+        "min": 1,
+        "max": "",
+        "allow_in_bindings": 0,
+        "placeholder": "",
+        "step": 1,
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_price_calculator_currency",
+        "label": "Currency",
+        "name": "currency",
+        "aria-label": "",
+        "type": "text",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "34",
+          "class": "",
+          "id": ""
+        },
+        "default_value": "PLN",
+        "maxlength": "",
+        "placeholder": "",
+        "prepend": "",
+        "append": ""
+      },
+      {
+        "key": "field_price_calculator_price_rows",
+        "label": "Price rows",
+        "name": "price_rows",
+        "aria-label": "",
+        "type": "repeater",
+        "instructions": "",
+        "required": 0,
+        "conditional_logic": 0,
+        "wrapper": {
+          "width": "",
+          "class": "",
+          "id": ""
+        },
+        "layout": "table",
+        "pagination": 0,
+        "min": 0,
+        "max": 0,
+        "collapsed": "field_price_calculator_wheel_size",
+        "button_label": "Add price row",
+        "rows_per_page": 20,
+        "sub_fields": [
+          {
+            "key": "field_price_calculator_wheel_size",
+            "label": "Wheel size",
+            "name": "wheel_size",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+              "width": "20",
+              "class": "",
+              "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "17",
+            "prepend": "",
+            "append": "",
+            "parent_repeater": "field_price_calculator_price_rows"
+          },
+          {
+            "key": "field_price_calculator_system_price_brutto",
+            "label": "System price brutto",
+            "name": "system_price_brutto",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+              "width": "20",
+              "class": "",
+              "id": ""
+            },
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "step": "0.01",
+            "prepend": "",
+            "append": "",
+            "parent_repeater": "field_price_calculator_price_rows"
+          },
+          {
+            "key": "field_price_calculator_powder_price_brutto",
+            "label": "Powder price brutto",
+            "name": "powder_price_brutto",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+              "width": "20",
+              "class": "",
+              "id": ""
+            },
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "step": "0.01",
+            "prepend": "",
+            "append": "",
+            "parent_repeater": "field_price_calculator_price_rows"
+          },
+          {
+            "key": "field_price_calculator_cnc_price_brutto",
+            "label": "CNC price brutto",
+            "name": "cnc_price_brutto",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+              "width": "20",
+              "class": "",
+              "id": ""
+            },
+            "default_value": 0,
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "step": "0.01",
+            "prepend": "",
+            "append": "",
+            "parent_repeater": "field_price_calculator_price_rows"
+          },
+          {
+            "key": "field_price_calculator_vulcan_price_brutto",
+            "label": "Vulcan price brutto",
+            "name": "vulcan_price_brutto",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+              "width": "20",
+              "class": "",
+              "id": ""
+            },
+            "default_value": 0,
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "step": "0.01",
+            "prepend": "",
+            "append": "",
+            "parent_repeater": "field_price_calculator_price_rows"
+          }
+        ]
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "block",
+          "operator": "==",
+          "value": "acf/price-calculator-block"
+        }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0
+  }
+]

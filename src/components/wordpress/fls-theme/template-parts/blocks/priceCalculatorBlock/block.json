@@ -1,0 +1,29 @@
+{
+  "name": "acf/price-calculator-block",
+  "title": "Price Calculator",
+  "description": "Autonomous price calculator block for rim services.",
+  "category": "formatting",
+  "icon": "calculator",
+  "keywords": ["price", "calculator", "rims", "felgi"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "/priceCalculatorBlock.php"
+  },
+  "supports": {
+    "anchor": true,
+    "align": false,
+    "jsx": false,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview",
+      "data": {
+        "title": "Kalkulator kosztów"
+      }
+    }
+  }
+}
