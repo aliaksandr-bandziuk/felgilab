@@ -306,6 +306,7 @@ function felgilab_register_acf_blocks()
 		register_block_type(get_template_directory() . "/template-parts/blocks/digitsBlock/block.json");
 		register_block_type(get_template_directory() . "/template-parts/blocks/priceCalculatorBlock/block.json");
 		register_block_type(get_template_directory() . "/template-parts/blocks/contentTabsBlock/block.json");
+		register_block_type(get_template_directory() . "/template-parts/blocks/allContactsBlock/block.json");
 	}
 }
 // Advanced Custom Fields End

@@ -1,0 +1,67 @@
+{
+  "key": "group_all_contacts_block",
+  "title": "All Contacts Block",
+  "fields": [
+    {
+      "key": "field_all_contacts_working_hours",
+      "label": "Working hours",
+      "name": "working_hours",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "rows": 4,
+      "new_lines": "br"
+    },
+    {
+      "key": "field_all_contacts_address",
+      "label": "Address",
+      "name": "address",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "rows": 3,
+      "new_lines": "br"
+    },
+    {
+      "key": "field_all_contacts_address_url",
+      "label": "Address URL (Google Maps)",
+      "name": "address_url",
+      "type": "url",
+      "instructions": "Paste Google Maps link to your location",
+      "required": 0
+    },
+    {
+      "key": "field_all_contacts_phone",
+      "label": "Phone",
+      "name": "phone_full",
+      "type": "text",
+      "instructions": "Example: +48 739 103 744",
+      "required": 0
+    },
+    {
+      "key": "field_all_contacts_email",
+      "label": "Email",
+      "name": "email",
+      "type": "email",
+      "instructions": "",
+      "required": 0
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/all-contacts-block"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}

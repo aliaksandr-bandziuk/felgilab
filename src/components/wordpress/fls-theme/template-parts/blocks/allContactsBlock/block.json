@@ -1,0 +1,21 @@
+{
+  "name": "acf/all-contacts-block",
+  "title": "All Contacts Block",
+  "description": "A block to display all contact information.",
+  "category": "theme",
+  "icon": "phone",
+  "keywords": ["cta", "contact", "phone", "email"],
+  "style": [],
+  "script": [],
+  "editorStyle": [],
+  "editorScript": [],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "allContactsBlock.php"
+  },
+  "supports": {
+    "anchor": true,
+    "align": false,
+    "jsx": false
+  }
+}
