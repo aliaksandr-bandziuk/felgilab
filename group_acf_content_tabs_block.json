@@ -1,0 +1,124 @@
+[
+  {
+    "key": "group_content_tabs_block",
+    "title": "Content Tabs Block",
+    "fields": [
+      {
+        "key": "field_ct_pretitle",
+        "label": "Pretitle",
+        "name": "pretitle",
+        "type": "text"
+      },
+      {
+        "key": "field_ct_title",
+        "label": "Title",
+        "name": "title",
+        "type": "text"
+      },
+      {
+        "key": "field_ct_tabs",
+        "label": "Tabs",
+        "name": "tabs",
+        "type": "repeater",
+        "layout": "block",
+        "button_label": "Add Tab",
+        "sub_fields": [
+          {
+            "key": "field_ct_tab_title",
+            "label": "Tab Title",
+            "name": "tab_title",
+            "type": "text",
+            "required": 1
+          },
+          {
+            "key": "field_ct_tab_icon",
+            "label": "Tab Icon",
+            "name": "tab_icon",
+            "type": "image",
+            "return_format": "array",
+            "preview_size": "thumbnail",
+            "library": "all"
+          },
+          {
+            "key": "field_ct_has_subtabs",
+            "label": "Has Subtabs?",
+            "name": "has_subtabs",
+            "type": "true_false",
+            "ui": 1,
+            "default_value": 0
+          },
+          {
+            "key": "field_ct_tab_content",
+            "label": "Tab Content",
+            "name": "content",
+            "type": "wysiwyg",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "conditional_logic": [
+              [
+                {
+                  "field": "field_ct_has_subtabs",
+                  "operator": "==",
+                  "value": "0"
+                }
+              ]
+            ]
+          },
+          {
+            "key": "field_ct_subtabs",
+            "label": "Subtabs",
+            "name": "subtabs",
+            "type": "repeater",
+            "layout": "block",
+            "button_label": "Add Subtab",
+            "conditional_logic": [
+              [
+                {
+                  "field": "field_ct_has_subtabs",
+                  "operator": "==",
+                  "value": "1"
+                }
+              ]
+            ],
+            "sub_fields": [
+              {
+                "key": "field_ct_subtab_title",
+                "label": "Subtab Title",
+                "name": "subtab_title",
+                "type": "text",
+                "required": 1
+              },
+              {
+                "key": "field_ct_subtab_content",
+                "label": "Subtab Content",
+                "name": "content",
+                "type": "wysiwyg",
+                "tabs": "all",
+                "toolbar": "full",
+                "media_upload": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "block",
+          "operator": "==",
+          "value": "acf/content-tabs-block"
+        }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": ""
+  }
+]

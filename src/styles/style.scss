@@ -22,6 +22,7 @@
 @use "./sections/team-block.scss";
 @use "./sections/digits.scss";
 @use "./sections/price-calculator.scss";
+@use "./sections/content-tabs.scss";
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Підключення загальних віддалених шрифтів (Google Fonts)
@@ -273,8 +274,7 @@ body {
 .standard-hero {
 	position: relative;
   overflow: hidden;
-  // min-height: 85dvh;
-	height: 65dvh;
+	height: 25dvh;
   background-color: #000;
   margin-bottom: clamp(3.125rem, 1.875rem + 5vw, 5.625rem);
 
@@ -302,6 +302,21 @@ body {
 
   @media screen and (min-width: 1100px) {
     aspect-ratio: 11 / 3;
+  }
+  
+  .main-hero__body {
+    min-height: unset;
+    
+    @media screen and (max-width: 768px) {
+      padding-block: 50px;
+    }
+  }
+
+  .main-hero__decor {
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
   }
 }
 

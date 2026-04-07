@@ -1,0 +1,21 @@
+{
+  "name": "acf/content-tabs-block",
+  "title": "Content Tabs Block",
+  "description": "Universal content tabs block with optional subtabs and WYSIWYG content.",
+  "category": "formatting",
+  "icon": "index-card",
+  "keywords": ["tabs", "content", "wysiwyg"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "contentTabsBlock.php"
+  },
+  "supports": {
+    "anchor": true,
+    "align": false,
+    "jsx": false,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  }
+}
