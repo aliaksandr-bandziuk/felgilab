@@ -46,6 +46,9 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
     }
 ?>
     <a href="<?php echo esc_url($image_full); ?>" class="gallery__item">
+      <p class="gallery__item--title">
+        <?php echo esc_html(get_the_title($post_id)); ?>
+      </p>
       <span class="button-main main-btn gallery-zoom-btn" aria-hidden="true">
         <span class="whatsapp-main__wrapper">
           <span class="whatsapp-main__text">
