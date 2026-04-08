@@ -292,3 +292,9 @@ window.addEventListener("load", () => {
 	}
 }, { once: true });
 import "../custom/priceCalculator.js";
+
+import { initCookieBanner } from '../custom/cookieBanner.js';
+
+window.addEventListener('load', () => {
+	initCookieBanner();
+}, { once: true });

@@ -619,7 +619,7 @@ body::after {
 
 .mobile-phone-link {
   color: var(--brand-color);
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 0.803rem + 0.48vw, 1.1rem);
   font-weight: 500;
 }
 
@@ -2835,10 +2835,18 @@ textarea.input-contact {
   display: none !important;
 }
 
+.content-tabs-editor {
+  overflow-x: auto;
+}
 .content-tabs-editor table {
+  width: max-content;
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
+}
+.content-tabs-editor th, .content-tabs-editor td {
+  white-space: normal;
+  min-width: 5.625rem;
 }
 .content-tabs-editor th,
 .content-tabs-editor td {

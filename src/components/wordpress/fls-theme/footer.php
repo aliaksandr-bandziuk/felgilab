@@ -320,6 +320,62 @@
 			</div>
 		</div>
 	</div>
+
+	<?php
+	$current_lang = function_exists('pll_current_language') ? pll_current_language() : 'pl';
+	$lang = in_array($current_lang, ['pl', 'en', 'ru', 'uk'], true) ? $current_lang : 'pl';
+
+	$cookie_i18n = [
+		'text' => [
+			'pl' => 'Używamy plików cookies, aby zapewnić prawidłowe działanie strony oraz analizować ruch. Możesz zaakceptować lub odrzucić dodatkowe cookies.',
+			'en' => 'We use cookies to ensure proper website operation and to analyze traffic. You can accept or reject additional cookies.',
+			'ru' => 'Мы используем cookies, чтобы сайт работал корректно и для анализа трафика. Вы можете принять или отклонить дополнительные cookies.',
+			'uk' => 'Ми використовуємо cookies, щоб сайт працював коректно та для аналізу трафіку. Ви можете прийняти або відхилити додаткові cookies.',
+		],
+		'accept' => [
+			'pl' => 'Akceptuję',
+			'en' => 'Accept',
+			'ru' => 'Принять',
+			'uk' => 'Прийняти',
+		],
+		'decline' => [
+			'pl' => 'Odrzucam',
+			'en' => 'Decline',
+			'ru' => 'Отклонить',
+			'uk' => 'Відхилити',
+		],
+		'policy' => [
+			'pl' => 'Polityka prywatności',
+			'en' => 'Privacy Policy',
+			'ru' => 'Политика конфиденциальности',
+			'uk' => 'Політика конфіденційності',
+		],
+	];
+
+	$privacy_page_url = 'https://felgilab.pl/polityka-prywatnosci/';
+	?>
+
+	<div class="cookie-banner" id="cookie-banner" hidden>
+		<div class="cookie-banner__inner">
+			<p class="cookie-banner__text">
+				<?php echo esc_html($cookie_i18n['text'][$lang]); ?>
+				<a href="<?php echo esc_url($privacy_page_url); ?>">
+					<?php echo esc_html($cookie_i18n['policy'][$lang]); ?>
+				</a>
+			</p>
+
+			<div class="cookie-banner__actions">
+				<button type="button" class="cookie-banner__button cookie-banner__button--accept" id="cookie-accept">
+					<?php echo esc_html($cookie_i18n['accept'][$lang]); ?>
+				</button>
+
+				<button type="button" class="cookie-banner__button cookie-banner__button--decline" id="cookie-decline">
+					<?php echo esc_html($cookie_i18n['decline'][$lang]); ?>
+				</button>
+			</div>
+		</div>
+	</div>
+
 	<?php wp_footer(); ?>
 	<?php
 	$lang = function_exists('pll_current_language') ? pll_current_language() : 'pl';

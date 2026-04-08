@@ -55,11 +55,11 @@ namespace {
     LogHandler::init_error_handler();
     class DUPX_Bootstrap
     {
-        const ARCHIVE_FILENAME   = '20260327_felgilab_5cd78d75526608c25915_20260403125532_archive.zip';
-        const ARCHIVE_SIZE       = '407214976';
+        const ARCHIVE_FILENAME   = '20260327_felgilab_6725f8df6e0d503c9455_20260408072631_archive.zip';
+        const ARCHIVE_SIZE       = '760088336';
         const INSTALLER_DIR_NAME = 'dup-installer';
-        const PACKAGE_HASH       = '5cd78d7-03125532';
-        const SECONDARY_PACKAGE_HASH = '95b71e5-03125532';
+        const PACKAGE_HASH       = '6725f8d-08072631';
+        const SECONDARY_PACKAGE_HASH = '20f93f4-08072631';
         const VERSION            = '1.5.16';
         const MINIMUM_PHP_VERSION = '7.4';
         const ZIP_MODE_AUTO    = 0;
