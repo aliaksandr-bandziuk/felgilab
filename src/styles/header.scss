@@ -105,14 +105,14 @@
 }
 
 .logo-image {
-  width: 70px;
+  width: 60px;
   height: auto;
   object-fit: cover;
   position: relative;
   z-index: 1;
 
   @media (min-width: 980px) {
-    width: 85px;
+    width: 75px;
   }
 }
 
@@ -411,5 +411,15 @@
 .menu__sub-item {
   @media screen and (max-width: 980px) {
     width: fit-content;
+  }
+}
+
+.mobile-phone-link {
+  color: var(--brand-color);
+  font-size: 1.1rem;
+  font-weight: 500;
+
+  @media screen and (min-width: 980px) {
+    display: none;
   }
 }

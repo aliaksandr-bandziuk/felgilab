@@ -3,6 +3,7 @@ import "./headerScroll.min.js";
 import "./toggleSubMenu.min.js";
 import "./updateBusinessStatus.min.js";
 import "./dropdownLanguage.min.js";
+import "./priceCalculator.min.js";
 const scriptRel = "modulepreload";
 const assetsURL = function(dep, importerUrl) {
   return new URL(dep, importerUrl).href;

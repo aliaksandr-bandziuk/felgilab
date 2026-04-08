@@ -178,6 +178,9 @@
 														?>" alt="Felgilab" class="logo-image" width="150" height="150">
 								</a>
 							</div>
+							<div class="mobile-phone-link">
+								<a href="tel:+48739103744">739 103 744</a>
+							</div>
 							<div class="header-elements">
 								<nav class="menu__body">
 									<div class="nav__wrapper">
