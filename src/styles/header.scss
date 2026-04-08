@@ -416,7 +416,7 @@
 
 .mobile-phone-link {
   color: var(--brand-color);
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 0.803rem + 0.48vw, 1.1rem);
   font-weight: 500;
 
   @media screen and (min-width: 980px) {

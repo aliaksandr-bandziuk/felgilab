@@ -38,47 +38,6 @@
 	</script>
 	<!-- End Google Tag Manager -->
 
-	<!-- critical css -->
-	<style>
-		body {
-			margin: 0;
-		}
-
-		.header {
-			position: relative;
-			z-index: 50;
-		}
-
-		.header__wrapper {
-			width: 100%;
-		}
-
-		.menu__wrapper {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-
-		.main-hero__body {
-			position: relative;
-			z-index: 2;
-		}
-
-		.main-hero__title {
-			color: #fff;
-		}
-
-		.main-hero__pretitle {
-			color: #fff;
-		}
-
-		.main-btn {
-			padding: 15px;
-			display: inline-flex;
-		}
-	</style>
-	<!-- end critical css -->
-
 	<?php wp_head(); ?>
 </head>
 

@@ -1776,11 +1776,7 @@ add_filter('wpseo_robots', function ($robots) {
 // add async loading for specific styles
 add_filter('style_loader_tag', function ($html, $handle, $href, $media) {
 
-	$async_styles = [
-		'vite-custom-css',
-		'app',
-		'style',
-	];
+	$async_styles = [];
 
 	if (in_array($handle, $async_styles, true)) {
 		return "<link rel='preload' href='{$href}' as='style' onload=\"this.onload=null;this.rel='stylesheet'\">\n<noscript><link rel='stylesheet' href='{$href}' media='{$media}'></noscript>";

@@ -60,7 +60,7 @@ if (!function_exists('render_content_tabs_wysiwyg')) {
         </div>
       <?php endif; ?>
 
-      <div data-fls-tabs="980,max" data-fls-tabs-animate="300" class="content-tabs tabs">
+      <div data-fls-tabs data-fls-tabs-animate="300" class="content-tabs tabs">
         <nav data-fls-tabs-titles class="content-tabs__navigation tabs__navigation gallery-tabs__navigation">
           <?php foreach ($tabs as $tab_index => $tab) : ?>
             <?php
@@ -94,7 +94,7 @@ if (!function_exists('render_content_tabs_wysiwyg')) {
             <div class="content-tabs__body tabs__body">
 
               <?php if ($has_subtabs && !empty($subtabs) && is_array($subtabs)) : ?>
-                <div data-fls-tabs="980,max" data-fls-tabs-animate="300" class="content-subtabs tabs">
+                <div data-fls-tabs data-fls-tabs-animate="300" class="content-subtabs tabs">
                   <nav data-fls-tabs-titles class="content-subtabs__navigation tabs__navigation">
                     <?php foreach ($subtabs as $subtab_index => $subtab) : ?>
                       <button
