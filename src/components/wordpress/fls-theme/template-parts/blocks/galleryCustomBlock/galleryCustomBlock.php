@@ -25,8 +25,68 @@ $lang = in_array($current_lang, ['pl', 'en', 'ru', 'uk'], true) ? $current_lang 
 $items_per_tab = 6;
 $taxonomy = $display_by === 'color' ? 'rim_color' : 'car_brand';
 
+if (!function_exists('felgilab_get_gallery_item_display_title')) {
+  function felgilab_get_gallery_item_display_title($post_id, $display_by = 'brand', $lang = 'pl')
+  {
+    if ($display_by === 'color') {
+      $brand_name = '';
+      $color_name = '';
+
+      $brand_terms = get_the_terms($post_id, 'car_brand');
+      if (!empty($brand_terms) && !is_wp_error($brand_terms)) {
+        $brand_term = reset($brand_terms);
+
+        if ($brand_term && !empty($brand_term->name)) {
+          $brand_name = $brand_term->name;
+        }
+      }
+
+      $rim_terms = get_the_terms($post_id, 'rim_color');
+      if (!empty($rim_terms) && !is_wp_error($rim_terms)) {
+        $rim_term = reset($rim_terms);
+
+        if ($rim_term) {
+          $term_id = (int) $rim_term->term_id;
+
+          if (function_exists('felgilab_translate_term_id')) {
+            $term_id = felgilab_translate_term_id($term_id, 'rim_color', $lang);
+          }
+
+          $translated_term = get_term($term_id, 'rim_color');
+
+          if ($translated_term && !is_wp_error($translated_term) && !empty($translated_term->name)) {
+            $color_name = $translated_term->name;
+          }
+        }
+      }
+
+      $combined_title = trim($brand_name . ' ' . $color_name);
+
+      if ($combined_title !== '') {
+        return $combined_title;
+      }
+    }
+
+    return get_the_title($post_id);
+  }
+}
+
+if (!function_exists('felgilab_gallery_item_is_preferred_for_display')) {
+  function felgilab_gallery_item_is_preferred_for_display($post_id, $display_by = 'brand')
+  {
+    $excerpt = trim((string) get_post_field('post_excerpt', $post_id));
+    $has_excerpt = $excerpt !== '';
+
+    if ($display_by === 'color') {
+      return $has_excerpt;
+    }
+
+    return !$has_excerpt;
+  }
+}
+
 if (!function_exists('felgilab_render_gallery_block_item')) {
-  function felgilab_render_gallery_block_item($post_id, $zoom_text)
+  function felgilab_render_gallery_block_item($post_id, $zoom_text, $display_by = 'brand', $lang = 'pl')
   {
     $thumbnail_id = get_post_thumbnail_id($post_id);
 
@@ -35,10 +95,11 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
     }
 
     $image_full = wp_get_attachment_image_url($thumbnail_id, 'full');
+    $item_title = felgilab_get_gallery_item_display_title($post_id, $display_by, $lang);
     $image_alt  = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
 
     if (!$image_alt) {
-      $image_alt = get_the_title($post_id);
+      $image_alt = $item_title ?: get_the_title($post_id);
     }
 
     if (!$image_full) {
@@ -47,8 +108,9 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
 ?>
     <a href="<?php echo esc_url($image_full); ?>" class="gallery__item">
       <p class="gallery__item--title">
-        <?php echo esc_html(get_the_title($post_id)); ?>
+        <?php echo esc_html($item_title); ?>
       </p>
+
       <span class="button-main main-btn gallery-zoom-btn" aria-hidden="true">
         <span class="whatsapp-main__wrapper">
           <span class="whatsapp-main__text">
@@ -113,8 +175,10 @@ if (!empty($terms) && !is_wp_error($terms)) {
 
     foreach ($terms as $term) {
       $terms_map[$term->term_id] = [
-        'term'  => $term,
-        'items' => [],
+        'term'             => $term,
+        'preferred_items'  => [],
+        'fallback_items'   => [],
+        'items'            => [],
       ];
     }
 
@@ -129,6 +193,8 @@ if (!empty($terms) && !is_wp_error($terms)) {
         continue;
       }
 
+      $is_preferred = felgilab_gallery_item_is_preferred_for_display($post_id, $display_by);
+
       foreach ($post_terms as $term) {
         $term_id = (int) $term->term_id;
 
@@ -140,23 +206,54 @@ if (!empty($terms) && !is_wp_error($terms)) {
           continue;
         }
 
-        if (count($terms_map[$term_id]['items']) >= $items_per_tab) {
-          continue;
-        }
+        if ($is_preferred) {
+          if (
+            count($terms_map[$term_id]['preferred_items']) >= $items_per_tab ||
+            in_array($post_id, $terms_map[$term_id]['preferred_items'], true)
+          ) {
+            continue;
+          }
 
-        $terms_map[$term_id]['items'][] = $post_id;
+          $terms_map[$term_id]['preferred_items'][] = $post_id;
+        } else {
+          if (
+            count($terms_map[$term_id]['fallback_items']) >= $items_per_tab ||
+            in_array($post_id, $terms_map[$term_id]['fallback_items'], true)
+          ) {
+            continue;
+          }
+
+          $terms_map[$term_id]['fallback_items'][] = $post_id;
+        }
       }
     }
 
-    foreach ($terms_map as $term_data) {
-      if (!empty($term_data['items'])) {
+    foreach ($terms_map as $term_id => $term_data) {
+      $items = $term_data['preferred_items'];
+
+      if (count($items) < $items_per_tab && !empty($term_data['fallback_items'])) {
+        foreach ($term_data['fallback_items'] as $fallback_post_id) {
+          if (count($items) >= $items_per_tab) {
+            break;
+          }
+
+          if (in_array($fallback_post_id, $items, true)) {
+            continue;
+          }
+
+          $items[] = $fallback_post_id;
+        }
+      }
+
+      if (!empty($items)) {
+        $term_data['items'] = $items;
         $tabs_data[] = $term_data;
       }
     }
   }
 }
 
-$default_tab_index = 3;
+$default_tab_index = 2;
 if ($default_tab_index >= count($tabs_data)) {
   $default_tab_index = 0;
 }
@@ -203,7 +300,7 @@ if ($default_tab_index >= count($tabs_data)) {
                 <div class="gallery" data-fls-gallery data-gallery-loaded="<?php echo $index === $default_tab_index ? 'true' : 'false'; ?>">
                   <?php if ($index === $default_tab_index) : ?>
                     <?php foreach ($tab['items'] as $post_id) : ?>
-                      <?php felgilab_render_gallery_block_item($post_id, $gallery_i18n['zoom'][$lang]); ?>
+                      <?php felgilab_render_gallery_block_item($post_id, $gallery_i18n['zoom'][$lang], $display_by, $lang); ?>
                     <?php endforeach; ?>
                   <?php endif; ?>
                 </div>
@@ -211,7 +308,7 @@ if ($default_tab_index >= count($tabs_data)) {
                 <?php if ($index !== $default_tab_index) : ?>
                   <template class="gallery-tab-template">
                     <?php foreach ($tab['items'] as $post_id) : ?>
-                      <?php felgilab_render_gallery_block_item($post_id, $gallery_i18n['zoom'][$lang]); ?>
+                      <?php felgilab_render_gallery_block_item($post_id, $gallery_i18n['zoom'][$lang], $display_by, $lang); ?>
                     <?php endforeach; ?>
                   </template>
                 <?php endif; ?>
