@@ -164,9 +164,17 @@ if ($map_iframe && strpos($map_iframe, 'title=') === false) {
               id="phone_<?php echo esc_attr($block['id']); ?>"
               class="input-contact"
               required
+              inputmode="tel"
+              autocomplete="tel"
+              placeholder="+48 123 456 789"
+              data-phone-input
               data-fls-form-errtext="<?php echo esc_attr(
                                         $lang === 'pl' ? 'Wpisz numer telefonu' : ($lang === 'ru' ? 'Введите номер телефона' : ($lang === 'uk' ? 'Введіть номер телефону' : 'Enter your phone number'))
-                                      ); ?>" />
+                                      ); ?>"
+              data-phone-error="<?php echo esc_attr(
+                                  $lang === 'pl' ? 'Wpisz poprawny numer telefonu w formacie międzynarodowym, np. +48 123 456 789.' : ($lang === 'ru' ? 'Введите корректный номер телефона в международном формате, например: +48 123 456 789.' : ($lang === 'uk' ? 'Введіть коректний номер телефону в міжнародному форматі, наприклад: +48 123 456 789.' :
+                                    'Enter a valid phone number in international format, e.g. +48 123 456 789.'))
+                                ); ?>" />
             <label for="phone_<?php echo esc_attr($block['id']); ?>"><?php echo esc_html($i18n['phone'][$lang]); ?></label>
             <span><?php echo esc_html($i18n['phone'][$lang]); ?></span>
           </div>
@@ -187,7 +195,7 @@ if ($map_iframe && strpos($map_iframe, 'title=') === false) {
             <input
               type="file"
               name="wheel_photos[]"
-              id="wheel_photos_popup"
+              id="wheel_photos_<?php echo esc_attr($block['id']); ?>"
               class="input-file"
               accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
               multiple
