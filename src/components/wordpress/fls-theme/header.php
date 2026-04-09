@@ -340,7 +340,7 @@
 								data-fls-form-popup="popup-thanks">
 
 								<input type="hidden" name="page_url" value="">
-								<input type="hidden" name="form_name" value="Popup order">
+								<input type="hidden" name="form_name" value="Форма в попапе">
 
 								<div style="position:absolute; left:-9999px; opacity:0; pointer-events:none;" aria-hidden="true">
 									<label for="website">Website</label>

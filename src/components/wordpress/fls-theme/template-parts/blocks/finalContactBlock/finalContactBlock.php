@@ -131,7 +131,7 @@ if ($map_iframe && strpos($map_iframe, 'title=') === false) {
           data-fls-form-popup="popup-thanks">
 
           <input type="hidden" name="page_url" value="">
-          <input type="hidden" name="form_name" value="Final Contact Block">
+          <input type="hidden" name="form_name" value="Форма снизу">
 
           <div style="position:absolute; left:-9999px; opacity:0; pointer-events:none;" aria-hidden="true">
             <label for="website_<?php echo esc_attr($block['id']); ?>">Website</label>

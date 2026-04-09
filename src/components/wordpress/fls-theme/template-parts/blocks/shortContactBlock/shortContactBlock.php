@@ -73,7 +73,7 @@ $phone_label = $i18n['phone'][$lang];
         data-fls-form-popup="popup-thanks">
 
         <input type="hidden" name="page_url" value="">
-        <input type="hidden" name="form_name" value="Short Contact Block">
+        <input type="hidden" name="form_name" value="Краткая форма">
 
         <div style="position:absolute; left:-9999px; opacity:0; pointer-events:none;" aria-hidden="true">
           <label for="website_<?php echo esc_attr($block['id']); ?>">Website</label>

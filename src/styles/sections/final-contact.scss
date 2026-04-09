@@ -259,6 +259,15 @@ textarea.input-contact {
     transition: 0.3s;
   }
 
+  .input-contact:-webkit-autofill,
+  .input-contact:-webkit-autofill:hover,
+  .input-contact:-webkit-autofill:focus,
+  .input-contact:-webkit-autofill:active {
+    -webkit-text-fill-color: #000;
+  }
+
+
+
   label {
     color: #000;
   }
