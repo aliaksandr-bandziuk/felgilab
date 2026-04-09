@@ -161,7 +161,7 @@ if (!empty($terms) && !is_wp_error($terms)) {
     'post_status'            => 'publish',
     'numberposts'            => -1,
     'orderby'                => 'date',
-    'order'                  => 'DESC',
+    'order'                  => 'ASC',
     'suppress_filters'       => false,
     'no_found_rows'          => true,
     'ignore_sticky_posts'    => true,
