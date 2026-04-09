@@ -284,13 +284,13 @@ window.addEventListener("load", () => {
 		});
 	}
 }, { once: true });
-window.addEventListener("load", () => {
-	if (document.getElementById("wheel_photos")) {
-		import("../custom/uploadPhotos.js").then(module => {
-			module.initUploadPhotos();
-		});
-	}
-}, { once: true });
+// window.addEventListener("load", () => {
+// 	if (document.querySelector('input[type="file"][name="wheel_photos[]"]')) {
+// 		import("../custom/uploadPhotos.js").then(module => {
+// 			module.initUploadPhotos();
+// 		});
+// 	}
+// }, { once: true });
 import "../custom/priceCalculator.js";
 
 import { initCookieBanner } from '../custom/cookieBanner.js';

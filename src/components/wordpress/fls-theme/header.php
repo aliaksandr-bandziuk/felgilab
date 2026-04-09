@@ -301,10 +301,10 @@
 				'uk' => 'Додайте фото пошкоджених дисків',
 			],
 			'upload_note' => [
-				'pl' => 'Możesz dodać kilka zdjęć (JPG, PNG, WebP).',
-				'en' => 'You can add several photos (JPG, PNG, WebP).',
-				'ru' => 'Можно добавить несколько фото (JPG, PNG, WebP).',
-				'uk' => 'Можна додати кілька фото (JPG, PNG, WebP).',
+				'pl' => 'Możesz dodać maksymalnie 10 zdjęć (JPG, PNG, WebP), do 5 MB każde.',
+				'en' => 'You can add up to 10 photos (JPG, PNG, WebP), 5 MB each maximum.',
+				'ru' => 'Можно добавить до 10 фото (JPG, PNG, WebP), максимум 5 МБ каждое.',
+				'uk' => 'Можна додати до 10 фото (JPG, PNG, WebP), максимум 5 МБ кожне.',
 			],
 		];
 		?>
@@ -331,23 +331,47 @@
 							</div>
 
 							<form
-								action="<?php echo esc_url(get_template_directory_uri() . '/sendmail.php'); ?>"
+								action="<?php echo esc_url(get_template_directory_uri() . '/sendmail/index.php'); ?>"
 								method="post"
 								autocomplete="off"
 								class="small-form form-sending"
-								enctype="multipart/form-data">
+								enctype="multipart/form-data"
+								data-fls-form="ajax"
+								data-fls-form-popup="popup-thanks">
 
 								<input type="hidden" name="page_url" value="">
 								<input type="hidden" name="form_name" value="Popup order">
 
+								<div style="position:absolute; left:-9999px; opacity:0; pointer-events:none;" aria-hidden="true">
+									<label for="website">Website</label>
+									<input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+								</div>
+
 								<div class="input-container">
-									<input id="popup-name" type="text" name="name" class="input-contact" />
+									<input
+										id="popup-name"
+										type="text"
+										name="name"
+										class="input-contact"
+										required
+										data-fls-form-errtext="<?php echo esc_attr($lang === 'pl' ? 'Wpisz imię' : ($lang === 'ru' ? 'Введите имя' : ($lang === 'uk' ? 'Введіть ім’я' : 'Enter your name'))); ?>" />
 									<label for="popup-name"><?php echo esc_html($popup_i18n['name'][$lang]); ?></label>
 									<span><?php echo esc_html($popup_i18n['name'][$lang]); ?></span>
 								</div>
 
 								<div class="input-container">
-									<input id="popup-phone" type="tel" name="phone" class="input-contact" />
+									<input
+										id="popup-phone"
+										type="tel"
+										name="phone"
+										class="input-contact"
+										required
+										inputmode="tel"
+										autocomplete="tel"
+										placeholder="+48 123 456 789"
+										data-phone-input
+										data-fls-form-errtext="<?php echo esc_attr($lang === 'pl' ? 'Wpisz numer telefonu' : ($lang === 'ru' ? 'Введите номер телефона' : ($lang === 'uk' ? 'Введіть номер телефону' : 'Enter your phone number'))); ?>"
+										data-phone-error="<?php echo esc_attr($lang === 'pl' ? 'Wpisz poprawny numer telefonu w formacie międzynarodowym, np. +48 123 456 789.' : ($lang === 'ru' ? 'Введите корректный номер телефона в международном формате, например: +48 123 456 789.' : ($lang === 'uk' ? 'Введіть коректний номер телефону в міжнародному форматі, наприклад: +48 123 456 789.' : 'Enter a valid phone number in international format, e.g. +48 123 456 789.'))); ?>" />
 									<label for="popup-phone"><?php echo esc_html($popup_i18n['phone'][$lang]); ?></label>
 									<span><?php echo esc_html($popup_i18n['phone'][$lang]); ?></span>
 								</div>
@@ -368,8 +392,14 @@
 										name="wheel_photos[]"
 										id="wheel_photos_popup"
 										class="input-file"
-										accept="image/*"
-										multiple />
+										accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+										multiple
+										data-max-files="10"
+										data-max-file-size="<?php echo esc_attr(5 * 1024 * 1024); ?>"
+										data-error-too-many="<?php echo esc_attr($lang === 'pl' ? 'Możesz dodać maksymalnie 10 zdjęć.' : ($lang === 'ru' ? 'Можно добавить максимум 10 фото.' : ($lang === 'uk' ? 'Можна додати максимум 10 фото.' : 'You can upload up to 10 photos.'))); ?>"
+										data-error-too-large="<?php echo esc_attr($lang === 'pl' ? 'Plik jest za duży. Maksymalny rozmiar jednego zdjęcia to 5 MB.' : ($lang === 'ru' ? 'Файл слишком большой. Максимальный размер одного фото — 5 МБ.' : ($lang === 'uk' ? 'Файл занадто великий. Максимальний розмір одного фото — 5 МБ.' : 'File is too large. Maximum size per photo is 5 MB.'))); ?>"
+										data-error-invalid-type="<?php echo esc_attr($lang === 'pl' ? 'Nieprawidłowy format pliku. Dozwolone: JPG, PNG, WebP.' : ($lang === 'ru' ? 'Недопустимый формат файла. Разрешены: JPG, PNG, WebP.' : ($lang === 'uk' ? 'Неприпустимий формат файлу. Дозволені: JPG, PNG, WebP.' : 'Invalid file type. Allowed: JPG, PNG, WebP.'))); ?>"
+										data-remove-label="<?php echo esc_attr($lang === 'pl' ? 'Usuń' : ($lang === 'ru' ? 'Удалить' : ($lang === 'uk' ? 'Видалити' : 'Remove'))); ?>" />
 
 									<label for="wheel_photos_popup" class="file-label">
 										<?php echo esc_html($popup_i18n['upload'][$lang]); ?>
@@ -382,10 +412,46 @@
 									<div class="file-list" id="fileList_popup"></div>
 								</div>
 
+								<div class="form-message" aria-live="polite"></div>
+
 								<button type="submit" class="button-primary btn w_btn2" aria-label="<?php echo esc_attr($popup_button_text[$lang]); ?>">
 									<?php echo esc_html($popup_button_text[$lang]); ?>
 								</button>
 							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="popup-thanks" data-fls-popup="popup-thanks" aria-hidden="true" class="popup popup-order popup-thanks">
+			<div data-fls-popup-wrapper class="popup__wrapper">
+				<div data-fls-popup-body class="popup__body popup-order__content">
+					<button data-fls-popup-close type="button" class="popup-order__close">
+						<svg class="svg-icon" aria-hidden="true" role="img" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+							<path d="M12.2218 13.6066L20 21.3848L21.4142 19.9706L13.636 12.1924L21.3848 4.44366L19.9706 3.02945L12.2218 10.7782L4.44365 3L3.02944 4.41421L10.8076 12.1924L3 20L4.41421 21.4142L12.2218 13.6066Z" fill="#fff"></path>
+						</svg>
+					</button>
+
+					<div data-fls-popup-content class="popup__text">
+						<div class="final-contact__inner popup-order__inner popup-thanks__inner">
+							<h2 class="h2-white mb20">
+								<?php echo esc_html(
+									$lang === 'pl' ? 'Dziękujemy!' : ($lang === 'ru' ? 'Спасибо!' : ($lang === 'uk' ? 'Дякуємо!' : 'Thank you!'))
+								); ?>
+							</h2>
+
+							<div class="about-company__divider mb30">
+								<svg xmlns="http://www.w3.org/2000/svg" width="64" height="8" aria-hidden="true">
+									<path fill="#fd6b1c" d="M34 0h30v2H34zm0 6h15v2H34zM0 0h30v2H0zm15 6h15v2H15z" />
+								</svg>
+							</div>
+
+							<p class="popup-thanks__text">
+								<?php echo esc_html(
+									$lang === 'pl' ? 'Formularz został wysłany. Skontaktujemy się z Tobą tak szybko, jak to możliwe.' : ($lang === 'ru' ? 'Форма успешно отправлена. Мы свяжемся с вами как можно скорее.' : ($lang === 'uk' ? 'Форму успішно надіслано. Ми зв’яжемося з вами якомога швидше.' : 'Your form has been sent. We will contact you as soon as possible.'))
+								); ?>
+							</p>
 						</div>
 					</div>
 				</div>

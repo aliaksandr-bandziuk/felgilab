@@ -58,10 +58,10 @@ $i18n = [
     'uk' => 'Додайте фото пошкоджених дисків',
   ],
   'upload_note' => [
-    'pl' => 'Możesz dodać kilka zdjęć (JPG, PNG, WebP).',
-    'en' => 'You can add several photos (JPG, PNG, WebP).',
-    'ru' => 'Можно добавить несколько фото (JPG, PNG, WebP).',
-    'uk' => 'Можна додати кілька фото (JPG, PNG, WebP).',
+    'pl' => 'Możesz dodać maksymalnie 10 zdjęć (JPG, PNG, WebP), do 5 MB każde.',
+    'en' => 'You can add up to 10 photos (JPG, PNG, WebP), 5 MB each maximum.',
+    'ru' => 'Можно добавить до 10 фото (JPG, PNG, WebP), максимум 5 МБ каждое.',
+    'uk' => 'Можна додати до 10 фото (JPG, PNG, WebP), максимум 5 МБ кожне.',
   ],
   'map_title' => [
     'pl' => 'Mapa lokalizacji FelgiLab w Warszawie',
@@ -121,15 +121,52 @@ if ($map_iframe && strpos($map_iframe, 'title=') === false) {
           <?php echo esc_html($description); ?>
         </p>
 
-        <form action="#" autocomplete="off" class="small-form">
+        <form
+          action="<?php echo esc_url(get_template_directory_uri() . '/sendmail/index.php'); ?>"
+          method="post"
+          autocomplete="off"
+          class="small-form form-sending"
+          enctype="multipart/form-data"
+          data-fls-form="ajax"
+          data-fls-form-popup="popup-thanks">
+
+          <input type="hidden" name="page_url" value="">
+          <input type="hidden" name="form_name" value="Final Contact Block">
+
+          <div style="position:absolute; left:-9999px; opacity:0; pointer-events:none;" aria-hidden="true">
+            <label for="website_<?php echo esc_attr($block['id']); ?>">Website</label>
+            <input
+              type="text"
+              name="website"
+              id="website_<?php echo esc_attr($block['id']); ?>"
+              tabindex="-1"
+              autocomplete="off">
+          </div>
+
           <div class="input-container">
-            <input type="text" name="name" id="name_<?php echo esc_attr($block['id']); ?>" class="input-contact" />
+            <input
+              type="text"
+              name="name"
+              id="name_<?php echo esc_attr($block['id']); ?>"
+              class="input-contact"
+              required
+              data-fls-form-errtext="<?php echo esc_attr(
+                                        $lang === 'pl' ? 'Wpisz imię' : ($lang === 'ru' ? 'Введите имя' : ($lang === 'uk' ? 'Введіть ім’я' : 'Enter your name'))
+                                      ); ?>" />
             <label for="name_<?php echo esc_attr($block['id']); ?>"><?php echo esc_html($i18n['name'][$lang]); ?></label>
             <span><?php echo esc_html($i18n['name'][$lang]); ?></span>
           </div>
 
           <div class="input-container">
-            <input type="tel" name="phone" id="phone_<?php echo esc_attr($block['id']); ?>" class="input-contact" />
+            <input
+              type="tel"
+              name="phone"
+              id="phone_<?php echo esc_attr($block['id']); ?>"
+              class="input-contact"
+              required
+              data-fls-form-errtext="<?php echo esc_attr(
+                                        $lang === 'pl' ? 'Wpisz numer telefonu' : ($lang === 'ru' ? 'Введите номер телефона' : ($lang === 'uk' ? 'Введіть номер телефону' : 'Enter your phone number'))
+                                      ); ?>" />
             <label for="phone_<?php echo esc_attr($block['id']); ?>"><?php echo esc_html($i18n['phone'][$lang]); ?></label>
             <span><?php echo esc_html($i18n['phone'][$lang]); ?></span>
           </div>
@@ -150,10 +187,16 @@ if ($map_iframe && strpos($map_iframe, 'title=') === false) {
             <input
               type="file"
               name="wheel_photos[]"
-              id="wheel_photos_<?php echo esc_attr($block['id']); ?>"
+              id="wheel_photos_popup"
               class="input-file"
-              accept="image/*"
-              multiple />
+              accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+              multiple
+              data-max-files="10"
+              data-max-file-size="<?php echo esc_attr(5 * 1024 * 1024); ?>"
+              data-error-too-many="<?php echo esc_attr($lang === 'pl' ? 'Możesz dodać maksymalnie 10 zdjęć.' : ($lang === 'ru' ? 'Можно добавить максимум 10 фото.' : ($lang === 'uk' ? 'Можна додати максимум 10 фото.' : 'You can upload up to 10 photos.'))); ?>"
+              data-error-too-large="<?php echo esc_attr($lang === 'pl' ? 'Plik jest za duży. Maksymalny rozmiar jednego zdjęcia to 5 MB.' : ($lang === 'ru' ? 'Файл слишком большой. Максимальный размер одного фото — 5 МБ.' : ($lang === 'uk' ? 'Файл занадто великий. Максимальний розмір одного фото — 5 МБ.' : 'File is too large. Maximum size per photo is 5 MB.'))); ?>"
+              data-error-invalid-type="<?php echo esc_attr($lang === 'pl' ? 'Nieprawidłowy format pliku. Dozwolone: JPG, PNG, WebP.' : ($lang === 'ru' ? 'Недопустимый формат файла. Разрешены: JPG, PNG, WebP.' : ($lang === 'uk' ? 'Неприпустимий формат файлу. Дозволені: JPG, PNG, WebP.' : 'Invalid file type. Allowed: JPG, PNG, WebP.'))); ?>"
+              data-remove-label="<?php echo esc_attr($lang === 'pl' ? 'Usuń' : ($lang === 'ru' ? 'Удалить' : ($lang === 'uk' ? 'Видалити' : 'Remove'))); ?>" />
 
             <label for="wheel_photos_<?php echo esc_attr($block['id']); ?>" class="file-label">
               <?php echo esc_html($i18n['upload'][$lang]); ?>
@@ -165,6 +208,8 @@ if ($map_iframe && strpos($map_iframe, 'title=') === false) {
 
             <div class="file-list" id="fileList_<?php echo esc_attr($block['id']); ?>"></div>
           </div>
+
+          <div class="form-message" aria-live="polite"></div>
 
           <button type="submit" class="button-primary btn w_btn2" aria-label="<?php echo esc_attr($button_text); ?>">
             <?php echo esc_html($button_text); ?>

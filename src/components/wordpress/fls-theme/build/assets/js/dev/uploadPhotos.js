@@ -10,7 +10,8 @@ function initUploadPhotos() {
       Array.from(fileInput.files).forEach((file) => {
         const item = document.createElement("div");
         item.className = "file-item";
-        item.textContent = file.name;
+        const fileSizeKb = Math.round(file.size / 1024);
+        item.textContent = `${file.name} (${fileSizeKb} KB)`;
         fileList.appendChild(item);
       });
     });
