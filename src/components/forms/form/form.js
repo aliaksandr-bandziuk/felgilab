@@ -405,10 +405,11 @@ function formInit() {
 							showFormMessage(form, 'error', responseResult.message || 'Failed to send form.');
 							FLS("_FLS_FORM_AJAX_ERR");
 						}
-					} catch (error) {
+					} catch (err) {
 						setSubmittingState(form, false);
-						showFormMessage(form, 'error', 'Wystąpił błąd. Spróbuj ponownie.');
-						FLS(`(!!) ${error.message}`);
+						showFormMessage(form, "error", "Wystapil blad. Sprobuj ponownie.");
+						// FLS("(!!) " + err.message);
+						console.error("(!!) " + err.message);
 					}
 				} else if (form.dataset.flsForm === 'dev') {
 					e.preventDefault();

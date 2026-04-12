@@ -103,6 +103,30 @@
 	}
 }
 
+.gallery--brand > a {
+
+  @media screen and (max-width: 768px) {
+    aspect-ratio: 10 / 8;
+  }
+}
+
+.gallery--color > a {
+
+  @media screen and (max-width: 768px) {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+// @media (max-width: 767px) {
+//   .gallery--brand > a {
+//     aspect-ratio: 10 / 8;
+//   }
+
+//   .gallery--color > a {
+//     aspect-ratio: 1 / 1;
+//   }
+// }
+
 .gallery__item {
   position: relative;
   

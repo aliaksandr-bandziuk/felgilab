@@ -272,22 +272,6 @@ $current_lang = pll_current_language();
                     $rim_color    = get_post_meta(get_the_ID(), '_portfolio_rim_color', true);
                     $service_name = get_post_meta(get_the_ID(), '_portfolio_service_name', true);
                     ?>
-
-                    <div class="portfolio-card__metas">
-                      <?php if ($car_name) : ?>
-                        <div class="portfolio-card__meta"><?php echo esc_html($car_name); ?></div>
-                      <?php endif; ?>
-
-                      <?php if ($service_name) : ?>
-                        <div class="portfolio-card__meta"><?php echo esc_html($service_name); ?></div>
-                      <?php endif; ?>
-
-                      <?php if ($rim_diameter || $rim_color) : ?>
-                        <div class="portfolio-card__meta">
-                          <?php echo esc_html(trim($rim_diameter . '", ' . $rim_color)); ?>
-                        </div>
-                      <?php endif; ?>
-                    </div>
                   </div>
 
                   <div class="portfolio-inner__item">

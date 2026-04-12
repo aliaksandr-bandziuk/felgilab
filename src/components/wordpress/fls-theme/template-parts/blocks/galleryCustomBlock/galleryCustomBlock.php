@@ -297,7 +297,7 @@ if ($default_tab_index >= count($tabs_data)) {
           <?php foreach ($tabs_data as $index => $tab) : ?>
             <div class="tabs__body gallery-tabs__body">
               <div class="tab-gallery">
-                <div class="gallery" data-fls-gallery data-gallery-loaded="<?php echo $index === $default_tab_index ? 'true' : 'false'; ?>">
+                <div class="gallery gallery--<?php echo esc_attr($display_by); ?>" data-fls-gallery data-gallery-loaded=" <?php echo $index === $default_tab_index ? 'true' : 'false'; ?>">
                   <?php if ($index === $default_tab_index) : ?>
                     <?php foreach ($tab['items'] as $post_id) : ?>
                       <?php felgilab_render_gallery_block_item($post_id, $gallery_i18n['zoom'][$lang], $display_by, $lang); ?>
