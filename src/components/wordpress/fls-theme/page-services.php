@@ -67,84 +67,128 @@ switch ($current_lang) {
 
   <section class="services services-archive">
     <div class="services__container">
-      <div class="services-grid">
-        <?php
-        $args = [
-          'post_type'        => 'services',
-          'posts_per_page'   => -1,
-          'post_status'      => 'publish',
-          'post_parent'      => 0, // только родительские услуги
-          'orderby'          => 'date',
-          'order'            => 'DESC',
-          'suppress_filters' => false,
-        ];
+      <?php
+      $terms_args = [
+        'taxonomy'   => 'services_category',
+        'hide_empty' => true,
+      ];
 
-        if (!empty($current_lang)) {
-          $args['lang'] = $current_lang;
+      if (!empty($current_lang)) {
+        $terms_args['lang'] = $current_lang;
+      }
+
+      $service_categories = get_terms($terms_args);
+
+      if (!is_wp_error($service_categories) && !empty($service_categories)) {
+
+        usort($service_categories, function ($a, $b) {
+          $order_a = (int) trim($a->description);
+          $order_b = (int) trim($b->description);
+
+          return $order_a <=> $order_b;
+        });
+
+        $has_services = false;
+
+        foreach ($service_categories as $category) {
+          $services_args = [
+            'post_type'        => 'services',
+            'posts_per_page'   => -1,
+            'post_status'      => 'publish',
+            'post_parent'      => 0, // только родительские услуги
+            'orderby'          => [
+              'menu_order' => 'ASC',
+              'date'       => 'DESC',
+            ],
+            'suppress_filters' => false,
+            'tax_query'        => [
+              [
+                'taxonomy' => 'services_category',
+                'field'    => 'term_id',
+                'terms'    => $category->term_id,
+              ],
+            ],
+          ];
+
+          if (!empty($current_lang)) {
+            $services_args['lang'] = $current_lang;
+          }
+
+          $query = new WP_Query($services_args);
+
+          if ($query->have_posts()) :
+            $has_services = true;
+      ?>
+            <div class="services-category">
+              <h2 class="h2 mb30">
+                <?php echo esc_html($category->name); ?>
+              </h2>
+
+              <div class="services-grid">
+                <?php
+                while ($query->have_posts()) :
+                  $query->the_post();
+
+                  $service_id    = get_the_ID();
+                  $service_title = get_the_title($service_id);
+                  $service_url   = get_permalink($service_id);
+
+                  $image_html = get_the_post_thumbnail(
+                    $service_id,
+                    'large',
+                    [
+                      'class'   => 'service-item__img',
+                      'alt'     => esc_attr($service_title),
+                      'loading' => 'lazy',
+                    ]
+                  );
+
+                  $excerpt = get_the_excerpt($service_id);
+
+                  if (empty($excerpt)) {
+                    $content = get_post_field('post_content', $service_id);
+                    $excerpt = wp_strip_all_tags(strip_shortcodes($content));
+                  }
+
+                  $excerpt = mb_strimwidth(trim($excerpt), 0, 120, '...');
+                ?>
+                  <a href="<?php echo esc_url($service_url); ?>" class="service-item services-grid__item">
+                    <?php if ($image_html) : ?>
+                      <div class="service-item__image">
+                        <?php echo $image_html; ?>
+                      </div>
+                    <?php endif; ?>
+
+                    <div class="service-item__content">
+                      <?php if ($service_title) : ?>
+                        <p class="service-item__title">
+                          <?php echo esc_html($service_title); ?>
+                        </p>
+                      <?php endif; ?>
+
+                      <?php if ($excerpt) : ?>
+                        <p class="service-item__descr">
+                          <?php echo esc_html($excerpt); ?>
+                        </p>
+                      <?php endif; ?>
+                    </div>
+                  </a>
+                <?php endwhile; ?>
+              </div>
+            </div>
+      <?php
+          endif;
+
+          wp_reset_postdata();
         }
 
-        $query = new WP_Query($args);
-
-        if ($query->have_posts()) :
-          while ($query->have_posts()) :
-            $query->the_post();
-
-            $service_id    = get_the_ID();
-            $service_title = get_the_title($service_id);
-            $service_url   = get_permalink($service_id);
-
-            $image_html = get_the_post_thumbnail(
-              $service_id,
-              'large',
-              [
-                'class'   => 'service-item__img',
-                'alt'     => esc_attr($service_title),
-                'loading' => 'lazy',
-              ]
-            );
-
-            $excerpt = get_the_excerpt($service_id);
-
-            $excerpt = get_the_excerpt($service_id);
-
-            if (empty($excerpt)) {
-              $content = get_post_field('post_content', $service_id);
-              $excerpt = wp_strip_all_tags(strip_shortcodes($content));
-            }
-
-            // обрезка до 120 символов
-            $excerpt = mb_strimwidth($excerpt, 0, 120, '...');
-        ?>
-            <a href="<?php echo esc_url($service_url); ?>" class="service-item services-grid__item">
-              <?php if ($image_html) : ?>
-                <div class="service-item__image">
-                  <?php echo $image_html; ?>
-                </div>
-              <?php endif; ?>
-
-              <div class="service-item__content">
-                <?php if ($service_title) : ?>
-                  <p class="service-item__title">
-                    <?php echo esc_html($service_title); ?>
-                  </p>
-                <?php endif; ?>
-
-                <?php if ($excerpt) : ?>
-                  <p class="service-item__descr">
-                    <?php echo esc_html($excerpt); ?>
-                  </p>
-                <?php endif; ?>
-              </div>
-            </a>
-        <?php
-          endwhile;
-        else :
+        if (!$has_services) {
           echo '<p>' . esc_html($empty_label) . '</p>';
-        endif;
-
-        wp_reset_postdata();
-        ?>
-      </div>
+        }
+      } else {
+        echo '<p>' . esc_html($empty_label) . '</p>';
+      }
+      ?>
     </div>
   </section>
 
