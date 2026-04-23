@@ -4423,6 +4423,12 @@ body {
     border-top: none;
   }}
 @media screen and (max-width: 48rem){
+  .gallery--brand > a {
+    aspect-ratio: 10/8;
+  }
+  .gallery--color > a {
+    aspect-ratio: 1/1;
+  }
   .standard-hero .main-hero__body {
     padding-block: 3.125rem;
   }

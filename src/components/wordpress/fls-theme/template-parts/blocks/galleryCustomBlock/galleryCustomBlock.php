@@ -26,47 +26,8 @@ $items_per_tab = 6;
 $taxonomy = $display_by === 'color' ? 'rim_color' : 'car_brand';
 
 if (!function_exists('felgilab_get_gallery_item_display_title')) {
-  function felgilab_get_gallery_item_display_title($post_id, $display_by = 'brand', $lang = 'pl')
+  function felgilab_get_gallery_item_display_title($post_id)
   {
-    if ($display_by === 'color') {
-      $brand_name = '';
-      $color_name = '';
-
-      $brand_terms = get_the_terms($post_id, 'car_brand');
-      if (!empty($brand_terms) && !is_wp_error($brand_terms)) {
-        $brand_term = reset($brand_terms);
-
-        if ($brand_term && !empty($brand_term->name)) {
-          $brand_name = $brand_term->name;
-        }
-      }
-
-      $rim_terms = get_the_terms($post_id, 'rim_color');
-      if (!empty($rim_terms) && !is_wp_error($rim_terms)) {
-        $rim_term = reset($rim_terms);
-
-        if ($rim_term) {
-          $term_id = (int) $rim_term->term_id;
-
-          if (function_exists('felgilab_translate_term_id')) {
-            $term_id = felgilab_translate_term_id($term_id, 'rim_color', $lang);
-          }
-
-          $translated_term = get_term($term_id, 'rim_color');
-
-          if ($translated_term && !is_wp_error($translated_term) && !empty($translated_term->name)) {
-            $color_name = $translated_term->name;
-          }
-        }
-      }
-
-      $combined_title = trim($brand_name . ' ' . $color_name);
-
-      if ($combined_title !== '') {
-        return $combined_title;
-      }
-    }
-
     return get_the_title($post_id);
   }
 }
@@ -95,7 +56,7 @@ if (!function_exists('felgilab_render_gallery_block_item')) {
     }
 
     $image_full = wp_get_attachment_image_url($thumbnail_id, 'full');
-    $item_title = felgilab_get_gallery_item_display_title($post_id, $display_by, $lang);
+    $item_title = felgilab_get_gallery_item_display_title($post_id);
     $image_alt  = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
 
     if (!$image_alt) {
