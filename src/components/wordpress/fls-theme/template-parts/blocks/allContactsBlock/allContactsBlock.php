@@ -153,7 +153,7 @@ if (!empty($block['align'])) {
           <p class="ctalite-contact__title">
             <?php echo esc_html($all_contacts_i18n['phone_title'][$lang]); ?>
           </p>
-          <a href="tel:<?php echo esc_attr($phone_href); ?>" class="all-contacts-btn">
+          <a href="tel:<?php echo esc_attr($phone_href); ?>" class="all-contacts-btn ringo-btn">
             <?php echo esc_html($phone_display); ?>
           </a>
         </div>

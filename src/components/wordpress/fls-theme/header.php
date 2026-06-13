@@ -14,17 +14,62 @@
 <html <?php language_attributes(); ?>>
 
 <head>
-	<meta name="robots" content="noindex">
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="google-site-verification" content="JWfOx5kWt22-1CUSHB6SooXw8KgGcgwhoAjkmmuWNkg" />
 	<link rel="profile" href="https://gmpg.org/xfn/11">
+
+	<script>
+		window.dataLayer = window.dataLayer || [];
+
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+
+		gtag('consent', 'default', {
+			ad_storage: 'denied',
+			ad_user_data: 'denied',
+			ad_personalization: 'denied',
+			analytics_storage: 'denied',
+			functionality_storage: 'denied',
+			personalization_storage: 'denied',
+			security_storage: 'granted'
+		});
+	</script>
+
+	<!-- Google Tag Manager -->
+	<script>
+		(function(w, d, s, l, i) {
+			w[l] = w[l] || [];
+			w[l].push({
+				'gtm.start': new Date().getTime(),
+				event: 'gtm.js'
+			});
+			var f = d.getElementsByTagName(s)[0],
+				j = d.createElement(s),
+				dl = l != 'dataLayer' ? '&l=' + l : '';
+			j.async = true;
+			j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+			f.parentNode.insertBefore(j, f);
+		})(window, document, 'script', 'dataLayer', 'GTM-PXHSGB3');
+	</script>
+	<!-- End Google Tag Manager -->
 
 	<?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
 	<?php wp_body_open(); ?>
+
+	<!-- Google Tag Manager (noscript) -->
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PXHSGB3"
+			height="0"
+			width="0"
+			style="display:none;visibility:hidden">
+		</iframe>
+	</noscript>
+	<!-- End Google Tag Manager -->
 
 	<div id="page" class="wrapper">
 
@@ -113,7 +158,7 @@
 								</a>
 							</div>
 							<div class="mobile-phone-link">
-								<a href="tel:+48739103744">739 103 744</a>
+								<a href="tel:+48514716916" class="ringo-btn">514716916</a>
 							</div>
 							<div class="header-elements">
 								<nav class="menu__body">
@@ -214,13 +259,13 @@
 										}
 										?>
 										<div class="menu__mob-btn">
-											<a href="tel:+48739103744" class="mob-menu-button">
+											<a href="tel:+48514716916" class="mob-menu-button ringo-btn">
 												<span class="--icon-ico-callback ico-callback-header"></span>
 												<div class="mob-menu-content">
 													<span class="mob-menu-content__text">
 														<?php echo pll_current_language() == 'pl' ? 'Uzyskać wycenę' : (pll_current_language() == 'ru' ? 'Получить предложение' : (pll_current_language() == 'uk' ? 'Отримати пропозицію' : 'Get quote')); ?>
 													</span>
-													<span class="mob-menu-content__phone">739 103 744</span>
+													<span class="mob-menu-content__phone">514716916</span>
 												</div>
 											</a>
 										</div>
@@ -233,7 +278,7 @@
 											<span class="header-button-content__text">
 												<?php echo pll_current_language() == 'pl' ? 'Uzyskać wycenę' : (pll_current_language() == 'ru' ? 'Получить предложение' : (pll_current_language() == 'uk' ? 'Отримати пропозицію' : 'Get quote')); ?>
 											</span>
-											<a class="header-button-content__phone" href="tel:+48739103744">739 103 744</a>
+											<a class="header-button-content__phone ringo-btn" href="tel:+48514716916">514716916</a>
 										</div>
 									</button>
 								</div>

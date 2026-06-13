@@ -307,6 +307,7 @@ function felgilab_register_acf_blocks()
 		register_block_type(get_template_directory() . "/template-parts/blocks/priceCalculatorBlock/block.json");
 		register_block_type(get_template_directory() . "/template-parts/blocks/contentTabsBlock/block.json");
 		register_block_type(get_template_directory() . "/template-parts/blocks/allContactsBlock/block.json");
+		register_block_type(get_template_directory() . "/template-parts/blocks/galleryManualBlock/block.json");
 	}
 }
 // Advanced Custom Fields End
@@ -575,7 +576,7 @@ function felgilab_filter_portfolio_callback()
 					</div>
 				</div>
 			</a>
-<?php
+			<?php
 		}
 
 		wp_reset_postdata();
@@ -589,6 +590,191 @@ function felgilab_filter_portfolio_callback()
 add_action('wp_ajax_filter_portfolio', 'felgilab_filter_portfolio_callback');
 add_action('wp_ajax_nopriv_filter_portfolio', 'felgilab_filter_portfolio_callback');
 // ajax portfolio filter/load more end
+
+// ajax handler gallery
+add_action('wp_ajax_felgilab_load_gallery_manual_tab', 'felgilab_load_gallery_manual_tab');
+add_action('wp_ajax_nopriv_felgilab_load_gallery_manual_tab', 'felgilab_load_gallery_manual_tab');
+
+function felgilab_load_gallery_manual_tab()
+{
+	check_ajax_referer('felgilab_gallery_manual_nonce', 'nonce');
+
+	$post_id   = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
+	$tab_index = isset($_POST['tab_index']) ? absint($_POST['tab_index']) : 0;
+
+	if (!$post_id) {
+		wp_send_json_error(['message' => 'Missing post_id']);
+	}
+
+	$block_id = isset($_POST['block_id']) ? sanitize_text_field($_POST['block_id']) : '';
+
+	$mode = isset($_POST['mode']) ? sanitize_text_field($_POST['mode']) : '';
+
+	if ($mode === 'page_gallery') {
+		$brand_id = isset($_POST['brand_id']) ? sanitize_text_field($_POST['brand_id']) : 'all';
+
+		$query_args = [
+			'post_type'      => 'gallery_item',
+			'posts_per_page' => -1,
+			'post_status'    => 'publish',
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+		];
+
+		if ($brand_id !== 'all') {
+			$query_args['tax_query'] = [
+				[
+					'taxonomy' => 'car_brand',
+					'field'    => 'term_id',
+					'terms'    => absint($brand_id),
+				],
+			];
+		}
+
+		$gallery_query = new WP_Query($query_args);
+
+		ob_start();
+
+		if ($gallery_query->have_posts()) {
+			while ($gallery_query->have_posts()) {
+				$gallery_query->the_post();
+
+				$image_id = get_post_thumbnail_id(get_the_ID());
+
+				if (!$image_id) {
+					continue;
+				}
+
+				$image_full = wp_get_attachment_image_url($image_id, 'gallery-grid');
+
+				if (!$image_full) {
+					continue;
+				}
+
+				$image_alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
+
+				if (!$image_alt) {
+					$image_alt = get_the_title();
+				}
+			?>
+
+				<a href="<?php echo esc_url($image_full); ?>" class="gallery__item">
+					<span class="button-main main-btn gallery-zoom-btn" aria-hidden="true">
+						<span class="whatsapp-main__wrapper">
+							<span class="whatsapp-main__text gallery-zoom-btn__icon">
+								<svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 16 16" fill="#fff" class="bi bi-zoom-in">
+									<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+									<path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z" />
+									<path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z" />
+								</svg>
+							</span>
+						</span>
+					</span>
+
+					<?php
+					echo wp_get_attachment_image($image_id, 'gallery-grid', false, [
+						'alt'      => esc_attr($image_alt),
+						'loading'  => 'lazy',
+						'decoding' => 'async',
+					]);
+					?>
+				</a>
+
+		<?php
+			}
+
+			wp_reset_postdata();
+		}
+
+		wp_send_json_success([
+			'html' => ob_get_clean(),
+		]);
+	}
+
+	$tabs = get_transient('felgilab_gallery_manual_' . $block_id);
+
+	if (empty($tabs[$tab_index]['images']) || !is_array($tabs[$tab_index]['images'])) {
+		wp_send_json_error(['message' => 'No images']);
+	}
+
+	$images = $tabs[$tab_index]['images'];
+
+	ob_start();
+
+	foreach ($images as $item) {
+		if (empty($item['image'])) {
+			continue;
+		}
+
+		$image = $item['image'];
+
+		$image_id = is_array($image) && !empty($image['ID'])
+			? (int) $image['ID']
+			: (int) $image;
+
+		if (!$image_id) {
+			continue;
+		}
+
+		$image_full = wp_get_attachment_image_url($image_id, 'gallery-grid');
+
+		if (!$image_full) {
+			continue;
+		}
+
+		$item_title       = !empty($item['title']) ? trim($item['title']) : '';
+		$item_description = !empty($item['description']) ? $item['description'] : '';
+		$image_alt        = get_post_meta($image_id, '_wp_attachment_image_alt', true);
+
+		if (!$image_alt) {
+			$image_alt = $item_title ?: get_the_title($image_id);
+		}
+		?>
+
+		<a href="<?php echo esc_url($image_full); ?>" class="gallery__item">
+			<?php if (!empty($item_title)) : ?>
+				<p class="gallery__item--title"><?php echo esc_html($item_title); ?></p>
+			<?php endif; ?>
+
+			<?php if (!empty($item_description)) : ?>
+				<p class="gallery__item--description"><?php echo esc_html($item_description); ?></p>
+			<?php endif; ?>
+
+			<span class="button-main main-btn gallery-zoom-btn" aria-hidden="true">
+				<span class="whatsapp-main__wrapper">
+					<span class="whatsapp-main__text">
+						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 16 16" fill="#fff" class="bi bi-zoom-in">
+							<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+							<path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z" />
+							<path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z" />
+						</svg>
+					</span>
+				</span>
+			</span>
+
+			<?php
+			echo wp_get_attachment_image(
+				$image_id,
+				'gallery-grid-home',
+				false,
+				[
+					'alt'      => esc_attr($image_alt),
+					'loading'  => 'lazy',
+					'decoding' => 'async',
+					'sizes'    => '(max-width: 767px) calc(100vw - 30px), 520px',
+				]
+			);
+			?>
+		</a>
+
+<?php
+	}
+
+	wp_send_json_success([
+		'html' => ob_get_clean(),
+	]);
+}
+// ajax handler gallery end
 
 // meta box for gallery_item cpt
 add_action('add_meta_boxes', function () {

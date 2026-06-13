@@ -255,6 +255,9 @@ window.addEventListener("load", () => {
     });
   }
 }, { once: true });
+if (document.querySelector("[data-gallery-manual-block]")) {
+  __vitePreload(() => import("./galleryManualAjax.min.js"), true ? [] : void 0, import.meta.url);
+}
 window.addEventListener("load", () => {
   initCookieBanner();
 }, { once: true });

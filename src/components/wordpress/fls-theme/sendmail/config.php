@@ -13,11 +13,13 @@ $mail->CharSet = 'UTF-8';
 $mail->setLanguage('uk', __DIR__ . '/phpmailer/language/');
 $mail->IsHTML(true);
 
-$mail->isSMTP(); // Send using SMTP
-$mail->Host = 'smtp.hostinger.com'; // Set the SMTP server to send through
-$mail->SMTPAuth = true; // Enable SMTP authentication
-$mail->Username = 'info@bandziuk.com'; // SMTP username (email)
-$mail->Password = 'yj5pbnnk@tVEybP'; // SMTP password (Google Account -> Security -> App passwords -> Add)
+$mail->isSMTP();
+
+$mail->Host = 'smtp.gmail.com';
+$mail->SMTPAuth = true;
+
+$mail->Username = 'kontakt.felgilab@gmail.com';
+$mail->Password = 'gpbtbiqdmmapehiv';
 
 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 $mail->Port = 465;

@@ -54,8 +54,8 @@ if (strlen($digits_only) < 7 || strlen($digits_only) > 15) {
 
 try {
 	$mail->CharSet = 'UTF-8';
-	$mail->setFrom('info@bandziuk.com', 'FelgiLab');
-	$mail->addAddress('info@bandziuk.com');
+	$mail->setFrom('kontakt.felgilab@gmail.com', 'FelgiLab');
+	$mail->addAddress('kontakt.felgilab@gmail.com');
 	$mail->isHTML(true);
 
 	$submitted_at = date('Y-m-d H:i:s');

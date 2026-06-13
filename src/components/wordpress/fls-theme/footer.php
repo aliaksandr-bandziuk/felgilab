@@ -105,7 +105,7 @@
 											<?php endif; ?>
 
 											<?php if ($footer_cta_phone_display) : ?>
-												<span class="mob-menu-content__phone">
+												<span class="mob-menu-content__phone ringo-btn">
 													<?php echo esc_html($footer_cta_phone_display); ?>
 												</span>
 											<?php endif; ?>
@@ -218,7 +218,7 @@
 												<p class="footer-contact-button__descr"><?php echo esc_html($footer_phone_label); ?></p>
 											<?php endif; ?>
 											<?php if ($footer_phone_display) : ?>
-												<p class="footer-contact-button__text"><?php echo esc_html($footer_phone_display); ?></p>
+												<p class="footer-contact-button__text ringo-btn"><?php echo esc_html($footer_phone_display); ?></p>
 											<?php endif; ?>
 										</div>
 									</a>

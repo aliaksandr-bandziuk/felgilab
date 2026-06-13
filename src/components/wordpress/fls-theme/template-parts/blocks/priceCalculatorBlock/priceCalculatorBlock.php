@@ -166,8 +166,8 @@ $appointment_href = '';
 if ($appointment_button_type === 'link' && !empty($appointment_button_url)) {
   $appointment_href = $appointment_button_url;
 } else {
-  $appointment_href = '#';
-  $appointment_attrs = ' data-fancybox data-src="' . esc_attr($appointment_popup_selector) . '"';
+  $popup_id = ltrim(trim($appointment_popup_selector), '#');
+  $appointment_attrs = ' data-fls-popup-link="' . esc_attr($popup_id) . '"';
 }
 ?>
 
@@ -392,12 +392,20 @@ if ($appointment_button_type === 'link' && !empty($appointment_button_url)) {
         </div>
 
         <?php if (!empty($appointment_button_text)) : ?>
-          <a
-            class="calculator__btn-blue d-none js-calc-appointment"
-            href="<?= esc_url($appointment_href); ?>"
-            <?= $appointment_attrs; ?>>
-            <?= esc_html($appointment_button_text); ?>
-          </a>
+          <?php if ($appointment_button_type === 'link' && !empty($appointment_button_url)) : ?>
+            <a
+              class="calculator__btn-blue d-none js-calc-appointment"
+              href="<?= esc_url($appointment_href); ?>">
+              <?= esc_html($appointment_button_text); ?>
+            </a>
+          <?php else : ?>
+            <button
+              type="button"
+              class="calculator__btn-blue d-none js-calc-appointment"
+              <?= $appointment_attrs; ?>>
+              <?= esc_html($appointment_button_text); ?>
+            </button>
+          <?php endif; ?>
         <?php endif; ?>
       </div>
     </div>

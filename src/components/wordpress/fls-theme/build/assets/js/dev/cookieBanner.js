@@ -5,22 +5,27 @@ function initCookieBanner() {
   if (!banner || !acceptBtn || !declineBtn) return;
   const consentKey = "felgilab_cookie_consent";
   const savedConsent = localStorage.getItem(consentKey);
+  window.dataLayer = window.dataLayer || [];
+  if (savedConsent === "accepted") {
+    updateConsent("granted");
+  }
+  if (savedConsent === "declined") {
+    updateConsent("denied");
+  }
   if (!savedConsent) {
     banner.hidden = false;
     requestAnimationFrame(() => {
       banner.classList.add("--visible");
     });
   }
-  if (savedConsent === "accepted") {
-    loadTrackingScripts();
-  }
   acceptBtn.addEventListener("click", () => {
     localStorage.setItem(consentKey, "accepted");
+    updateConsent("granted");
     hideBanner(banner);
-    loadTrackingScripts();
   });
   declineBtn.addEventListener("click", () => {
     localStorage.setItem(consentKey, "declined");
+    updateConsent("denied");
     hideBanner(banner);
   });
 }
@@ -30,26 +35,24 @@ function hideBanner(banner) {
     banner.hidden = true;
   }, 300);
 }
-function loadTrackingScripts() {
-  if (window.felgiLabTrackingLoaded) return;
-  window.felgiLabTrackingLoaded = true;
-  loadGTM("GTM-PXHSGB3");
-}
-function loadGTM(containerId) {
+function updateConsent(status) {
   window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    "gtm.start": (/* @__PURE__ */ new Date()).getTime(),
-    event: "gtm.js"
-  });
-  const firstScript = document.getElementsByTagName("script")[0];
-  const script = document.createElement("script");
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtm.js?id=${containerId}`;
-  if (firstScript?.parentNode) {
-    firstScript.parentNode.insertBefore(script, firstScript);
-  } else {
-    document.head.appendChild(script);
+  function gtag() {
+    window.dataLayer.push(arguments);
   }
+  gtag("consent", "update", {
+    ad_storage: status,
+    ad_user_data: status,
+    ad_personalization: status,
+    analytics_storage: status,
+    functionality_storage: status,
+    personalization_storage: status,
+    security_storage: "granted"
+  });
+  window.dataLayer.push({
+    event: status === "granted" ? "cookie_consent_accepted" : "cookie_consent_declined",
+    cookie_consent_status: status
+  });
 }
 export {
   initCookieBanner as i

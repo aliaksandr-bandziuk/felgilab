@@ -1,0 +1,91 @@
+{
+  "key": "group_gallery_manual_block",
+  "title": "Gallery Manual Block",
+  "fields": [
+    {
+      "key": "field_pretitle",
+      "label": "Pretitle",
+      "name": "pretitle",
+      "type": "text"
+    },
+    {
+      "key": "field_title",
+      "label": "Title",
+      "name": "title",
+      "type": "text"
+    },
+    {
+      "key": "field_button",
+      "label": "Button",
+      "name": "button",
+      "type": "link"
+    },
+    {
+      "key": "field_tabs",
+      "label": "Tabs",
+      "name": "tabs",
+      "type": "repeater",
+      "layout": "block",
+      "button_label": "Add Tab",
+      "sub_fields": [
+        {
+          "key": "field_tab_title",
+          "label": "Tab Title",
+          "name": "tab_title",
+          "type": "text",
+          "required": 1
+        },
+        {
+          "key": "field_images",
+          "label": "Images",
+          "name": "images",
+          "type": "repeater",
+          "layout": "block",
+          "button_label": "Add Image",
+          "sub_fields": [
+            {
+              "key": "field_image",
+              "label": "Image",
+              "name": "image",
+              "type": "image",
+              "return_format": "id",
+              "preview_size": "medium",
+              "library": "all",
+              "required": 1
+            },
+            {
+              "key": "field_image_title",
+              "label": "Image Title",
+              "name": "title",
+              "type": "text"
+            },
+            {
+              "key": "field_image_description",
+              "label": "Image Description",
+              "name": "description",
+              "type": "textarea",
+              "rows": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/gallery-manual-block"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": ""
+}

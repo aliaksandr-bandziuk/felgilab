@@ -293,6 +293,10 @@ window.addEventListener("load", () => {
 // }, { once: true });
 import "../custom/priceCalculator.js";
 
+if (document.querySelector('[data-gallery-manual-block]')) {
+	import("../custom/galleryManualAjax.js");
+}
+
 import { initCookieBanner } from '../custom/cookieBanner.js';
 
 window.addEventListener('load', () => {

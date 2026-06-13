@@ -1,0 +1,21 @@
+{
+  "name": "acf/gallery-manual-block",
+  "title": "Gallery Manual Block",
+  "description": "Manual gallery with tabs, images and descriptions",
+  "category": "design",
+  "keywords": [
+    "gallery",
+    "tabs",
+    "images"
+  ],
+  "icon": "format-gallery",
+  "apiVersion": 2,
+  "acf": {
+    "renderTemplate": "./galleryManualBlock.php",
+    "mode": "preview"
+  },
+  "supports": {
+    "align": ["wide", "full"],
+    "anchor": true
+  }
+}
