@@ -351,6 +351,18 @@
 				'ru' => 'Можно добавить до 10 фото (JPG, PNG, WebP), максимум 5 МБ каждое.',
 				'uk' => 'Можна додати до 10 фото (JPG, PNG, WebP), максимум 5 МБ кожне.',
 			],
+			'wheel_size' => [
+				'pl' => 'Rozmiar felg',
+				'en' => 'Wheel size',
+				'ru' => 'Размер дисков',
+				'uk' => 'Розмір дисків',
+			],
+			'wheel_size_placeholder' => [
+				'pl' => 'Wybierz rozmiar felg',
+				'en' => 'Select wheel size',
+				'ru' => 'Выберите размер дисков',
+				'uk' => 'Оберіть розмір дисків',
+			],
 		];
 		?>
 
@@ -419,6 +431,26 @@
 										data-phone-error="<?php echo esc_attr($lang === 'pl' ? 'Wpisz poprawny numer telefonu w formacie międzynarodowym, np. +48 123 456 789.' : ($lang === 'ru' ? 'Введите корректный номер телефона в международном формате, например: +48 123 456 789.' : ($lang === 'uk' ? 'Введіть коректний номер телефону в міжнародному форматі, наприклад: +48 123 456 789.' : 'Enter a valid phone number in international format, e.g. +48 123 456 789.'))); ?>" />
 									<label for="popup-phone"><?php echo esc_html($popup_i18n['phone'][$lang]); ?></label>
 									<span><?php echo esc_html($popup_i18n['phone'][$lang]); ?></span>
+								</div>
+
+								<div class="input-container input-container--select wheel-size-field">
+									<select
+										id="popup-wheel-size"
+										name="wheel_size"
+										class="input-contact input-contact--select"
+										required
+										data-fls-form-errtext="<?php echo esc_attr($lang === 'pl' ? 'Wybierz rozmiar felg' : ($lang === 'ru' ? 'Выберите размер дисков' : ($lang === 'uk' ? 'Оберіть розмір дисків' : 'Select wheel size'))); ?>">
+										<option value="" selected disabled>
+											<?php echo esc_html($popup_i18n['wheel_size_placeholder'][$lang]); ?>
+										</option>
+										<?php for ($size = 13; $size <= 24; $size++) : ?>
+											<option value="<?php echo esc_attr($size . ' cali'); ?>">
+												<?php echo esc_html($size . '"'); ?>
+											</option>
+										<?php endfor; ?>
+									</select>
+									<label for="popup-wheel-size"><?php echo esc_html($popup_i18n['wheel_size'][$lang]); ?></label>
+									<span><?php echo esc_html($popup_i18n['wheel_size'][$lang]); ?></span>
 								</div>
 
 								<div class="input-container textarea">

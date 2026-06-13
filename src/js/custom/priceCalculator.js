@@ -154,6 +154,18 @@ export function initPriceCalculatorBlock() {
         renderResult(result);
       });
     }
+    if (appointmentButton) {
+      appointmentButton.addEventListener('click', () => {
+        document.body.classList.add('calculator-request');
+
+        const wheelSizeFields = document.querySelectorAll('.wheel-size-field select');
+
+        wheelSizeFields.forEach((select) => {
+          select.required = false;
+          select.disabled = true;
+        });
+      });
+    }
   });
 }
 

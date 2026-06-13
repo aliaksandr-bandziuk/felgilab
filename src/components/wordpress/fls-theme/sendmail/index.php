@@ -27,12 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	response_json('error', 'Invalid request method.', 405);
 }
 
-$name      = isset($_POST['name']) ? clean_text($_POST['name']) : '';
-$phone     = isset($_POST['phone']) ? trim((string)$_POST['phone']) : '';
-$message   = isset($_POST['message']) ? trim((string)$_POST['message']) : '';
-$page_url  = isset($_POST['page_url']) ? trim((string)$_POST['page_url']) : '';
-$form_name = isset($_POST['form_name']) ? clean_text($_POST['form_name']) : 'Form';
-$website   = isset($_POST['website']) ? trim((string)$_POST['website']) : '';
+$name      	= isset($_POST['name']) ? clean_text($_POST['name']) : '';
+$phone     	= isset($_POST['phone']) ? trim((string)$_POST['phone']) : '';
+$message   	= isset($_POST['message']) ? trim((string)$_POST['message']) : '';
+$page_url  	= isset($_POST['page_url']) ? trim((string)$_POST['page_url']) : '';
+$form_name 	= isset($_POST['form_name']) ? clean_text($_POST['form_name']) : 'Form';
+$website   	= isset($_POST['website']) ? trim((string)$_POST['website']) : '';
+$wheel_size = isset($_POST['wheel_size']) ? clean_text($_POST['wheel_size']) : '';
 
 if ($website !== '') {
 	response_json('success', 'Form sent successfully.');
@@ -48,7 +49,7 @@ $phone = preg_replace('/\s+/', ' ', $phone);
 $digits_only = preg_replace('/\D/', '', $phone);
 $normalized_phone = '+' . $digits_only;
 
-if (strlen($digits_only) < 7 || strlen($digits_only) > 15) {
+if (!preg_match('/^\+\d{11,15}$/', $normalized_phone)) {
 	response_json('error', 'Invalid phone number.', 400);
 }
 
@@ -226,7 +227,18 @@ try {
 									<td style="padding:0 24px 12px 24px; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:1.6; color:#111827;">
 										<strong>Telefon:</strong> <a href="tel:' . esc_html_email($normalized_phone) . '" style="color:#013e64; text-decoration:none;">' . esc_html_email($phone) . '</a>
 									</td>
-								</tr>
+								</tr>';
+
+	if ($wheel_size !== '') {
+		$body .= '
+								<tr>
+									<td style="padding:0 24px 12px 24px; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:1.6; color:#111827;">
+										<strong>Rozmiar felg:</strong> ' . esc_html_email($wheel_size) . '
+									</td>
+								</tr>';
+	}
+
+	$body .= '
 								<tr>
 									<td style="padding:0 24px 24px 24px;">
 										<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="border-collapse:separate;">
@@ -349,6 +361,10 @@ try {
 	}
 
 	$text_body .= "Telefon: " . $phone . "\n";
+
+	if ($wheel_size !== '') {
+		$text_body .= "Rozmiar felg: " . $wheel_size . "\n";
+	}
 
 	if ($message !== '') {
 		$text_body .= "Wiadomość:\n" . $message . "\n";

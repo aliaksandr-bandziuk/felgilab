@@ -258,6 +258,11 @@ window.addEventListener("load", () => {
 if (document.querySelector("[data-gallery-manual-block]")) {
   __vitePreload(() => import("./galleryManualAjax.min.js"), true ? [] : void 0, import.meta.url);
 }
+if (document.querySelector("#scrollToTop")) {
+  __vitePreload(() => import("./scrollToTop.min.js"), true ? [] : void 0, import.meta.url).then((module) => {
+    module.initScrollToTop();
+  });
+}
 window.addEventListener("load", () => {
   initCookieBanner();
 }, { once: true });
@@ -947,7 +952,7 @@ function formInit() {
     }
   }
   function toggleFilledState(field) {
-    if (!(field.tagName === "INPUT" || field.tagName === "TEXTAREA")) return;
+    if (!(field.tagName === "INPUT" || field.tagName === "TEXTAREA" || field.tagName === "SELECT")) return;
     if (!field.parentElement) return;
     const hasValue = field.value.trim() !== "";
     field.classList.toggle("--has-value", hasValue);
@@ -981,23 +986,17 @@ function formInit() {
     if (cleaned.includes("+")) {
       cleaned = "+" + cleaned.replace(/\+/g, "");
     }
-    if (cleaned && !cleaned.startsWith("+")) {
-      cleaned = "+" + cleaned;
-    }
     return cleaned;
   }
   function isValidPhone(value) {
     const normalized = normalizePhone(value);
-    return /^\+\d{7,15}$/.test(normalized);
+    return /^\+\d{11,15}$/.test(normalized);
   }
   function initPhoneInputs() {
     const phoneInputs = document.querySelectorAll("[data-phone-input]");
     phoneInputs.forEach((input) => {
       input.addEventListener("focus", () => {
-        if (!input.value.trim()) {
-          input.value = "+";
-          toggleFilledState(input);
-        }
+        toggleFilledState(input);
       });
       input.addEventListener("input", () => {
         let value = input.value;
@@ -1008,20 +1007,21 @@ function formInit() {
           return;
         }
         value = normalizePhone(value);
+        const hasPlus = value.startsWith("+");
         const digits = value.replace(/\D/g, "").slice(0, 15);
-        input.value = digits ? `+${digits}` : "+";
+        input.value = hasPlus ? `+${digits}` : digits;
         input.classList.remove("--form-error");
         input.parentElement?.classList.remove("--form-error");
         toggleFilledState(input);
       });
       input.addEventListener("blur", () => {
         const normalized = normalizePhone(input.value);
-        if (normalized === "+") {
+        if (!normalized || normalized === "+") {
           input.value = "";
           toggleFilledState(input);
           return;
         }
-        if (normalized && isValidPhone(normalized)) {
+        if (isValidPhone(normalized)) {
           input.value = normalized;
         }
       });
@@ -1277,6 +1277,16 @@ function formInit() {
       }
     });
   }
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-fls-popup-close]")) {
+      document.body.classList.remove("calculator-request");
+      const wheelSizeFields = document.querySelectorAll(".wheel-size-field select");
+      wheelSizeFields.forEach((select) => {
+        select.disabled = false;
+        select.required = true;
+      });
+    }
+  });
   formSubmit();
   formFieldsInit();
   initFilledState();

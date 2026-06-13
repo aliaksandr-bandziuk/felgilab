@@ -69,6 +69,18 @@ $i18n = [
     'ru' => 'Карта расположения FelgiLab в Варшаве',
     'uk' => 'Карта розташування FelgiLab у Варшаві',
   ],
+  'wheel_size' => [
+    'pl' => 'Rozmiar felg',
+    'en' => 'Wheel size',
+    'ru' => 'Размер дисков',
+    'uk' => 'Розмір дисків',
+  ],
+  'wheel_size_placeholder' => [
+    'pl' => 'Wybierz rozmiar felg',
+    'en' => 'Select wheel size',
+    'ru' => 'Выберите размер дисков',
+    'uk' => 'Оберіть розмір дисків',
+  ],
 ];
 
 
@@ -177,6 +189,32 @@ if ($map_iframe && strpos($map_iframe, 'title=') === false) {
                                 ); ?>" />
             <label for="phone_<?php echo esc_attr($block['id']); ?>"><?php echo esc_html($i18n['phone'][$lang]); ?></label>
             <span><?php echo esc_html($i18n['phone'][$lang]); ?></span>
+          </div>
+
+          <div class="input-container input-container--select">
+            <select
+              id="wheel_size_<?php echo esc_attr($block['id']); ?>"
+              name="wheel_size"
+              class="input-contact input-contact--select"
+              required
+              data-fls-form-errtext="<?php echo esc_attr($lang === 'pl' ? 'Wybierz rozmiar felg' : ($lang === 'ru' ? 'Выберите размер дисков' : ($lang === 'uk' ? 'Оберіть розмір дисків' : 'Select wheel size'))); ?>">
+              <option value="" selected disabled>
+                <?php echo esc_html($i18n['wheel_size_placeholder'][$lang]); ?>
+              </option>
+              <?php for ($size = 13; $size <= 24; $size++) : ?>
+                <option value="<?php echo esc_attr($size . ' cali'); ?>">
+                  <?php echo esc_html($size . '"'); ?>
+                </option>
+              <?php endfor; ?>
+            </select>
+
+            <label for="wheel_size_<?php echo esc_attr($block['id']); ?>">
+              <?php echo esc_html($i18n['wheel_size'][$lang]); ?>
+            </label>
+
+            <span>
+              <?php echo esc_html($i18n['wheel_size'][$lang]); ?>
+            </span>
           </div>
 
           <div class="input-container textarea">

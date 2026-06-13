@@ -298,7 +298,11 @@ if (document.querySelector('[data-gallery-manual-block]')) {
 }
 
 // scrollToTop
-import "../custom/scrollToTop.js";
+if (document.querySelector('#scrollToTop')) {
+	import("../custom/scrollToTop.js").then(module => {
+		module.initScrollToTop();
+	});
+}
 
 import { initCookieBanner } from '../custom/cookieBanner.js';
 

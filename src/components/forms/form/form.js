@@ -49,7 +49,7 @@ function formInit() {
 	}
 
 	function toggleFilledState(field) {
-		if (!(field.tagName === 'INPUT' || field.tagName === 'TEXTAREA')) return;
+		if (!(field.tagName === 'INPUT' || field.tagName === 'TEXTAREA' || field.tagName === 'SELECT')) return;
 		if (!field.parentElement) return;
 
 		const hasValue = field.value.trim() !== '';
@@ -100,17 +100,13 @@ function formInit() {
 			cleaned = '+' + cleaned.replace(/\+/g, '');
 		}
 
-		// Если пользователь ввел просто цифры без плюса, добавим +
-		if (cleaned && !cleaned.startsWith('+')) {
-			cleaned = '+' + cleaned;
-		}
-
 		return cleaned;
 	}
 
 	function isValidPhone(value) {
 		const normalized = normalizePhone(value);
-		return /^\+\d{7,15}$/.test(normalized);
+
+		return /^\+\d{11,15}$/.test(normalized);
 	}
 
 	function formatPhoneForDisplay(value) {
@@ -129,10 +125,7 @@ function formInit() {
 
 		phoneInputs.forEach((input) => {
 			input.addEventListener('focus', () => {
-				if (!input.value.trim()) {
-					input.value = '+';
-					toggleFilledState(input);
-				}
+				toggleFilledState(input);
 			});
 
 			input.addEventListener('input', () => {
@@ -147,8 +140,10 @@ function formInit() {
 
 				value = normalizePhone(value);
 
+				const hasPlus = value.startsWith('+');
 				const digits = value.replace(/\D/g, '').slice(0, 15);
-				input.value = digits ? `+${digits}` : '+';
+
+				input.value = hasPlus ? `+${digits}` : digits;
 
 				input.classList.remove('--form-error');
 				input.parentElement?.classList.remove('--form-error');
@@ -158,14 +153,14 @@ function formInit() {
 			input.addEventListener('blur', () => {
 				const normalized = normalizePhone(input.value);
 
-				if (normalized === '+') {
+				if (!normalized || normalized === '+') {
 					input.value = '';
 					toggleFilledState(input);
 					return;
 				}
 
-				if (normalized && isValidPhone(normalized)) {
-					input.value = normalized; // БЕЗ ПРОБЕЛОВ
+				if (isValidPhone(normalized)) {
+					input.value = normalized;
 				}
 			});
 		});
@@ -491,6 +486,19 @@ function formInit() {
 			}
 		});
 	}
+
+	document.addEventListener('click', (e) => {
+		if (e.target.closest('[data-fls-popup-close]')) {
+			document.body.classList.remove('calculator-request');
+
+			const wheelSizeFields = document.querySelectorAll('.wheel-size-field select');
+
+			wheelSizeFields.forEach((select) => {
+				select.disabled = false;
+				select.required = true;
+			});
+		}
+	});
 
 	formSubmit();
 	formFieldsInit();

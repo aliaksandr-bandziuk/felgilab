@@ -166,6 +166,45 @@ body::after {
   }
 }
 
+.input-contact--select {
+	width: 100%;
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background-color: transparent;
+}
+
+.input-container--select {
+	position: relative;
+
+	&::after {
+		content: "";
+		position: absolute;
+		right: 18px;
+		top: 50%;
+		width: 8px;
+		height: 8px;
+		border-right: 2px solid #fff;
+		border-bottom: 2px solid #fff;
+		transform: translateY(-70%) rotate(45deg);
+		pointer-events: none;
+	}
+
+	label {
+		visibility: hidden;
+	}
+}
+
+.input-container--select select {
+	padding-right: 45px;
+}
+
+.input-container--select select option {
+	color: var(--brand-color);
+	background-color: transparent;
+}
+
 .popup-order {
   .input-container {
     margin: 5px 0;
@@ -457,4 +496,8 @@ textarea.input-contact:-webkit-autofill:active {
 .file-item__remove:focus-visible {
 	outline: 2px solid #fff;
 	outline-offset: 2px;
+}
+
+body.calculator-request .wheel-size-field {
+	display: none;
 }
