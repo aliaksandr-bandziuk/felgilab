@@ -1,22 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const dropdownButton = document.getElementById("languageBtn");
+  const dropdownButton = document.getElementById("languageDropdown");
   const languageList = document.getElementById("languageList");
   const arrowIcon = document.getElementById("arrowIcon");
 
-  // Добавляем обработчик клика для кнопки
+  if (!dropdownButton || !languageList || !arrowIcon) return;
+
+  // Перемещение переключателя языка в мобильное меню
+  const languageContainer = document.querySelector(".preheader__lang");
+  const navWrapper = document.querySelector(".nav__wrapper");
+
+  const moveLanguageDropdown = () => {
+    if (!languageContainer || !navWrapper) return;
+
+    if (window.innerWidth <= 980) {
+      if (!navWrapper.contains(dropdownButton)) {
+        navWrapper.insertBefore(
+          dropdownButton,
+          document.querySelector(".menu__mob-btn")
+        );
+      }
+    } else {
+      if (!languageContainer.contains(dropdownButton)) {
+        languageContainer.appendChild(dropdownButton);
+      }
+    }
+  };
+
+  moveLanguageDropdown();
+  window.addEventListener("resize", moveLanguageDropdown);
+
+  // Dropdown
   dropdownButton.addEventListener("click", () => {
     toggleDropdown(languageList, arrowIcon);
   });
 
-  // Закрытие дропдауна при клике вне
   document.addEventListener("click", (event) => {
-    const isClickInside = dropdownButton.contains(event.target) || languageList.contains(event.target);
+    const isClickInside =
+      dropdownButton.contains(event.target) ||
+      languageList.contains(event.target);
+
     if (!isClickInside) {
       closeDropdown(languageList, arrowIcon);
     }
   });
 
-  // Закрытие дропдауна по клавише Escape
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closeDropdown(languageList, arrowIcon);

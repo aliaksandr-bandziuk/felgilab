@@ -1,7 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const dropdownButton = document.getElementById("languageBtn");
+  const dropdownButton = document.getElementById("languageDropdown");
   const languageList = document.getElementById("languageList");
   const arrowIcon = document.getElementById("arrowIcon");
+  if (!dropdownButton || !languageList || !arrowIcon) return;
+  const languageContainer = document.querySelector(".preheader__lang");
+  const navWrapper = document.querySelector(".nav__wrapper");
+  const moveLanguageDropdown = () => {
+    if (!languageContainer || !navWrapper) return;
+    if (window.innerWidth <= 980) {
+      if (!navWrapper.contains(dropdownButton)) {
+        navWrapper.insertBefore(
+          dropdownButton,
+          document.querySelector(".menu__mob-btn")
+        );
+      }
+    } else {
+      if (!languageContainer.contains(dropdownButton)) {
+        languageContainer.appendChild(dropdownButton);
+      }
+    }
+  };
+  moveLanguageDropdown();
+  window.addEventListener("resize", moveLanguageDropdown);
   dropdownButton.addEventListener("click", () => {
     toggleDropdown(languageList, arrowIcon);
   });

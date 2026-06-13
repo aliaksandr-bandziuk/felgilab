@@ -220,9 +220,8 @@
   cursor: pointer;
 
   @media screen and (max-width: 980px) {
-    position: absolute;
-    z-index: 2;
-    top: 25px;
+    position: static;
+    margin-top: 20px;
   }
 }
 

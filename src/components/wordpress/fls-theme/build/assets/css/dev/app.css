@@ -4309,9 +4309,8 @@ body {
     background-color: #fff;
   }
   .language-dropdown {
-    position: absolute;
-    z-index: 2;
-    top: 1.5625rem;
+    position: static;
+    margin-top: 1.25rem;
   }
   .arrow-icon path {
     stroke: #FFF;
