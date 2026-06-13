@@ -375,7 +375,11 @@
 			</div>
 		</div>
 	</div>
-
+	<div class="scroll-to-top" id="scrollToTop">
+		<svg width="20" height="20" viewBox="0 0 24 24">
+			<path d="M12 5L5 12H9V19H15V12H19L12 5Z" fill="currentColor" />
+		</svg>
+	</div>
 	<?php wp_footer(); ?>
 	<?php
 	$lang = function_exists('pll_current_language') ? pll_current_language() : 'pl';

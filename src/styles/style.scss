@@ -1085,3 +1085,39 @@ body {
   }
 }
 
+.scroll-to-top {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--brand-subcolor);
+  color: #fff;
+
+  border-radius: 50%;
+  cursor: pointer;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px);
+
+  transition: all .3s ease;
+
+  z-index: 100;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  @media (min-width: 981px) {
+    display: none;
+  }
+}

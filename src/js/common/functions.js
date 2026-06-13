@@ -297,6 +297,9 @@ if (document.querySelector('[data-gallery-manual-block]')) {
 	import("../custom/galleryManualAjax.js");
 }
 
+// scrollToTop
+import "../custom/scrollToTop.js";
+
 import { initCookieBanner } from '../custom/cookieBanner.js';
 
 window.addEventListener('load', () => {
