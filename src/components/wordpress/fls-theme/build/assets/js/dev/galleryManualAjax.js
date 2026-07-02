@@ -1,9 +1,7 @@
 function initGalleryManualAjax() {
-  console.log("initGalleryManualAjax");
   const blocks = document.querySelectorAll("[data-gallery-manual-block]");
   if (!blocks.length) return;
   const loadTab = async (block, tabIndex) => {
-    console.log("loadTab", tabIndex);
     const container = block.querySelector(
       `[data-gallery-manual-content][data-tab-index="${tabIndex}"]`
     );
@@ -47,7 +45,6 @@ function initGalleryManualAjax() {
     }
   };
   blocks.forEach((block) => {
-    console.log("gallery block found", block);
     const buttons = block.querySelectorAll("[data-gallery-manual-tab]");
     const bodies = block.querySelectorAll(".gallery-tabs__body");
     buttons.forEach((button, buttonIndex) => {

@@ -55,6 +55,24 @@ $current_lang = pll_current_language();
     </div>
   <?php endwhile; ?>
 
+  <?php if (
+    is_page('kontakt') ||
+    is_page('contact') ||
+    is_page('kontakty') ||
+    is_page('kontakty-felgilab')
+  ) : ?>
+    <script type="text/javascript">
+      (function() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.async = true;
+        script.src = "https://web.roapp.io/static/order-status-widget/dist/loader.js";
+        script.setAttribute("data-widget-key", "677907455f70cecb4304a399c3e927ac");
+        document.getElementsByTagName("head")[0].appendChild(script);
+      })();
+    </script>
+  <?php endif; ?>
+
 </main>
 
 <?php get_footer(); ?>

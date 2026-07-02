@@ -1,3 +1,60 @@
+# Custom redirects
+
+RedirectMatch 301 ^/ru/shinomontazh-v-varshave-s-russkogovoryashchimi-spetsialistami/?$ /ru/uslugi/shinomontazh/
+RedirectMatch 301 ^/uslugi/wymiana-opon/wymiana-opon-z-wywazeniem/?$ /uslugi/wymiana-opon/
+RedirectMatch 301 ^/uslugi/naprawa-opon/naprawa-opony-na-goraco/?$ /uslugi/naprawa-opon/
+RedirectMatch 301 ^/uslugi/regeneracja-zaciskow-hamulcowych-w-warszawie\.html$ /uslugi/regeneracja-zaciskow-hamulcowych-w-warszawie/
+RedirectMatch 301 ^/uslugi/wymiana-opon/wymiana-opon-na-zimowe/?$ /uslugi/wymiana-opon/
+RedirectMatch 301 ^/felgi-po-renowacji/?$ /galeria/
+RedirectMatch 301 ^/o-nas\.html$ /o-nas/
+RedirectMatch 301 ^/ru/kontakt\.html$ /ru/kontakty/
+RedirectMatch 301 ^/blog/jak-regeneruje-sie-felgi-aluminiowe\.html$ /blog/jak-regeneruje-sie-felgi-aluminiowe/
+RedirectMatch 301 ^/kontakt/renowacja-felg-okolo-piaseczno-razsyna-pruszkowa-i-janek\.html$ /kontakt/renowacja-felg-okolo-piaseczno-razsyna-pruszkowa-i-janek/
+RedirectMatch 301 ^/uslugi/odnowianie-felg\.html$ /uslugi/odnowianie-felg/
+RedirectMatch 301 ^/uslugi/usuwanie-korozji\.html$ /uslugi/usuwanie-korozji/
+RedirectMatch 301 ^/blog/wybrac-felgi-stalowe-czy-aluminiowe-jakie-felgi-sa-lepsze\.html$ /blog/wybrac-felgi-stalowe-czy-aluminiowe-jakie-felgi-sa-lepsze/
+RedirectMatch 301 ^/uslugi/lakierowanie-felg-w-warszawie\.html$ /uslugi/lakierowanie-felg-w-warszawie/
+RedirectMatch 301 ^/blog/porownanie-malowania-proszkowego-felg-i-systemowej-metody-malowania\.html$ /blog/porownanie-malowania-proszkowego-felg-i-systemowej-metody-malowania/
+RedirectMatch 301 ^/uslugi/serwis-opon\.html$ /uslugi/serwis-opon/
+RedirectMatch 301 ^/blog/ile-trwa-renowacja-felg-przeczytaj-nasz-artykul-zeby-dowiedziec-sie\.html$ /blog/ile-trwa-renowacja-felg-przeczytaj-nasz-artykul-zeby-dowiedziec-sie/
+RedirectMatch 301 ^/services-category/serwis-opon/uslugi/wulkanizacja/wywazenie-kol/?$ /uslugi/wywazenie-kol/
+RedirectMatch 301 ^/blog/czy-warto-kupowac-felgi-po-renowacji\.html$ /blog/czy-warto-kupowac-felgi-po-renowacji/
+RedirectMatch 301 ^/services-category/serwis-opon/feed/uslugi/wulkanizacja/naprawa-opon/?$ /uslugi/naprawa-opon/
+RedirectMatch 301 ^/blog/proces-malowania-felg-z-toczeniem-cnc-frontow-bmw-x5-r20\.html$ /blog/proces-malowania-felg-z-toczeniem-cnc-frontow-bmw-x5-r20/
+RedirectMatch 301 ^/blog/jakie-trudnosci-mozna-napotkac-przy-regeneracji-felg-z-toczeniem-cnc-przywracajac-im-fabryczny-wyglad\.html$ /blog/jakie-trudnosci-mozna-napotkac-przy-regeneracji-felg-z-toczeniem-cnc-przywracajac-im-fabryczny-wyglad/
+RedirectMatch 301 ^/renowacja-felgi-bialystok\.html$ /renowacja-felgi-bialystok/
+RedirectMatch 301 ^/blog/czy-felgi-aluminiowe-mozna-spawac\.html$ /blog/czy-felgi-aluminiowe-mozna-spawac/
+RedirectMatch 301 ^/uslugi/utylizacja-opon\.html$ /uslugi/utylizacja-opon/
+RedirectMatch 301 ^/renowacja-felg-wroclaw\.html$ /renowacja-felg-wroclaw/
+RedirectMatch 301 ^/blog/czy-warto-malowac-felgi-proszkowo\.html$ /blog/czy-warto-malowac-felgi-proszkowo/
+RedirectMatch 301 ^/blog/czy-warto-miec-dwa-komplety-felg\.html$ /blog/czy-warto-miec-dwa-komplety-felg/
+RedirectMatch 301 ^/blog/zakup-uzywanych-felg-na-co-zwrocic-uwage-zeby-nie-placic-poznej-duzo-za-renowacje\.html$ /blog/zakup-uzywanych-felg-na-co-zwrocic-uwage-zeby-nie-placic-poznej-duzo-za-renowacje/
+RedirectMatch 301 ^/blog/jak-sprawdzic-czy-felga-byla-spawana\.html$ /blog/jak-sprawdzic-czy-felga-byla-spawana/
+RedirectMatch 301 ^/uslugi/ceramika-na-felgi-warszawa\.html$ /uslugi/ceramika-na-felgi-warszawa/
+RedirectMatch 301 ^/blog/czy-warto-prostowac-felgi-aluminiowe\.html$ /blog/czy-warto-prostowac-felgi-aluminiowe/
+RedirectMatch 301 ^/blog/po-czym-poznac-ze-felgi-sa-oryginalne\.html$ /blog/po-czym-poznac-ze-felgi-sa-oryginalne/
+RedirectMatch 301 ^/uslugi/przechowalnia-kol\.html$ /uslugi/przechowalnia-kol/
+RedirectMatch 301 ^/uslugi/wulkanizacja\.html$ /uslugi/wulkanizacja/
+RedirectMatch 301 ^/blog/czy-bezpiecznie-robic-spawanie-felg\.html$ /blog/czy-bezpiecznie-robic-spawanie-felg/
+RedirectMatch 301 ^/blog/jak-myc-felgi-aluminiowe-i-stalowe\.html$ /blog/jak-myc-felgi-aluminiowe-i-stalowe/
+RedirectMatch 301 ^/uslugi/progromowanie-czujnikow-tpms\.html$ /uslugi/progromowanie-czujnikow-tpms/
+RedirectMatch 301 ^/blog/jak-usunac-rysy-z-felg\.html$ /blog/jak-usunac-rysy-z-felg/
+RedirectMatch 301 ^/kontakt\.html$ /kontakt/
+RedirectMatch 301 ^/blog/jak-powinna-wygladac-plaszczyzna-montazowa-po-renowacji-felg\.html$ /blog/jak-powinna-wygladac-plaszczyzna-montazowa-po-renowacji-felg/
+RedirectMatch 301 ^/uslugi/toczenie-felg-i-rantow-cnc-w-warszawie\.html$ /uslugi/toczenie-felg-i-rantow-cnc-w-warszawie/
+RedirectMatch 301 ^/blog/drgania-kierownicy-po-wymianie-opon\.html$ /blog/drgania-kierownicy-po-wymianie-opon/
+RedirectMatch 301 ^/blog/na-czym-polega-i-czy-warto-robic-renowacje-felg\.html$ /blog/na-czym-polega-i-czy-warto-robic-renowacje-felg/
+RedirectMatch 301 ^/blog/jak-zmienic-otwor-centrujacy-w-feldze-rozwiercic\.html$ /blog/jak-zmienic-otwor-centrujacy-w-feldze-rozwiercic/
+RedirectMatch 301 ^/renowacja-felg-poznan\.html$ /renowacja-felg-poznan/
+RedirectMatch 301 ^/cennik\.html$ /cennik/
+RedirectMatch 301 ^/uslugi/chemiczne-usuwanie-lakieru-z-felg\.html$ /uslugi/chemiczne-usuwanie-lakieru-z-felg/
+RedirectMatch 301 ^/ru/kariera/?$ /ru/
+RedirectMatch 301 ^/ru/o-nas/?$ /ru/o-kompanii/
+RedirectMatch 301 ^/uslugi/wulkanizacja/wymiana-opon/wymiana-opon-zimowych-na-letnie\.html$ /uslugi/wymiana-opon/
+RedirectMatch 301 ^/uslugi/malowanie-felg/malowanie-felg-na-zloto-2/?$ /uslugi/malowanie-felg/malowanie-felg-na-zloto/
+RedirectMatch 301 ^/uslugi/malowanie-felg/malowanie-felg-na-czarny-mat-2/?$ /uslugi/malowanie-felg/malowanie-felg-na-czarny-mat/
+RedirectMatch 301 ^/blog/category/.*$ /blog/
+
 # BEGIN WordPress
 # The directives (lines) between "BEGIN WordPress" and "END WordPress" are
 # dynamically generated, and should only be modified via WordPress filters.

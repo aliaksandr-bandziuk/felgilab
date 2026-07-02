@@ -274,7 +274,7 @@ body {
 .standard-hero {
 	position: relative;
   overflow: hidden;
-	height: 25dvh;
+	height: 50dvh;
   background-color: #000;
   margin-bottom: clamp(3.125rem, 1.875rem + 5vw, 5.625rem);
 
@@ -1119,5 +1119,59 @@ body {
 
   @media (min-width: 981px) {
     display: none;
+  }
+}
+
+
+.order-status-page {
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  &__hero {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .breadcrumbs {
+    margin-bottom: 24px;
+  }
+
+  &__title {
+    margin-bottom: 16px;
+  }
+
+  &__description {
+    max-width: 680px;
+    margin: 0 auto;
+    color: #444;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  &__section {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__card {
+    width: 100%;
+    max-width: 520px;
+    padding: 40px 24px;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    text-align: center;
+  }
+
+  &__widget {
+    margin-bottom: 24px;
+  }
+
+  &__note {
+    margin: 0;
   }
 }

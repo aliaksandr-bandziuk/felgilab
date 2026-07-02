@@ -1263,6 +1263,35 @@ function felgilab_services_post_type_link($post_link, $post, $leavename, $sample
 add_filter('post_type_link', 'felgilab_services_post_type_link', 10, 4);
 // services permalink with parents + language end
 
+// services rewrite rules
+function felgilab_services_rewrite_rules()
+{
+	if (function_exists('pll_languages_list') && function_exists('pll_default_language')) {
+		$langs        = pll_languages_list();
+		$default_lang = pll_default_language();
+
+		foreach ($langs as $lang) {
+			$base_slug = felgilab_get_services_base_slug($lang);
+
+			if ($lang === $default_lang) {
+				add_rewrite_rule(
+					'^' . $base_slug . '/(.+?)/?$',
+					'index.php?services=$matches[1]',
+					'top'
+				);
+			} else {
+				add_rewrite_rule(
+					'^' . $lang . '/' . $base_slug . '/(.+?)/?$',
+					'index.php?lang=' . $lang . '&services=$matches[1]',
+					'top'
+				);
+			}
+		}
+	}
+}
+add_action('init', 'felgilab_services_rewrite_rules', 20);
+// services rewrite rules end
+
 function felgilab_gallery_item_permalink($post_link, $post)
 {
 	if ($post->post_type !== 'gallery_item') {
@@ -1301,61 +1330,6 @@ function felgilab_gallery_item_rewrite_rules()
 	);
 }
 add_action('init', 'felgilab_gallery_item_rewrite_rules', 20);
-
-// services rewrite rules
-function felgilab_services_rewrite_rules()
-{
-	if (function_exists('pll_languages_list') && function_exists('pll_default_language')) {
-		$langs        = pll_languages_list();
-		$default_lang = pll_default_language();
-
-		foreach ($langs as $lang) {
-			$base_slug = felgilab_get_services_base_slug($lang);
-
-			if ($lang === $default_lang) {
-				add_rewrite_rule(
-					'^' . $base_slug . '/(.+?)/?$',
-					'index.php?services=$matches[1]',
-					'top'
-				);
-			} else {
-				add_rewrite_rule(
-					'^' . $lang . '/' . $base_slug . '/(.+?)/?$',
-					'index.php?lang=' . $lang . '&services=$matches[1]',
-					'top'
-				);
-			}
-		}
-	} else {
-		add_rewrite_rule(
-			'^services/(.+?)/?$',
-			'index.php?services=$matches[1]',
-			'top'
-		);
-	}
-}
-add_action('init', 'felgilab_services_rewrite_rules', 20);
-// services rewrite rules end
-
-// services canonical redirect
-function felgilab_services_template_redirect_canonical()
-{
-	if (!is_singular('services')) {
-		return;
-	}
-
-	global $post, $wp;
-
-	$canonical   = get_permalink($post);
-	$current_url = home_url(add_query_arg(array(), $wp->request)) . '/';
-
-	if (trailingslashit($current_url) !== trailingslashit($canonical)) {
-		wp_redirect($canonical, 301);
-		exit;
-	}
-}
-add_action('template_redirect', 'felgilab_services_template_redirect_canonical');
-// services canonical redirect end
 
 // output FAQ schema in JSON-LD format in the footer
 add_action('wp_footer', 'felgilab_output_faq_schema', 100);
@@ -1440,212 +1414,6 @@ function felgilab_output_faq_schema()
 		wp_json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) .
 		'</script>';
 }
-
-if (!function_exists('felgilab_get_blog_page_slug')) {
-	function felgilab_get_blog_page_slug($lang = '')
-	{
-		if (empty($lang) && function_exists('pll_current_language')) {
-			$lang = pll_current_language();
-		}
-
-		$slugs = array(
-			'pl' => 'blog',
-			'en' => 'blog-en',
-			'ru' => 'blog-ru',
-			'uk' => 'blog-uk',
-		);
-
-		return isset($slugs[$lang]) ? $slugs[$lang] : 'blog';
-	}
-}
-
-if (!function_exists('felgilab_get_blog_virtual_slug')) {
-	function felgilab_get_blog_virtual_slug()
-	{
-		return 'blog';
-	}
-}
-
-if (!function_exists('felgilab_get_blog_page_id_by_lang')) {
-	function felgilab_get_blog_page_id_by_lang($lang = '')
-	{
-		if (empty($lang) && function_exists('pll_current_language')) {
-			$lang = pll_current_language();
-		}
-
-		$page_slug = felgilab_get_blog_page_slug($lang);
-
-		$pages = get_posts([
-			'post_type'        => 'page',
-			'name'             => $page_slug,
-			'post_status'      => 'publish',
-			'posts_per_page'   => 1,
-			'suppress_filters' => false,
-			'lang'             => $lang,
-			'fields'           => 'ids',
-		]);
-
-		if (!empty($pages)) {
-			return (int) $pages[0];
-		}
-
-		return 0;
-	}
-}
-
-if (!function_exists('felgilab_get_blog_archive_url')) {
-	function felgilab_get_blog_archive_url($lang = '')
-	{
-		if (empty($lang) && function_exists('pll_current_language')) {
-			$lang = pll_current_language();
-		}
-
-		$default_lang = function_exists('pll_default_language') ? pll_default_language() : '';
-		$virtual_slug = felgilab_get_blog_virtual_slug();
-
-		if (!empty($lang) && $lang !== $default_lang) {
-			return home_url('/' . $lang . '/' . $virtual_slug . '/');
-		}
-
-		return home_url('/' . $virtual_slug . '/');
-	}
-}
-
-function felgilab_blog_rewrite_rules()
-{
-	$virtual_slug = felgilab_get_blog_virtual_slug();
-
-	if (function_exists('pll_languages_list') && function_exists('pll_default_language')) {
-		$langs        = pll_languages_list();
-		$default_lang = pll_default_language();
-
-		foreach ($langs as $lang) {
-			if ($lang === $default_lang) {
-				add_rewrite_rule(
-					'^' . $virtual_slug . '/?$',
-					'index.php?felgilab_blog_lang=' . $lang,
-					'top'
-				);
-
-				add_rewrite_rule(
-					'^' . $virtual_slug . '/page/([0-9]{1,})/?$',
-					'index.php?felgilab_blog_lang=' . $lang . '&paged=$matches[1]',
-					'top'
-				);
-			} else {
-				add_rewrite_rule(
-					'^' . $lang . '/' . $virtual_slug . '/?$',
-					'index.php?felgilab_blog_lang=' . $lang,
-					'top'
-				);
-
-				add_rewrite_rule(
-					'^' . $lang . '/' . $virtual_slug . '/page/([0-9]{1,})/?$',
-					'index.php?felgilab_blog_lang=' . $lang . '&paged=$matches[1]',
-					'top'
-				);
-			}
-		}
-	}
-}
-add_action('init', 'felgilab_blog_rewrite_rules', 20);
-
-function felgilab_blog_query_vars($vars)
-{
-	$vars[] = 'felgilab_blog_lang';
-	return $vars;
-}
-add_filter('query_vars', 'felgilab_blog_query_vars');
-
-function felgilab_blog_request_to_page($query)
-{
-	if (is_admin() || !$query->is_main_query()) {
-		return;
-	}
-
-	$blog_lang = $query->get('felgilab_blog_lang');
-
-	if (empty($blog_lang)) {
-		return;
-	}
-
-	$page_id = felgilab_get_blog_page_id_by_lang($blog_lang);
-
-	if (!$page_id) {
-		return;
-	}
-
-	$query->set('page_id', $page_id);
-	$query->set('post_type', 'page');
-	$query->set('pagename', '');
-	$query->set('name', '');
-	$query->set('lang', $blog_lang);
-
-	$query->is_page = true;
-	$query->is_singular = true;
-	$query->is_single = false;
-	$query->is_home = false;
-	$query->is_archive = false;
-	$query->is_post_type_archive = false;
-	$query->is_posts_page = false;
-	$query->is_404 = false;
-}
-add_action('pre_get_posts', 'felgilab_blog_request_to_page');
-
-function felgilab_blog_template_redirect_canonical()
-{
-	if (!is_page()) {
-		return;
-	}
-
-	$current_lang = function_exists('pll_current_language') ? pll_current_language() : '';
-	$page_id      = get_queried_object_id();
-	$blog_page_id = felgilab_get_blog_page_id_by_lang($current_lang);
-
-	if (!$page_id || !$blog_page_id || (int) $page_id !== (int) $blog_page_id) {
-		return;
-	}
-
-	global $wp;
-
-	$current_url = home_url(add_query_arg([], $wp->request));
-	$canonical   = felgilab_get_blog_archive_url($current_lang);
-
-	$current_paged = max(1, get_query_var('paged'));
-
-	if ($current_paged > 1) {
-		$canonical = trailingslashit($canonical) . 'page/' . $current_paged . '/';
-	}
-
-	if (trailingslashit($current_url) !== trailingslashit($canonical)) {
-		wp_redirect($canonical, 301);
-		exit;
-	}
-}
-add_action('template_redirect', 'felgilab_blog_template_redirect_canonical', 1);
-
-add_filter('wpseo_canonical', function ($canonical) {
-	if (!is_page()) {
-		return $canonical;
-	}
-
-	$current_lang = function_exists('pll_current_language') ? pll_current_language() : '';
-	$page_id      = get_queried_object_id();
-	$blog_page_id = felgilab_get_blog_page_id_by_lang($current_lang);
-
-	if (!$page_id || !$blog_page_id || (int) $page_id !== (int) $blog_page_id) {
-		return $canonical;
-	}
-
-	$url = felgilab_get_blog_archive_url($current_lang);
-	$current_paged = max(1, get_query_var('paged'));
-
-	if ($current_paged > 1) {
-		$url = trailingslashit($url) . 'page/' . $current_paged . '/';
-	}
-
-	return $url;
-});
 
 
 // custom breadcrumbs
@@ -1780,8 +1548,8 @@ function custom_breadcrumbs()
 
 			// Для записей типа "post"
 		} elseif (is_singular('post')) {
-			$posts_title    = isset($posts_titles[$current_lang]) ? $posts_titles[$current_lang] : 'Blog';
-			$posts_page_url = felgilab_get_blog_archive_url($current_lang);
+			$posts_title = isset($posts_titles[$current_lang]) ? $posts_titles[$current_lang] : 'Blog';
+			$posts_page_url = home_url(($current_lang === $default_lang ? '' : '/' . $current_lang) . '/blog/');
 
 			echo '<li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
 			echo '<a href="' . $posts_page_url . '" class="breadcrumbs__link" itemprop="item">';
