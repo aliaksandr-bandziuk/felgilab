@@ -218,6 +218,16 @@ function my_own_mime_types($mimes)
 }
 add_filter('upload_mimes', 'my_own_mime_types');
 
+// Генерувати WebP замість PNG/JPEG для всіх похідних розмірів зображень (thumbnail, medium, custom add_image_size тощо).
+// Оригінальний завантажений файл не чіпається - лишається у вихідному форматі.
+function felgilab_webp_image_editor_output_format($formats)
+{
+	$formats['image/png']  = 'image/webp';
+	$formats['image/jpeg'] = 'image/webp';
+	return $formats;
+}
+add_filter('image_editor_output_format', 'felgilab_webp_image_editor_output_format');
+
 // Перевірка на наявність плагіну
 if (!function_exists('get_fls_field')) {
 	function get_fls_field($field_name, $post_id = false, $default = null)
@@ -1408,6 +1418,69 @@ function felgilab_output_faq_schema()
 		'@context'   => 'https://schema.org',
 		'@type'      => 'FAQPage',
 		'mainEntity' => array_values($unique_items),
+	];
+
+	echo '<script type="application/ld+json">' .
+		wp_json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) .
+		'</script>';
+}
+
+// output LocalBusiness (AutomotiveBusiness) schema in JSON-LD format in the footer
+add_action('wp_footer', 'felgilab_output_local_business_schema', 100);
+
+function felgilab_output_local_business_schema()
+{
+	if (is_admin()) {
+		return;
+	}
+
+	// Phone/email come from the same ACF footer_contact field used in footer.php (footer_pl
+	// is the canonical language option page, since the underlying business facts don't vary by language).
+	$footer_contact = function_exists('get_field') ? get_field('footer_contact', 'footer_pl') : [];
+	$phone_raw = $footer_contact['phone_box']['phone_raw'] ?? '+48514716916';
+	$email     = $footer_contact['email_box']['email'] ?? 'kontakt.felgilab@gmail.com';
+
+	$schema = [
+		'@context'   => 'https://schema.org',
+		'@type'      => 'AutomotiveBusiness',
+		'@id'        => home_url('/#localbusiness'),
+		'name'       => 'Felgilab',
+		'image'      => 'https://felgilab.pl/wp-content/uploads/2026/03/felgilab-logo.png',
+		'url'        => home_url('/'),
+		'telephone'  => $phone_raw,
+		'email'      => $email,
+		'priceRange' => '990-2990 PLN',
+		'paymentAccepted' => ['Cash', 'Credit Card', 'Bank Transfer'],
+		'address' => [
+			'@type'           => 'PostalAddress',
+			'streetAddress'   => 'Falencka 19',
+			'addressLocality' => 'Falenty Nowe',
+			'postalCode'      => '05-090',
+			'addressCountry'  => 'PL',
+		],
+		'geo' => [
+			'@type'     => 'GeoCoordinates',
+			'latitude'  => 52.13240497347375,
+			'longitude' => 20.92404749751921,
+		],
+		'openingHoursSpecification' => [
+			[
+				'@type'    => 'OpeningHoursSpecification',
+				'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+				'opens'    => '08:00',
+				'closes'   => '17:00',
+			],
+			[
+				'@type'    => 'OpeningHoursSpecification',
+				'dayOfWeek' => ['Saturday'],
+				'opens'    => '09:00',
+				'closes'   => '13:00',
+			],
+		],
+		'sameAs' => [
+			'https://www.instagram.com/malowaniefelg/',
+			'https://www.youtube.com/@renowacja_felg_felgi_lab',
+		],
 	];
 
 	echo '<script type="application/ld+json">' .
